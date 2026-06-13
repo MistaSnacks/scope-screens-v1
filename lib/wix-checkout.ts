@@ -72,3 +72,36 @@ export async function queryAvailableTickets(eventId: string): Promise<TicketTier
     return null;
   }
 }
+
+export interface ReservationLineItem {
+  ticketDefinitionId: string;
+  quantity: number;
+}
+
+export async function createReservation(
+  lineItems: ReservationLineItem[],
+): Promise<{ reservationId: string; expiresAt: string } | null> {
+  const tickets = lineItems.filter((l) => l.quantity > 0);
+  if (tickets.length === 0) return null;
+  const token = await getVisitorToken();
+  if (!token) return null;
+  try {
+    const res = await fetch(`${API}/events/v1/ticket-reservations`, {
+      method: "POST",
+      headers: { Authorization: token, "Content-Type": "application/json" },
+      body: JSON.stringify({ ticketReservation: { tickets } }),
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    const { ticketReservation } = (await res.json()) as {
+      ticketReservation?: { id?: string; expirationDate?: string };
+    };
+    if (!ticketReservation?.id) return null;
+    return {
+      reservationId: ticketReservation.id,
+      expiresAt: ticketReservation.expirationDate ?? "",
+    };
+  } catch {
+    return null;
+  }
+}

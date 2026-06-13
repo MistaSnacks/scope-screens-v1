@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { queryAvailableTickets } from "./wix-checkout";
+import { queryAvailableTickets, createReservation } from "./wix-checkout";
 
 const TOKEN_RES = { access_token: "visitor-token-abc" };
 
@@ -63,5 +63,31 @@ describe("queryAvailableTickets", () => {
     mockFetchSequence([{ ok: false, json: {} }]);
     const tiers = await queryAvailableTickets("event-1");
     expect(tiers).toBeNull();
+  });
+});
+
+describe("createReservation", () => {
+  it("reserves tickets and returns id + expiry", async () => {
+    const fetchMock = mockFetchSequence([
+      { json: TOKEN_RES },
+      { json: { ticketReservation: { id: "res-1", status: "PENDING", expirationDate: "2026-06-13T22:50:05.045Z" } } },
+    ]);
+
+    const result = await createReservation([{ ticketDefinitionId: "ga", quantity: 2 }]);
+
+    expect(result).toEqual({ reservationId: "res-1", expiresAt: "2026-06-13T22:50:05.045Z" });
+    const body = JSON.parse(fetchMock.mock.calls[1][1].body);
+    expect(body).toEqual({ ticketReservation: { tickets: [{ ticketDefinitionId: "ga", quantity: 2 }] } });
+  });
+
+  it("returns null when no line items have quantity", async () => {
+    const result = await createReservation([{ ticketDefinitionId: "ga", quantity: 0 }]);
+    expect(result).toBeNull();
+  });
+
+  it("returns null when the reservation call fails", async () => {
+    mockFetchSequence([{ json: TOKEN_RES }, { ok: false, json: {} }]);
+    const result = await createReservation([{ ticketDefinitionId: "ga", quantity: 1 }]);
+    expect(result).toBeNull();
   });
 });
