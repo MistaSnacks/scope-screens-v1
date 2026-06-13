@@ -1,0 +1,295 @@
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  background: radial-gradient(120% 90% at 50% 38%, #1c1a17 0%, #0d0c0a 60%, #060504 100%);
+  isolation: isolate;
+}
+
+/* ---- The sizzle reel playing on the revealed screen ---- */
+/* Sits at the very back (z-1); the curtains (z-20) cover it when closed and
+   part to reveal it. A scrim (z-2) keeps the title + credits legible. */
+.heroVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+  z-index: 1;
+}
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 7, 6, 0.74) 0%,
+    rgba(8, 7, 6, 0.52) 46%,
+    rgba(8, 7, 6, 0.8) 100%
+  );
+}
+
+/* Edge guards — solid deep-oxblood at the very margin, fading to transparent
+   inward, so a billowing curtain edge never reveals the bright screen behind.
+   z-5: above the video/scrim (z-1/2), below the curtains (z-20). */
+.edgeGuardL,
+.edgeGuardR {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 6vw;
+  z-index: 5;
+  pointer-events: none;
+}
+.edgeGuardL {
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    #1d0605 0%,
+    #1d0605 38%,
+    rgba(29, 6, 5, 0) 100%
+  );
+}
+.edgeGuardR {
+  right: 0;
+  background: linear-gradient(
+    270deg,
+    #1d0605 0%,
+    #1d0605 38%,
+    rgba(29, 6, 5, 0) 100%
+  );
+}
+
+/* ---- The revealed screen (behind the curtains) ---- */
+.screen {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 120px 24px 72px;
+  gap: 26px;
+  text-align: center;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrow {
+  font-family: var(--font-libre), sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--color-rust, #ffbb00);
+}
+
+.wordmark {
+  font-family: var(--font-display), "Cooper Black", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(44px, 7vw, 78px);
+  line-height: 0.94;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--color-rust, #ffbb00); /* hero is always dark → gold in both modes */
+  text-shadow: 0.045em 0.06em 0 #7d120d;
+  margin: 0;
+}
+
+.tagline {
+  font-family: var(--font-credits), serif;
+  font-weight: 500;
+  font-size: clamp(12px, 1.4vw, 16px);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #cfc7b4;
+}
+
+/* ---- Credits roll ---- */
+.creditsMask {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  height: 430px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+}
+
+.track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding-top: 8px;
+  will-change: transform;
+}
+
+.rule {
+  width: 60px;
+  height: 2px;
+  background: var(--color-rust, #ffbb00);
+  opacity: 0.85;
+}
+
+.credit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  padding: 4px 24px;
+}
+
+.creditRole {
+  font-family: var(--font-libre), sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #8c857a;
+  transition: color 0.3s ease;
+}
+
+.creditLabel {
+  font-family: var(--font-credits), serif;
+  font-weight: 600;
+  font-size: clamp(24px, 3.2vw, 32px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-cream, #f7f3e6);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.credit:hover .creditLabel {
+  color: var(--color-rust, #ffbb00);
+  text-shadow: 0 0 28px rgba(255, 187, 0, 0.45);
+}
+.credit:hover .creditRole {
+  color: #d9a93b;
+}
+
+.creditSpot .creditLabel {
+  color: var(--color-rust, #ffbb00);
+  font-weight: 700;
+  font-size: clamp(28px, 3.8vw, 38px);
+  text-shadow: 0 0 30px rgba(255, 187, 0, 0.45);
+}
+.creditSpot .creditRole {
+  color: #d9a93b;
+}
+
+/* ---- Follow spotlight ---- */
+.spot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 760px;
+  height: 760px;
+  margin-left: -380px;
+  margin-top: -380px;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0.7;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 187, 0, 0.16) 0%,
+    rgba(231, 25, 15, 0.05) 38%,
+    transparent 72%
+  );
+}
+
+/* ---- WebGL velvet curtain planes (curtains.js) ---- */
+/* The plane source divs define the geometry curtains.js textures with the
+   billowing velvet; the actual pixels render into .glCanvas (z above). They
+   start meeting at center (closed) and slide apart to the framed position as
+   the scroll-driven progress goes 0 → 1. */
+.plane {
+  position: absolute;
+  top: 56px; /* hang below the persistent velvet valance */
+  bottom: 0;
+  width: 50%;
+  z-index: 20;
+  pointer-events: none;
+}
+.planeL {
+  left: 0;
+}
+.planeR {
+  right: 0;
+}
+.glCanvas {
+  position: absolute;
+  inset: 0;
+  z-index: 22;
+  pointer-events: none;
+}
+
+/* Source geometry for the billowing valance pelmet plane (full-width strip at
+   the very top). curtains.js renders the scalloped velvet into .glCanvas. */
+.valancePlane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 72px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.letterboxBottom {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 56px;
+  background: var(--color-stage-deep, #060504);
+  z-index: 40;
+}
+
+.scrollCue {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  z-index: 42;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-libre), sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #8c857a;
+}
+.scrollCueLine {
+  width: 1px;
+  height: 26px;
+  background: #8c857a;
+  opacity: 0.6;
+}
+
+@media (max-width: 640px) {
+  .screen {
+    padding: 96px 16px 64px;
+  }
+  .panel {
+    width: 64vw;
+  }
+  .creditsMask {
+    height: 380px;
+  }
+}
+
+/* House Lights keeps the hero in Movie Mode (dark) — you're always watching the
+   movie; the curtain, screen, credits and follow-spot stay as the dark theme.
+   Only the content sections below the hero light up. */
