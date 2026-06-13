@@ -17,6 +17,8 @@ export function CheckoutModal({ target, onClose }: { target: CheckoutTarget; onC
 
   useEffect(() => {
     let active = true;
+    setState({ phase: "loading" });
+    setQuantities({});
     fetch(`/api/checkout/tickets?eventId=${encodeURIComponent(target.eventId)}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error("load failed"))))
       .then((d: { tiers: TicketTier[] }) => active && setState({ phase: "ready", tiers: d.tiers }))
@@ -27,10 +29,12 @@ export function CheckoutModal({ target, onClose }: { target: CheckoutTarget; onC
   }, [target.eventId]);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !submitting) onClose();
+    };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  }, [onClose, submitting]);
 
   const total = useMemo(() => {
     if (state.phase !== "ready") return 0;
@@ -64,13 +68,13 @@ export function CheckoutModal({ target, onClose }: { target: CheckoutTarget; onC
 
   return (
     <div
-      role="dialog"
-      aria-modal="true"
-      aria-label={`Buy tickets for ${target.title}`}
       className="fixed inset-0 z-[100] flex items-center justify-center bg-ink/80 p-4"
       onClick={onClose}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Buy tickets for ${target.title}`}
         className="relative flex max-h-[90vh] w-full max-w-[480px] flex-col gap-5 overflow-y-auto rounded-2xl border border-faint bg-stage p-7 text-fg"
         onClick={(e) => e.stopPropagation()}
       >

@@ -12,14 +12,18 @@ function stubFetch(handlers: Record<string, { status?: number; json: unknown }>)
       const url = typeof input === "string" ? input : input.toString();
       const key = `${init?.method ?? "GET"} ${url.split("?")[0]}`;
       const h = handlers[key];
+      if (!h) throw new Error(`Unexpected fetch: ${key}`);
       return { ok: (h.status ?? 200) < 400, status: h.status ?? 200, json: async () => h.json };
     }),
   );
 }
 
 beforeEach(() => {
-  // jsdom has no navigation; capture redirect target instead.
-  vi.stubGlobal("location", { ...window.location, assign: vi.fn() });
+  Object.defineProperty(window, "location", {
+    configurable: true,
+    writable: true,
+    value: { href: "" },
+  });
 });
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -53,5 +57,21 @@ describe("CheckoutModal", () => {
     stubFetch({ "GET /api/checkout/tickets": { status: 502, json: { error: "x" } } });
     render(<CheckoutModal target={TARGET} onClose={() => {}} />);
     expect(await screen.findByRole("link", { name: /buy on lexscopefilms/i })).toBeInTheDocument();
+  });
+
+  it("redirects to the Wix checkout URL on success", async () => {
+    stubFetch({
+      "GET /api/checkout/tickets": {
+        json: { tiers: [{ id: "ga", name: "General Admission", priceAmount: 22, priceLabel: "$22.00", currency: "USD", limit: 5, free: false }] },
+      },
+      "POST /api/checkout/reserve": {
+        json: { redirectUrl: "https://wix.example/go", expiresAt: "x" },
+      },
+    });
+    render(<CheckoutModal target={TARGET} onClose={() => {}} />);
+    await screen.findByText("General Admission");
+    await userEvent.click(screen.getByRole("button", { name: /increase general admission/i }));
+    await userEvent.click(screen.getByRole("button", { name: /reserve & pay/i }));
+    await waitFor(() => expect(window.location.href).toBe("https://wix.example/go"));
   });
 });

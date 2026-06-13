@@ -19,12 +19,13 @@ export function useCheckout(): CheckoutContextValue {
 export function CheckoutProvider({ children }: { children: React.ReactNode }) {
   const [target, setTarget] = useState<CheckoutTarget | null>(null);
   const openCheckout = useCallback((t: CheckoutTarget) => setTarget(t), []);
+  const closeCheckout = useCallback(() => setTarget(null), []);
   const value = useMemo(() => ({ openCheckout }), [openCheckout]);
 
   return (
     <CheckoutContext.Provider value={value}>
       {children}
-      {target ? <CheckoutModal target={target} onClose={() => setTarget(null)} /> : null}
+      {target ? <CheckoutModal target={target} onClose={closeCheckout} /> : null}
     </CheckoutContext.Provider>
   );
 }
