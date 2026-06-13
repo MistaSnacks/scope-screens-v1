@@ -10,6 +10,11 @@ export default defineConfig({
     globals: true,
   },
   resolve: {
-    alias: { "@": path.resolve(__dirname, ".") },
+    alias: {
+      "@": path.resolve(__dirname, "."),
+      // server-only's default export always throws; map it to the no-op
+      // empty.js so Vitest can import server-only modules in tests.
+      "server-only": path.resolve(__dirname, "node_modules/server-only/empty.js"),
+    },
   },
 });
