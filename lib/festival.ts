@@ -227,3 +227,59 @@ export const SOCIALS: Social[] = [
 ];
 
 export const CONTACT_EMAIL = "hello@scopescreenings.com";
+
+// --- About page ---
+export const ABOUT_STATS = [
+  { n: "Last Tue", l: "Monthly · June–December" },
+  { n: "~300", l: "In the room each night" },
+  { n: "10", l: "Directors a night" },
+  { n: "≤20 min", l: "Every film, every genre" },
+] as const;
+
+export interface TimelineEntry { year: string; title: string; blurb: string; }
+export const TIMELINE: TimelineEntry[] = [
+  { year: "2022", title: "It starts in June", blurb: "Lex Scope launches Scope Screenings in Seattle — one night, a handful of directors, and a simple idea: get overlooked filmmakers onto a real screen, in front of a real crowd." },
+  { year: "2023–24", title: "Word gets out", blurb: "Monthly screenings start packing the Langston Hughes Institute. The lineup grows to 200+ films from 150+ filmmakers across 20+ nights and six-plus theaters around the city." },
+  { year: "2025", title: "A seat at the table", blurb: "Lex Scope is appointed to the Seattle Film Commission — carrying the same fight for access into the rooms where the city's film policy gets made." },
+  { year: "2026", title: "Where we are now", blurb: "Seven nights a season, June through December, still the last Tuesday of every month — and still putting the fun back in film fests." },
+];
+
+export interface House { name: string; eyebrow: string; address: string; blurb: string; }
+export const HOUSES: House[] = [
+  { name: "Langston Hughes Institute", eyebrow: "Home venue", address: "104 17th Ave S, Seattle 98144", blurb: "Our monthly home in the Central District." },
+  { name: "Majestic Bay Theatres", eyebrow: "Also screens at", address: "2044 NW Market St, Ballard", blurb: "Special nights and season finales on the big house screen." },
+  { name: "SIFF Cinema Egyptian", eyebrow: "Also screens at", address: "805 E Pine St, Capitol Hill", blurb: "A historic landmark house for our marquee screenings." },
+];
+
+// --- Submit page ---
+export interface SubmissionRound { name: string; closes: string; fee: string; }
+export const SUBMISSION_ROUNDS: SubmissionRound[] = [
+  { name: "Early Bird", closes: "Closes June 30, 2026", fee: "$15" },
+  { name: "Regular", closes: "Closes August 31, 2026", fee: "$25" },
+  { name: "Late", closes: "Closes September 30, 2026", fee: "$35" },
+  { name: "Extended", closes: "Closes October 15, 2026", fee: "$40" },
+];
+export const SUBMIT_CRITERIA = [
+  { n: "01", title: "A point of view", blurb: "We'll take a rough film with a real voice over a polished one with nothing to say. Show us how you see." },
+  { n: "02", title: "Twenty minutes, max", blurb: "Shorts, music videos, trailers, docs, animation, experiments, skits. Any genre — just make every minute count." },
+  { n: "03", title: "Made by you", blurb: "We prioritize PNW and underrepresented filmmakers. First-timers and new names are exactly who we're here for." },
+] as const;
+export const SUBMIT_STEPS = [
+  { n: "1", title: "Cut it to twenty", blurb: "Lock your film at twenty minutes or under and export a screener link or file you're proud of." },
+  { n: "2", title: "Enter on FilmFreeway", blurb: "Add your title, synopsis, stills, and bio, then pay the entry fee — or request a waiver, no questions." },
+  { n: "3", title: "Watch your inbox", blurb: "We watch every submission and reply to every filmmaker — programmed or not. Selections screen that season." },
+] as const;
+
+// --- Support page ---
+export const SUPPORT_STATS = [
+  { n: "$0", l: "Cost barrier", blurb: "Fee waivers keep submissions open to everyone. Your gift covers the gap." },
+  { n: "300+", l: "Seats a night", blurb: "A full house every month means real audiences for first-time filmmakers." },
+  { n: "100%", l: "To the work", blurb: "Every dollar goes to venue, gear, and filmmaker stipends — not overhead." },
+] as const;
+export interface GivingLevel { name: string; amount: string; cadence: string; perks: string[]; featured?: boolean; }
+export const GIVING_LEVELS: GivingLevel[] = [
+  { name: "Friend", amount: "$50", cadence: "once", perks: ["Name on the season funder wall", "Our eternal gratitude"] },
+  { name: "Patron", amount: "$250", cadence: "once", perks: ["Two season passes, on us", "Name on the funder wall"] },
+  { name: "Producer", amount: "$1,000", cadence: "once", perks: ["Reserved VIP table for four", "Logo on screen before each show"] },
+  { name: "Title Partner", amount: "Custom", cadence: "season", perks: ["Presenting billing all season", "A named night + custom activation"], featured: true },
+];
