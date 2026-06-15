@@ -15,7 +15,7 @@ function Field({ k, v }: { k: string; v: string }) {
 
 export function WhatIs() {
   return (
-    <section className="flex flex-col items-start gap-14 overflow-hidden border-t border-hairline bg-bg-alt px-5 py-24 md:flex-row md:items-center md:justify-between md:gap-20 md:px-[90px]">
+    <section className="band-up flex flex-col items-start gap-14 overflow-hidden bg-bg-alt px-5 py-24 md:flex-row md:items-center md:justify-between md:gap-20 md:px-[90px]">
       {/* Left: editorial copy */}
       <div className="flex w-full flex-col gap-6 md:w-[560px] md:shrink-0">
         <div className="flex items-center gap-3.5">

@@ -207,7 +207,7 @@ export function BuyTickets({
   seasonPass: CheckoutTarget | null;
 }) {
   return (
-    <section className="flex flex-col items-center gap-14 overflow-hidden border-t border-cream/10 px-5 py-24 md:px-[90px]">
+    <section className="flex flex-col items-center gap-14 overflow-hidden border-t border-hairline bg-bg px-5 py-24 md:px-[90px]">
       {/* Heading on top — like the Program section */}
       <div className="flex max-w-[640px] flex-col items-center gap-4 text-center">
         <div className="flex items-center gap-3">

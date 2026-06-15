@@ -45,7 +45,7 @@ export function Submissions() {
   const next = nextSubmissionDeadline();
 
   return (
-    <section className="flex flex-col items-center gap-9 border-t border-hairline bg-bg-alt px-5 py-24 md:px-[90px]">
+    <section className="band-up flex flex-col items-center gap-9 bg-bg px-5 py-24 md:px-[90px]">
       {/* Eyebrow */}
       <div className="flex items-center gap-3">
         <span className="h-px w-9 bg-curtain" />

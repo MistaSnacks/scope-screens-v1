@@ -26,7 +26,7 @@ export async function ScheduleSection({ headless = false }: { headless?: boolean
   }
 
   return (
-    <section className="border-t border-hairline bg-bg px-5 py-24 md:px-[90px]">
+    <section className="border-t border-hairline bg-bg-alt px-5 py-24 md:px-[90px]">
       <div className="mx-auto max-w-[1260px]">
         <div className="flex flex-col gap-14 lg:flex-row lg:gap-20">
         {/* Left: heading + season pass */}

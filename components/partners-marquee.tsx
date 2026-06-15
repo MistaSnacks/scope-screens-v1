@@ -14,16 +14,24 @@ const PARTNERS: Partner[] = [
   { name: "ArtsFund", img: "artsfund", href: "https://www.artsfund.org" },
 ];
 
-export function PartnersMarquee() {
+export function PartnersMarquee({ band = false }: { band?: boolean } = {}) {
   // 4 copies so half the track (the -50% animation period) always exceeds the
   // 1440px viewport — otherwise the row runs out of logos and goes blank near
   // the loop boundary (SIFF scrolling into empty space looked like clipping).
   const loop = [...PARTNERS, ...PARTNERS, ...PARTNERS, ...PARTNERS];
   return (
-    <section className="border-t border-hairline bg-bg px-5 py-16 md:px-9">
+    <section
+      className={
+        band
+          ? "band-up bg-rust px-5 py-16 md:px-9"
+          : "border-t border-hairline bg-bg px-5 py-16 md:px-9"
+      }
+    >
       <div className="mb-10 flex items-center justify-center gap-3">
         <span className="h-px w-8 bg-curtain" />
-        <span className="font-body text-[12px] font-bold uppercase tracking-[0.28em] text-rust">
+        <span
+          className={`font-body text-[12px] font-bold uppercase tracking-[0.28em] ${band ? "text-ink" : "text-rust"}`}
+        >
           In Good Company
         </span>
         <span className="h-px w-8 bg-curtain" />
@@ -56,7 +64,7 @@ export function PartnersMarquee() {
               aria-hidden={isDuplicate || undefined}
               tabIndex={isDuplicate ? -1 : undefined}
               title={p.name}
-              className="mr-16 shrink-0 opacity-60 transition-opacity duration-300 hover:opacity-100"
+              className={`mr-16 shrink-0 transition-opacity duration-300 hover:opacity-100 ${band ? "opacity-85" : "opacity-60"}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -65,7 +73,7 @@ export function PartnersMarquee() {
                 // Bound by BOTH height and width so wide wordmarks (shunpike,
                 // converge) get capped instead of dwarfing the compact marks.
                 // h-auto/w-auto keeps the aspect ratio while fitting the box.
-                className="partner-logo h-auto w-auto max-h-8 max-w-[104px] md:max-h-9 md:max-w-[120px]"
+                className={`h-auto w-auto max-h-8 max-w-[104px] md:max-h-9 md:max-w-[120px] ${band ? "partner-logo--ink" : "partner-logo"}`}
               />
             </a>
             );

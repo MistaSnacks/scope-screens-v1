@@ -45,9 +45,10 @@
    specificity than :root so it overrides the @theme defaults. Brand tokens
    (ink/cream/curtain/rust/brass) are intentionally untouched. */
 :root[data-theme="house"] {
-  /* One shared warm-cream canvas for every section (House Lights). */
+  /* Warm-cream base canvas; bg-alt lifts to brass so neutral sections
+     alternate cream ↔ brass like the House Lights artboard. */
   --color-bg: #f2ebd9;
-  --color-bg-alt: #f2ebd9;
+  --color-bg-alt: #f3e0a2; /* brass band */
   --color-bg-deep: #f2ebd9;
   --color-card: #ffffff; /* cards lift off the cream as clean white */
   --color-fg: #0b0a09; /* ink */
@@ -88,15 +89,34 @@ body {
   color: var(--color-heading);
   text-shadow: 0.045em 0.06em 0 var(--color-heading-edge);
 }
-/* Display heading sitting on the red brand band — white fill, ink extrude. */
+/* Display heading on the red brand band — marquee-gold fill, ink extrude
+   (the dynamic "Pulp Fiction" lockup, gold-on-red in both modes). */
 .pulp-on-red {
-  color: var(--color-cream);
+  color: var(--color-rust);
   text-shadow: 0.045em 0.06em 0 var(--color-ink);
 }
 /* Display heading on the gold brand band — ink fill, oxblood extrude. */
 .pulp-on-gold {
   color: var(--color-ink);
   text-shadow: 0.045em 0.06em 0 var(--color-curtain-deep);
+}
+
+/* Angled section seams — a 46px diagonal clip plus a -46px overlap, so each
+   band's top edge cuts into the one above it (matches the artboard zigzag).
+   Alternate .band-up / .band-down down the page; pair with ≥96px top padding
+   so content clears the diagonal. */
+.band-down {
+  clip-path: polygon(0 46px, 100% 0, 100% 100%, 0 100%);
+  margin-top: -46px;
+}
+.band-up {
+  clip-path: polygon(0 0, 100% 46px, 100% 100%, 0 100%);
+  margin-top: -46px;
+}
+
+/* Partner logos forced to ink when the marquee rides the gold band. */
+.partner-logo--ink {
+  filter: brightness(0);
 }
 
 @keyframes marquee {

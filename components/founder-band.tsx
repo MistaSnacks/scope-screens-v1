@@ -12,7 +12,7 @@ const stat = [
 
 export function FounderBand({ eyebrow = "Chapter Two" }: { eyebrow?: string }) {
   return (
-    <section className="flex flex-col items-stretch gap-14 bg-curtain text-cream px-5 py-24 md:flex-row md:px-[90px]">
+    <section className="band-down flex flex-col items-stretch gap-14 bg-curtain text-cream px-5 py-24 md:flex-row md:px-[90px]">
       <div className="w-full md:w-[520px] md:shrink-0">
         {/* The founder as a director's-monitor credential — gold frame, a REC
             header, and a film-still pulled from the Wix media library. */}

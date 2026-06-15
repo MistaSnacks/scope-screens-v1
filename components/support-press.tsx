@@ -17,7 +17,7 @@ const PRESS_ROWS = [
 
 export function SupportPress() {
   return (
-    <section className="border-t border-hairline px-5 py-24 md:px-[90px]">
+    <section className="band-up bg-bg px-5 py-24 md:px-[90px]">
       <div className="mb-14 flex flex-col items-center gap-4 text-center">
         <div className="flex items-center gap-3">
           <span className="h-px w-10 bg-curtain" />

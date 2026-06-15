@@ -43,7 +43,7 @@ export default async function Home() {
       <FounderBand />
 
       {/* Chapter Three — Scope Screenings Magic (moments from the floor) */}
-      <section className="border-t border-cream/10 bg-bg px-5 py-24 md:px-[90px]">
+      <section className="band-up bg-bg-alt px-5 py-24 md:px-[90px]">
         <div className="flex flex-col items-center gap-4 text-center">
           <ChapterLabel n="Chapter Three" center />
           <h2 className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[80px]">
@@ -79,7 +79,7 @@ export default async function Home() {
         <ScheduleSection />
       </div>
 
-      <PartnersMarquee />
+      <PartnersMarquee band />
 
       <div id="support" className="scroll-mt-[120px]">
         <SupportPress />
@@ -88,7 +88,7 @@ export default async function Home() {
       {/* Chapter Four — The Archives */}
       <section
         id="films"
-        className="scroll-mt-[120px] bg-rust text-ink px-5 py-24 md:px-[90px]"
+        className="band-down scroll-mt-[120px] bg-rust text-ink px-5 py-24 md:px-[90px]"
       >
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center justify-center gap-3"><span className="h-px w-10 bg-ink/40" /><span className="font-body text-[12px] font-bold uppercase tracking-[0.3em] text-ink/70">Chapter Four</span><span className="h-px w-10 bg-ink/40" /></div>
