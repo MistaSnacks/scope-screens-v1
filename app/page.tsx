@@ -2,8 +2,6 @@ import { BuyTickets } from "@/components/buy-tickets";
 import { WhatIs } from "@/components/what-is";
 import { ScrollControl } from "@/components/scroll-control";
 import { CurtainCreditsHero } from "@/components/curtain-credits-hero";
-import { SiteNav } from "@/components/site-nav";
-import { PersistentValance } from "@/components/persistent-valance";
 import { Marquee } from "@/components/marquee";
 import { Filmstrip } from "@/components/filmstrip";
 import { MomentsReel } from "@/components/moments-reel";
@@ -11,7 +9,6 @@ import { Submissions } from "@/components/submissions";
 import { PartnersMarquee } from "@/components/partners-marquee";
 import { ScheduleSection } from "@/components/schedule-section";
 import { SupportPress } from "@/components/support-press";
-import { SiteFooter } from "@/components/site-footer";
 import { FOUNDER } from "@/lib/festival";
 import { getPurchasableTargets } from "@/lib/wix-checkout";
 
@@ -39,10 +36,6 @@ export default async function Home() {
 
   return (
     <main id="top" className="relative bg-bg">
-      {/* Persistent top chrome — the velvet valance + nav ride the whole page
-          together, outside the pinned hero. Valance z-50, nav z-60 on top. */}
-      <PersistentValance />
-      <SiteNav active="Watch" />
       <ScrollControl />
       <CurtainCreditsHero />
       <Marquee />
@@ -187,7 +180,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <SiteFooter />
     </main>
   );
 }

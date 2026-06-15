@@ -3,6 +3,9 @@ import { aachen, cinzel, libreFranklin, anton, fraunces, jetbrainsMono } from ".
 import { GrainOverlay } from "@/components/grain-overlay";
 import { ThemeProvider } from "@/components/theme-provider";
 import { CheckoutProvider } from "@/components/checkout/checkout-context";
+import { PersistentValance } from "@/components/persistent-valance";
+import { SiteNav } from "@/components/site-nav";
+import { SiteFooter } from "@/components/site-footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -28,7 +31,10 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <ThemeProvider>
           <GrainOverlay />
+          <PersistentValance />
+          <SiteNav />
           <CheckoutProvider>{children}</CheckoutProvider>
+          <SiteFooter />
         </ThemeProvider>
       </body>
     </html>
