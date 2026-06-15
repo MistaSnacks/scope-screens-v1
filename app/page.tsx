@@ -49,7 +49,7 @@ export default async function Home() {
       </div>
 
       {/* Chapter Two — Built For Access */}
-      <section className="flex flex-col items-stretch gap-14 border-t border-cream/10 px-5 py-24 md:flex-row md:px-[90px]">
+      <section className="flex flex-col items-stretch gap-14 bg-curtain text-cream px-5 py-24 md:flex-row md:px-[90px]">
         <div className="w-full md:w-[520px] md:shrink-0">
           {/* The founder as a director's-monitor credential — gold frame, a REC
               header, and a film-still pulled from the Wix media library. */}
@@ -85,18 +85,18 @@ export default async function Home() {
         </div>
 
         <div className="flex flex-col items-start justify-center gap-6">
-          <ChapterLabel n="Chapter Two" />
-          <h2 className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[66px]">
+          <div className="flex items-center gap-3"><span className="h-px w-10 bg-cream/50" /><span className="font-body text-[12px] font-bold uppercase tracking-[0.3em] text-cream/80">Chapter Two</span></div>
+          <h2 className="pulp-on-red font-display text-[56px] uppercase leading-[0.94] md:text-[66px]">
             Built For
             <br />
             Access
           </h2>
-          <blockquote className="max-w-[22em] font-credits text-[26px] italic leading-snug text-fg/90 md:text-[28px]">
+          <blockquote className="max-w-[22em] font-credits text-[26px] italic leading-snug text-cream/90 md:text-[28px]">
             &ldquo;{FOUNDER_QUOTE}&rdquo;
           </blockquote>
           <div className="flex flex-col gap-0.5">
-            <span className="font-body text-[16px] font-extrabold text-fg">{FOUNDER.name}</span>
-            <span className="font-body text-[14px] text-smoke">
+            <span className="font-body text-[16px] font-extrabold text-cream">{FOUNDER.name}</span>
+            <span className="font-body text-[14px] text-cream/65">
               {FOUNDER.title} · {FOUNDER.credential}
             </span>
           </div>
@@ -104,7 +104,7 @@ export default async function Home() {
             {stat.map((s) => (
               <div key={s.l} className="flex flex-col">
                 <span className="font-marquee text-[40px] leading-none text-rust">{s.n}</span>
-                <span className="font-body text-[12px] font-semibold uppercase tracking-[0.12em] text-smoke">{s.l}</span>
+                <span className="font-body text-[12px] font-semibold uppercase tracking-[0.12em] text-cream/65">{s.l}</span>
               </div>
             ))}
           </div>
@@ -157,12 +157,12 @@ export default async function Home() {
       {/* Chapter Four — The Archives */}
       <section
         id="films"
-        className="scroll-mt-[120px] border-t border-hairline bg-bg-alt px-5 py-24 md:px-[90px]"
+        className="scroll-mt-[120px] bg-rust text-ink px-5 py-24 md:px-[90px]"
       >
         <div className="flex flex-col items-center gap-4 text-center">
-          <ChapterLabel n="Chapter Four" center />
-          <h2 className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[80px]">The Archives</h2>
-          <p className="max-w-[44ch] font-body text-[17px] leading-relaxed text-fg/70">
+          <div className="flex items-center justify-center gap-3"><span className="h-px w-10 bg-ink/40" /><span className="font-body text-[12px] font-bold uppercase tracking-[0.3em] text-ink/70">Chapter Four</span><span className="h-px w-10 bg-ink/40" /></div>
+          <h2 className="pulp-on-gold font-display text-[56px] uppercase leading-[0.94] md:text-[80px]">The Archives</h2>
+          <p className="max-w-[44ch] font-body text-[17px] leading-relaxed text-ink/70">
             Shorts, music videos, docs, animation, experiments. Every film twenty minutes or
             less, every filmmaker in the room.
           </p>
@@ -173,9 +173,9 @@ export default async function Home() {
         <div className="mt-14 flex justify-center">
           <a
             href="/schedule"
-            className="flex items-center gap-2 border-b-2 border-rust pb-1.5 font-body text-[13px] font-extrabold uppercase tracking-[0.14em] text-fg transition-colors hover:text-rust"
+            className="flex items-center gap-2 border-b-2 border-ink pb-1.5 font-body text-[13px] font-extrabold uppercase tracking-[0.14em] text-ink transition-colors hover:text-curtain"
           >
-            Browse all 200+ films <span className="text-rust">›</span>
+            Browse all 200+ films <span className="text-curtain">›</span>
           </a>
         </div>
       </section>

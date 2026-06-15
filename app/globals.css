@@ -88,6 +88,16 @@ body {
   color: var(--color-heading);
   text-shadow: 0.045em 0.06em 0 var(--color-heading-edge);
 }
+/* Display heading sitting on the red brand band — white fill, ink extrude. */
+.pulp-on-red {
+  color: var(--color-cream);
+  text-shadow: 0.045em 0.06em 0 var(--color-ink);
+}
+/* Display heading on the gold brand band — ink fill, oxblood extrude. */
+.pulp-on-gold {
+  color: var(--color-ink);
+  text-shadow: 0.045em 0.06em 0 var(--color-curtain-deep);
+}
 
 @keyframes marquee {
   0% {
