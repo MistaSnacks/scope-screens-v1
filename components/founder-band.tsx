@@ -1,4 +1,5 @@
 import { FOUNDER } from "@/lib/festival";
+import { Reveal } from "@/components/motion/reveal";
 
 const FOUNDER_QUOTE =
   "A lot of my peers never had the chance to see their work on a big screen. I built this for access, for collaboration, and to break down the barriers placed in front of Black, brown, and tan creatives.";
@@ -13,7 +14,7 @@ const stat = [
 export function FounderBand({ eyebrow = "Chapter Two" }: { eyebrow?: string }) {
   return (
     <section className="band-down flex flex-col items-stretch gap-14 bg-curtain text-cream px-5 py-24 md:flex-row md:px-[90px]">
-      <div className="w-full md:w-[520px] md:shrink-0">
+      <Reveal className="w-full md:w-[520px] md:shrink-0">
         {/* The founder as a director's-monitor credential — gold frame, a REC
             header, and a film-still pulled from the Wix media library. */}
         <figure className="rounded-lg bg-ink p-3 ring-1 ring-rust/70 shadow-[0_0_0_1px_rgba(255,187,0,0.12),0_30px_60px_-22px_rgba(0,0,0,0.85)] md:p-4">
@@ -45,9 +46,9 @@ export function FounderBand({ eyebrow = "Chapter Two" }: { eyebrow?: string }) {
             </figcaption>
           </div>
         </figure>
-      </div>
+      </Reveal>
 
-      <div className="flex flex-col items-start justify-center gap-6">
+      <Reveal delay={0.1} className="flex flex-col items-start justify-center gap-6">
         <div className="flex items-center gap-3"><span className="h-px w-10 bg-cream/50" /><span className="font-body text-[12px] font-bold uppercase tracking-[0.3em] text-cream/80">{eyebrow}</span></div>
         <h2 className="pulp-on-red font-display text-[56px] uppercase leading-[0.94] md:text-[66px]">
           Built For
@@ -71,7 +72,7 @@ export function FounderBand({ eyebrow = "Chapter Two" }: { eyebrow?: string }) {
             </div>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

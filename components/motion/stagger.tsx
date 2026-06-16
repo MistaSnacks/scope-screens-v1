@@ -4,10 +4,25 @@ import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import { DURATION, EASE, REVEAL_Y, staggerContainer, prefersReducedMotion } from "@/lib/motion";
 
-export function Stagger({ children, className }: { children: ReactNode; className?: string }) {
-  if (prefersReducedMotion()) return <div className={className}>{children}</div>;
+const TAGS = { div: motion.div, ul: motion.ul, ol: motion.ol, li: motion.li } as const;
+type Tag = keyof typeof TAGS;
+
+export function Stagger({
+  children,
+  className,
+  as = "div",
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: Tag;
+}) {
+  if (prefersReducedMotion()) {
+    const Plain = as;
+    return <Plain className={className}>{children}</Plain>;
+  }
+  const M = TAGS[as];
   return (
-    <motion.div
+    <M
       className={className}
       variants={staggerContainer}
       initial="hidden"
@@ -15,7 +30,7 @@ export function Stagger({ children, className }: { children: ReactNode; classNam
       viewport={{ once: true, margin: "0px 0px -12% 0px" }}
     >
       {children}
-    </motion.div>
+    </M>
   );
 }
 
@@ -24,11 +39,23 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: DURATION.base, ease: EASE } },
 };
 
-export function StaggerItem({ children, className }: { children: ReactNode; className?: string }) {
-  if (prefersReducedMotion()) return <div className={className}>{children}</div>;
+export function StaggerItem({
+  children,
+  className,
+  as = "div",
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: Tag;
+}) {
+  if (prefersReducedMotion()) {
+    const Plain = as;
+    return <Plain className={className}>{children}</Plain>;
+  }
+  const M = TAGS[as];
   return (
-    <motion.div className={className} variants={itemVariants}>
+    <M className={className} variants={itemVariants}>
       {children}
-    </motion.div>
+    </M>
   );
 }

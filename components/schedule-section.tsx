@@ -1,5 +1,7 @@
 import { getLiveSchedule, type ScheduleRow } from "@/lib/wix-events";
 import { SCREENINGS, SEASON_PASS, VENUE, reserveUrl, ticketUrl } from "@/lib/festival";
+import { Reveal } from "@/components/motion/reveal";
+import { Stagger, StaggerItem } from "@/components/motion/stagger";
 
 export async function ScheduleSection({ headless = false }: { headless?: boolean } = {}) {
   // Hybrid: the planned season is the skeleton; any month that already exists
@@ -30,7 +32,7 @@ export async function ScheduleSection({ headless = false }: { headless?: boolean
       <div className="mx-auto max-w-[1260px]">
         <div className="flex flex-col gap-14 lg:flex-row lg:gap-20">
         {/* Left: heading + season pass */}
-        <div className="flex flex-col items-start gap-6 lg:w-[360px] lg:shrink-0">
+        <Reveal className="flex flex-col items-start gap-6 lg:w-[360px] lg:shrink-0">
           {/* Popcorn logo — centered within the left column */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -63,12 +65,13 @@ export async function ScheduleSection({ headless = false }: { headless?: boolean
           >
             Season Pass · {SEASON_PASS.gaPrice}
           </a>
-        </div>
+        </Reveal>
 
         {/* Right: the schedule list */}
-        <ul className="flex flex-1 flex-col">
+        <Stagger as="ul" className="flex flex-1 flex-col">
           {rows.map((s, i) => (
-            <li
+            <StaggerItem
+              as="li"
               key={`${s.month}-${s.day}-${i}`}
               className={`flex items-center gap-5 py-5 ${i > 0 ? "border-t border-cream/10" : ""}`}
             >
@@ -102,9 +105,9 @@ export async function ScheduleSection({ headless = false }: { headless?: boolean
                   </span>
                 )}
               </div>
-            </li>
+            </StaggerItem>
           ))}
-        </ul>
+        </Stagger>
         </div>
       </div>
     </section>

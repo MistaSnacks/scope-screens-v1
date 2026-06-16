@@ -4,6 +4,8 @@
 // Aachen (font-display) headings, Libre (font-body) copy, JetBrains Mono
 // (font-mono) for the slate codes/labels.
 
+import { Reveal } from "@/components/motion/reveal";
+
 function Field({ k, v }: { k: string; v: string }) {
   return (
     <div className="flex flex-1 flex-col gap-1.5">
@@ -17,7 +19,7 @@ export function WhatIs() {
   return (
     <section className="band-up flex flex-col items-start gap-14 overflow-hidden bg-bg-alt px-5 py-24 md:flex-row md:items-center md:justify-between md:gap-20 md:px-[90px]">
       {/* Left: editorial copy */}
-      <div className="flex w-full flex-col gap-6 md:w-[560px] md:shrink-0">
+      <Reveal className="flex w-full flex-col gap-6 md:w-[560px] md:shrink-0">
         <div className="flex items-center gap-3.5">
           <span className="h-0.5 w-[30px] shrink-0 bg-curtain" />
           <span className="font-mono text-[12px] uppercase tracking-[0.2em] text-curtain">
@@ -36,10 +38,11 @@ export function WhatIs() {
         <p className="font-body text-[18px] font-bold italic leading-[26px] text-curtain">
           &ldquo;We put the fun back in film fests.&rdquo;
         </p>
-      </div>
+      </Reveal>
 
       {/* Right: clapperboard */}
-      <div className="w-full max-w-[528px] shrink-0 rotate-[1.5deg] [filter:drop-shadow(0_22px_45px_rgba(0,0,0,0.5))]">
+      <Reveal delay={0.1} className="w-full max-w-[528px] shrink-0">
+      <div className="rotate-[1.5deg] [filter:drop-shadow(0_22px_45px_rgba(0,0,0,0.5))]">
         {/* Clapstick — straight bar of vertical stripes, rotated open (−9°) */}
         <div
           className="mb-1.5 flex h-[52px] w-full -rotate-[9deg] overflow-clip rounded-[5px]"
@@ -120,6 +123,7 @@ export function WhatIs() {
           </div>
         </div>
       </div>
+      </Reveal>
     </section>
   );
 }

@@ -5,6 +5,7 @@ import {
   SUBMIT_URL,
   nextSubmissionDeadline,
 } from "@/lib/festival";
+import { Reveal } from "@/components/motion/reveal";
 
 const LEAVES = [
   { cx: 72, cy: 132, rx: 13, ry: 5.2, rot: -36 },
@@ -56,7 +57,7 @@ export function Submissions() {
       </div>
 
       {/* Laurel lockup */}
-      <div className="flex items-center justify-center gap-4">
+      <Reveal className="flex items-center justify-center gap-4">
         <Laurel />
         <div className="flex flex-col items-center gap-2">
           <span className="font-mono text-[13px] tracking-[0.34em] text-fg/60">OFFICIAL SELECTION</span>
@@ -64,7 +65,7 @@ export function Submissions() {
           <span className="font-mono text-[13px] tracking-[0.26em] text-curtain">SCOPE SCREENINGS · 2026</span>
         </div>
         <Laurel flip />
-      </div>
+      </Reveal>
 
       <p className="max-w-[60ch] text-center font-body text-[17px] leading-relaxed text-fg/70">
         Narrative shorts, documentaries, animation, music videos, commercials, and experimental
