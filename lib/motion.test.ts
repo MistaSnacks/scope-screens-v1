@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { prefersReducedMotion, revealVariants, EASE, lenisOptions } from "./motion";
+import { prefersReducedMotion, revealVariants, EASE } from "./motion";
 
 function mockReducedMotion(matches: boolean) {
   vi.stubGlobal("matchMedia", (q: string) => ({
@@ -28,9 +28,5 @@ describe("motion tokens", () => {
     expect(revealVariants.hidden.y).toBeGreaterThan(0);
     expect(revealVariants.visible.opacity).toBe(1);
     expect(revealVariants.visible.y).toBe(0);
-  });
-
-  it("lenisOptions uses the shared easing duration", () => {
-    expect(lenisOptions.duration).toBeGreaterThan(0);
   });
 });

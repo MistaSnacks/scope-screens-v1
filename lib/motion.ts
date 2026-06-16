@@ -21,12 +21,6 @@ export const staggerContainer = {
   visible: { transition: { staggerChildren: 0.08, delayChildren: 0.04 } },
 } as const;
 
-export const lenisOptions = {
-  duration: 1.1,
-  easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smoothWheel: true,
-} as const;
-
 export function prefersReducedMotion(): boolean {
   return (
     typeof window !== "undefined" &&

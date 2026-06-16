@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useLenis } from "@/components/motion/smooth-scroll-provider";
 
 const MOBILE = "(max-width: 767px)";
 
@@ -29,7 +28,6 @@ function prefersReducedMotion() {
  */
 export function ScrollControl() {
   const [past, setPast] = useState(false);
-  const lenis = useLenis();
 
   useEffect(() => {
     const update = () => {
@@ -46,11 +44,11 @@ export function ScrollControl() {
     };
   }, []);
 
-  const go = () => {
-    const top = heroOpenTarget();
-    if (lenis && !prefersReducedMotion()) lenis.scrollTo(top);
-    else window.scrollTo({ top, behavior: prefersReducedMotion() ? "auto" : "smooth" });
-  };
+  const go = () =>
+    window.scrollTo({
+      top: heroOpenTarget(),
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
 
   return (
     <button

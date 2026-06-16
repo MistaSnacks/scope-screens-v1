@@ -6,7 +6,6 @@ import { CheckoutProvider } from "@/components/checkout/checkout-context";
 import { PersistentValance } from "@/components/persistent-valance";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
-import { SmoothScrollProvider } from "@/components/motion/smooth-scroll-provider";
 import { CursorField } from "@/components/motion/cursor-field";
 import "./globals.css";
 
@@ -36,9 +35,7 @@ export default function RootLayout({
           <GrainOverlay />
           <PersistentValance />
           <SiteNav />
-          <SmoothScrollProvider>
-            <CheckoutProvider>{children}</CheckoutProvider>
-          </SmoothScrollProvider>
+          <CheckoutProvider>{children}</CheckoutProvider>
           <SiteFooter />
         </ThemeProvider>
       </body>
