@@ -278,7 +278,9 @@ export function CurtainCreditsHero() {
             mobile: boolean;
             reduced: boolean;
           };
-          openFactorRef.current = mobile ? 0.92 : 0.86;
+          // Framing open (matches main): curtains rest as substantial side
+          // drapes that frame the screen and keep their billow visible.
+          openFactorRef.current = mobile ? 0.76 : 0.62;
 
           // Reduced motion: skip the scroll choreography, show the framed hero
           // with the logo opening already cleared away.
@@ -389,6 +391,22 @@ export function CurtainCreditsHero() {
           </video>
 
           <div className={styles.projectorGlow} aria-hidden />
+
+          {/* Legibility scrim under the headline. */}
+          <div className={styles.frameScrim} aria-hidden />
+
+          {/* The headline, on the screen — the marquee title over the reel. */}
+          <div className={styles.screenTitle}>
+            <span className={styles.screenEyebrow}>Feature Presentation</span>
+            <h1 className={styles.screenWordmark}>
+              Scope
+              <br />
+              Screenings
+            </h1>
+            <span className={styles.screenTagline}>
+              Seattle&rsquo;s Underground Film Festival
+            </span>
+          </div>
 
           <div className={styles.recTick} aria-hidden>
             <span className={styles.recDot} />

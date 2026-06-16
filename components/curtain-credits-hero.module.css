@@ -38,7 +38,7 @@
 .silverFrame {
   position: relative;
   width: 100%;
-  max-width: 84vw;
+  max-width: 80vw;
   aspect-ratio: 4 / 3;
   background: var(--color-stage, #0d0c0a);
   border: 1.5px solid rgba(247, 243, 230, 0.18);
@@ -51,7 +51,9 @@
 @media (min-width: 768px) {
   .silverFrame {
     aspect-ratio: 2.35 / 1;
-    max-width: min(1180px, 74vw);
+    /* Slightly wider than the curtain opening (~62vw at the framing open) so the
+       velvet laps the screen edges and reads as the proscenium frame. */
+    max-width: min(1180px, 64vw);
   }
 }
 
@@ -76,9 +78,65 @@
   );
 }
 
+/* Keeps the headline legible over the reel without hiding the footage. */
+.frameScrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+      ellipse 70% 60% at 50% 46%,
+      rgba(6, 5, 4, 0.74) 0%,
+      rgba(6, 5, 4, 0.45) 45%,
+      transparent 78%
+    ),
+    linear-gradient(180deg, rgba(6, 5, 4, 0.55) 0%, transparent 32%, transparent 70%, rgba(6, 5, 4, 0.5) 100%);
+}
+
+/* The headline — on the screen, over the reel. */
+.screenTitle {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+  padding: 0 12%;
+  pointer-events: none;
+}
+.screenEyebrow {
+  font-family: var(--font-libre), sans-serif;
+  font-weight: 600;
+  font-size: clamp(10px, 1.1vw, 13px);
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--color-rust, #ffbb00);
+}
+.screenWordmark {
+  margin: 0;
+  font-family: var(--font-display), "Cooper Black", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(40px, 7vw, 86px);
+  line-height: 0.92;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--color-rust, #ffbb00);
+  text-shadow: 0.045em 0.06em 0 var(--color-curtain-deep, #7d120d);
+}
+.screenTagline {
+  font-family: var(--font-credits), serif;
+  font-weight: 500;
+  font-size: clamp(11px, 1.4vw, 16px);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #cfc7b4;
+}
+
 .recTick {
   position: absolute;
-  left: 16px;
+  left: 7%;
   top: 12px;
   z-index: 2;
   display: flex;
@@ -100,7 +158,7 @@
 
 .reelCounter {
   position: absolute;
-  right: 16px;
+  right: 7%;
   top: 12px;
   z-index: 2;
   font-family: var(--font-libre), monospace;
@@ -112,7 +170,7 @@
 
 .soundToggle {
   position: absolute;
-  right: 16px;
+  right: 7%;
   bottom: 14px;
   z-index: 3;
   display: flex;
@@ -361,10 +419,13 @@
    pinned 100svh with no internal scroll. */
 @media (max-height: 760px) {
   .silverFrame {
-    max-width: min(820px, 68vw);
+    max-width: min(820px, 64vw);
   }
   .creditLabel {
     font-size: clamp(22px, 3vw, 30px);
+  }
+  .screenWordmark {
+    font-size: clamp(34px, 5vw, 60px);
   }
   .logoImg {
     height: 230px;
