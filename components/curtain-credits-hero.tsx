@@ -278,9 +278,9 @@ export function CurtainCreditsHero() {
             mobile: boolean;
             reduced: boolean;
           };
-          // Framing open (matches main): curtains rest as substantial side
-          // drapes that frame the screen and keep their billow visible.
-          openFactorRef.current = mobile ? 0.76 : 0.62;
+          // Framing open: curtains rest as side drapes that frame a large
+          // screen (closer to the reference) while keeping visible billow.
+          openFactorRef.current = mobile ? 0.84 : 0.76;
 
           // Reduced motion: skip the scroll choreography, show the framed hero
           // with the logo opening already cleared away.

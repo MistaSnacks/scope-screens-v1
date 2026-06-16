@@ -38,7 +38,7 @@
 .silverFrame {
   position: relative;
   width: 100%;
-  max-width: 80vw;
+  max-width: 88vw;
   aspect-ratio: 4 / 3;
   background: var(--color-stage, #0d0c0a);
   border: 1.5px solid rgba(247, 243, 230, 0.18);
@@ -51,9 +51,9 @@
 @media (min-width: 768px) {
   .silverFrame {
     aspect-ratio: 2.35 / 1;
-    /* Slightly wider than the curtain opening (~62vw at the framing open) so the
-       velvet laps the screen edges and reads as the proscenium frame. */
-    max-width: min(1180px, 64vw);
+    /* Sized to the curtain opening (~76vw at the framing open) so the velvet
+       laps the screen edges and reads as the proscenium frame. */
+    max-width: min(1320px, 78vw);
   }
 }
 
@@ -419,7 +419,7 @@
    pinned 100svh with no internal scroll. */
 @media (max-height: 760px) {
   .silverFrame {
-    max-width: min(820px, 64vw);
+    max-width: min(960px, 76vw);
   }
   .creditLabel {
     font-size: clamp(22px, 3vw, 30px);
