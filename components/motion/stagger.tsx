@@ -4,7 +4,14 @@ import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import { DURATION, EASE, REVEAL_Y, staggerContainer, prefersReducedMotion } from "@/lib/motion";
 
-const TAGS = { div: motion.div, ul: motion.ul, ol: motion.ol, li: motion.li } as const;
+const TAGS = {
+  div: motion.div,
+  ul: motion.ul,
+  ol: motion.ol,
+  li: motion.li,
+  header: motion.header,
+  section: motion.section,
+} as const;
 type Tag = keyof typeof TAGS;
 
 export function Stagger({

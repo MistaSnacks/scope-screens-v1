@@ -5,6 +5,9 @@ import {
   SUBMIT_CRITERIA,
   SUBMIT_STEPS,
 } from "@/lib/festival";
+import { Reveal } from "@/components/motion/reveal";
+import { Stagger, StaggerItem } from "@/components/motion/stagger";
+import { Hoverable } from "@/components/motion/hoverable";
 
 export const metadata: Metadata = {
   title: "Submit — Scope Screenings",
@@ -18,7 +21,7 @@ export default function SubmitPage() {
       {/* (a) Hero with open-call card */}
       <section className="px-5 pt-[120px] md:px-[90px] md:pt-[150px]">
         <div className="md:flex md:items-start md:justify-between md:gap-12">
-          <div className="md:max-w-[60%]">
+          <Reveal className="md:max-w-[60%]">
             {/* Eyebrow */}
             <div className="flex items-center gap-3">
               <span className="h-px w-10 bg-curtain" />
@@ -34,10 +37,10 @@ export default function SubmitPage() {
               screen in front of a packed, loving house. Twenty minutes or less,
               any genre. If it&rsquo;s bold and it&rsquo;s yours, send it.
             </p>
-          </div>
+          </Reveal>
 
           {/* Open-call card */}
-          <aside className="mt-10 w-full rounded-lg border border-hairline bg-card p-7 md:mt-2 md:w-[340px] md:shrink-0">
+          <Reveal as="aside" delay={0.12} className="mt-10 w-full rounded-lg border border-hairline bg-card p-7 md:mt-2 md:w-[340px] md:shrink-0">
             <div className="flex items-center justify-between">
               <span className="font-mono text-[12px] font-bold uppercase tracking-[0.2em] text-label">
                 Open Call
@@ -74,29 +77,31 @@ export default function SubmitPage() {
             >
               Submit on FilmFreeway ›
             </a>
-          </aside>
+          </Reveal>
         </div>
       </section>
 
       {/* (b) "What We're After" — 3-up */}
       <section className="mt-16 border-t border-hairline bg-bg px-5 py-24 md:px-[90px]">
-        <div className="flex items-center gap-3">
-          <span className="h-px w-10 bg-curtain" />
-          <span className="font-mono text-[12px] font-bold uppercase tracking-[0.3em] text-label">
-            What we look for
-          </span>
-        </div>
-        <h2 className="pulp mt-5 font-display text-[44px] uppercase leading-[0.95] md:text-[64px]">
-          What We&rsquo;re After
-        </h2>
-        <p className="mt-5 max-w-[60ch] font-credits text-[18px] leading-relaxed text-fg/80 md:text-[19px]">
-          Scope Screenings exists to break down the barriers placed in front of
-          Black, brown, and tan creatives. We program for access, for craft, and
-          for films that make a room of 300 people lean all the way in.
-        </p>
-        <div className="mt-14 grid gap-10 md:grid-cols-3">
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <span className="h-px w-10 bg-curtain" />
+            <span className="font-mono text-[12px] font-bold uppercase tracking-[0.3em] text-label">
+              What we look for
+            </span>
+          </div>
+          <h2 className="pulp mt-5 font-display text-[44px] uppercase leading-[0.95] md:text-[64px]">
+            What We&rsquo;re After
+          </h2>
+          <p className="mt-5 max-w-[60ch] font-credits text-[18px] leading-relaxed text-fg/80 md:text-[19px]">
+            Scope Screenings exists to break down the barriers placed in front of
+            Black, brown, and tan creatives. We program for access, for craft, and
+            for films that make a room of 300 people lean all the way in.
+          </p>
+        </Reveal>
+        <Stagger className="mt-14 grid gap-10 md:grid-cols-3">
           {SUBMIT_CRITERIA.map((c) => (
-            <div key={c.n}>
+            <StaggerItem key={c.n}>
               <span className="font-marquee text-[28px] text-curtain">{c.n}</span>
               <h3 className="mt-2 font-display text-[22px] uppercase text-fg">
                 {c.title}
@@ -104,22 +109,24 @@ export default function SubmitPage() {
               <p className="mt-2 font-credits text-[16px] leading-relaxed text-muted">
                 {c.blurb}
               </p>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </section>
 
       {/* (c) "Mark Your Calendar" — deadlines table */}
       <section className="border-t border-hairline bg-bg-alt px-5 py-24 md:px-[90px]">
-        <div className="flex items-center gap-3">
-          <span className="h-px w-10 bg-curtain" />
-          <span className="font-mono text-[12px] font-bold uppercase tracking-[0.3em] text-label">
-            Deadlines &amp; fees
-          </span>
-        </div>
-        <h2 className="pulp mt-5 font-display text-[44px] uppercase leading-[0.95] md:text-[64px]">
-          Mark Your Calendar
-        </h2>
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <span className="h-px w-10 bg-curtain" />
+            <span className="font-mono text-[12px] font-bold uppercase tracking-[0.3em] text-label">
+              Deadlines &amp; fees
+            </span>
+          </div>
+          <h2 className="pulp mt-5 font-display text-[44px] uppercase leading-[0.95] md:text-[64px]">
+            Mark Your Calendar
+          </h2>
+        </Reveal>
 
         {/* Column headers */}
         <div className="mt-10 grid grid-cols-[1fr_2fr_auto] gap-4">
@@ -135,24 +142,26 @@ export default function SubmitPage() {
         </div>
 
         {/* Rows */}
-        {SUBMISSION_ROUNDS.map((r, i) => (
-          <div
-            key={r.name}
-            className="grid grid-cols-[1fr_2fr_auto] gap-4 border-t border-hairline py-5"
-          >
-            <span className="font-body text-[18px] font-bold text-fg">
-              {r.name}
-            </span>
-            <span className="font-mono text-[13px] uppercase tracking-[0.08em] text-muted">
-              {r.closes}
-            </span>
-            <span
-              className={`font-display text-[22px] text-right ${i === 0 ? "text-rust" : "text-fg"}`}
+        <Stagger>
+          {SUBMISSION_ROUNDS.map((r, i) => (
+            <StaggerItem
+              key={r.name}
+              className="grid grid-cols-[1fr_2fr_auto] gap-4 border-t border-hairline py-5"
             >
-              {r.fee}
-            </span>
-          </div>
-        ))}
+              <span className="font-body text-[18px] font-bold text-fg">
+                {r.name}
+              </span>
+              <span className="font-mono text-[13px] uppercase tracking-[0.08em] text-muted">
+                {r.closes}
+              </span>
+              <span
+                className={`font-display text-[22px] text-right ${i === 0 ? "text-rust" : "text-fg"}`}
+              >
+                {r.fee}
+              </span>
+            </StaggerItem>
+          ))}
+        </Stagger>
 
         {/* Waiver note */}
         <p className="mt-8 flex items-center gap-3 font-credits text-[15px] text-muted">
@@ -164,18 +173,20 @@ export default function SubmitPage() {
 
       {/* (d) "Three Steps In" + closing CTA */}
       <section className="border-t border-hairline bg-bg px-5 py-24 md:px-[90px]">
-        <div className="flex items-center gap-3">
-          <span className="h-px w-10 bg-curtain" />
-          <span className="font-mono text-[12px] font-bold uppercase tracking-[0.3em] text-label">
-            How to enter
-          </span>
-        </div>
-        <h2 className="pulp mt-5 font-display text-[44px] uppercase leading-[0.95] md:text-[64px]">
-          Three Steps In
-        </h2>
-        <div className="mt-14 grid gap-10 md:grid-cols-3">
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <span className="h-px w-10 bg-curtain" />
+            <span className="font-mono text-[12px] font-bold uppercase tracking-[0.3em] text-label">
+              How to enter
+            </span>
+          </div>
+          <h2 className="pulp mt-5 font-display text-[44px] uppercase leading-[0.95] md:text-[64px]">
+            Three Steps In
+          </h2>
+        </Reveal>
+        <Stagger className="mt-14 grid gap-10 md:grid-cols-3">
           {SUBMIT_STEPS.map((s) => (
-            <div key={s.n}>
+            <StaggerItem key={s.n}>
               <span className="font-marquee text-[56px] leading-none text-curtain">
                 {s.n}
               </span>
@@ -185,13 +196,13 @@ export default function SubmitPage() {
               <p className="mt-2 font-credits text-[16px] leading-relaxed text-muted">
                 {s.blurb}
               </p>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </section>
 
       {/* Closing CTA band */}
-      <section className="border-t border-hairline bg-bg-deep px-5 py-28 text-center md:px-[90px]">
+      <Reveal as="section" className="border-t border-hairline bg-bg-deep px-5 py-28 text-center md:px-[90px]">
         <h2 className="pulp font-display text-[48px] uppercase leading-[0.95] md:text-[72px]">
           Got A Film? Send It.
         </h2>
@@ -199,15 +210,17 @@ export default function SubmitPage() {
           Submissions run on FilmFreeway. It takes about ten minutes — and we
           read every single one.
         </p>
-        <a
-          href={SUBMIT_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-8 inline-flex items-center gap-2 bg-curtain px-7 py-4 font-mono text-[13px] font-bold uppercase tracking-[0.14em] text-cream transition-colors hover:bg-curtain-bright"
-        >
-          Submit on FilmFreeway ›
-        </a>
-      </section>
+        <Hoverable magnetic strength={0.35} className="mt-8 inline-block">
+          <a
+            href={SUBMIT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-curtain px-7 py-4 font-mono text-[13px] font-bold uppercase tracking-[0.14em] text-cream transition-colors hover:bg-curtain-bright"
+          >
+            Submit on FilmFreeway ›
+          </a>
+        </Hoverable>
+      </Reveal>
     </main>
   );
 }
