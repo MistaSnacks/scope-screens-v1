@@ -1,3 +1,5 @@
+import { Reveal } from "@/components/motion/reveal";
+
 interface Partner {
   name: string;
   img: string;
@@ -21,13 +23,13 @@ export function PartnersMarquee() {
   const loop = [...PARTNERS, ...PARTNERS, ...PARTNERS, ...PARTNERS];
   return (
     <section className="border-t border-hairline bg-bg px-5 py-16 md:px-9">
-      <div className="mb-10 flex items-center justify-center gap-3">
+      <Reveal className="mb-10 flex items-center justify-center gap-3">
         <span className="h-px w-8 bg-curtain" />
         <span className="font-body text-[12px] font-bold uppercase tracking-[0.28em] text-rust">
           In Good Company
         </span>
         <span className="h-px w-8 bg-curtain" />
-      </div>
+      </Reveal>
 
       <div
         className="relative overflow-hidden"

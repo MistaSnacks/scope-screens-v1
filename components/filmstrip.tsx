@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Reveal } from "@/components/motion/reveal";
 
 interface Film {
   img: string;
@@ -90,7 +91,7 @@ export function Filmstrip() {
   }, []);
 
   return (
-    <div className="mx-auto mt-12 flex max-w-[1260px] flex-col gap-4">
+    <Reveal className="mx-auto mt-12 flex max-w-[1260px] flex-col gap-4">
       {/* The reel */}
       <div
         ref={railRef}
@@ -165,6 +166,6 @@ export function Filmstrip() {
           </span>
         </div>
       </div>
-    </div>
+    </Reveal>
   );
 }

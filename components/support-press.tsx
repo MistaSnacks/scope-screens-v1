@@ -1,3 +1,7 @@
+import { Reveal } from "@/components/motion/reveal";
+import { Stagger, StaggerItem } from "@/components/motion/stagger";
+import { KineticText } from "@/components/motion/kinetic-text";
+
 const SUPPORT_URL = "https://shunpike.org/artist/scope-screenings/";
 const PRESS_EMAIL = "press@scopescreenings.com";
 
@@ -17,18 +21,18 @@ const PRESS_ROWS = [
 export function SupportPress() {
   return (
     <section className="border-t border-hairline px-5 py-24 md:px-[90px]">
-      <div className="mb-14 flex flex-col items-center gap-4 text-center">
+      <Reveal className="mb-14 flex flex-col items-center gap-4 text-center">
         <div className="flex items-center gap-3">
           <span className="h-px w-10 bg-curtain" />
           <span className="font-body text-[12px] font-bold uppercase tracking-[0.3em] text-label">Chapter Four</span>
           <span className="h-px w-10 bg-curtain" />
         </div>
-        <h2 className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[80px]">Keep It Running</h2>
-      </div>
+        <KineticText as="h2" className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[80px]" text="Keep It Running" />
+      </Reveal>
 
-      <div className="mx-auto grid max-w-[1260px] gap-7 md:grid-cols-2">
+      <Stagger className="mx-auto grid max-w-[1260px] gap-7 md:grid-cols-2">
         {/* Funders */}
-        <div className="flex flex-col rounded-xl border border-hairline bg-card p-8 shadow-[0_20px_45px_rgba(11,10,9,0.07)] md:p-10">
+        <StaggerItem className="flex flex-col rounded-xl border border-hairline bg-card p-8 shadow-[0_20px_45px_rgba(11,10,9,0.07)] md:p-10">
           <span className="font-body text-[12px] font-bold uppercase tracking-[0.2em] text-curtain">Funders &amp; Philanthropy</span>
           <h3 className="mt-3 font-display text-[40px] uppercase leading-none text-fg">Become a Funder</h3>
           <p className="mt-4 font-body text-[15px] leading-relaxed text-fg/70">
@@ -58,10 +62,10 @@ export function SupportPress() {
           <span className="mt-5 font-body text-[13px] text-muted">
             In partnership with Shunpike · Converge Media · SIFF · FilmFreeway
           </span>
-        </div>
+        </StaggerItem>
 
         {/* Press */}
-        <div className="flex flex-col rounded-xl border border-hairline bg-card p-8 shadow-[0_20px_45px_rgba(11,10,9,0.07)] md:p-10">
+        <StaggerItem className="flex flex-col rounded-xl border border-hairline bg-card p-8 shadow-[0_20px_45px_rgba(11,10,9,0.07)] md:p-10">
           <span className="font-body text-[12px] font-bold uppercase tracking-[0.2em] text-label">Media &amp; Press</span>
           <h3 className="mt-3 font-display text-[40px] uppercase leading-none text-fg">Press &amp; Media</h3>
           <p className="mt-4 font-body text-[15px] leading-relaxed text-fg/70">
@@ -83,8 +87,8 @@ export function SupportPress() {
             Download Press Kit ›
           </a>
           <span className="mt-5 font-body text-[13px] text-muted">Media contact · {PRESS_EMAIL}</span>
-        </div>
-      </div>
+        </StaggerItem>
+      </Stagger>
     </section>
   );
 }

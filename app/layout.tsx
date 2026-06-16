@@ -3,6 +3,7 @@ import { aachen, cinzel, libreFranklin, anton, fraunces, jetbrainsMono } from ".
 import { GrainOverlay } from "@/components/grain-overlay";
 import { ThemeProvider } from "@/components/theme-provider";
 import { CheckoutProvider } from "@/components/checkout/checkout-context";
+import { CursorField } from "@/components/motion/cursor-field";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-bg text-fg">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <ThemeProvider>
+          <CursorField />
           <GrainOverlay />
           <CheckoutProvider>{children}</CheckoutProvider>
         </ThemeProvider>

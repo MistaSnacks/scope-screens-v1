@@ -1,4 +1,6 @@
 import { CONTACT_EMAIL, SOCIALS, VENUE } from "@/lib/festival";
+import { Stagger, StaggerItem } from "@/components/motion/stagger";
+import { KineticText } from "@/components/motion/kinetic-text";
 
 const COLUMNS = [
   { head: "Festival", links: ["About", "The Films", "Schedule", "Venues"] },
@@ -11,11 +13,11 @@ export function SiteFooter() {
     <footer className="bg-stage-deep px-5 pb-9 pt-16 md:px-[90px]">
       {/* Sign-off + newsletter */}
       <div className="flex flex-col gap-10 border-b border-cream/10 pb-12 md:flex-row md:items-end md:justify-between">
-        <h2 className="pulp font-display text-[48px] uppercase leading-[0.9] tracking-[-0.01em] md:text-[62px]">
-          See You At
-          <br />
-          The Movies
-        </h2>
+        <KineticText
+          as="h2"
+          className="pulp font-display text-[48px] uppercase leading-[0.9] tracking-[-0.01em] md:text-[62px]"
+          text={"See You At\nThe Movies"}
+        />
         <div className="flex w-full max-w-[440px] flex-col gap-3">
           <span className="font-body text-[12px] font-semibold uppercase tracking-[0.1em] text-smoke">
             Get the lineup in your inbox
@@ -39,15 +41,15 @@ export function SiteFooter() {
       </div>
 
       {/* Columns */}
-      <div className="grid grid-cols-2 gap-10 border-b border-cream/10 py-11 md:grid-cols-4">
-        <div className="flex flex-col gap-3">
+      <Stagger className="grid grid-cols-2 gap-10 border-b border-cream/10 py-11 md:grid-cols-4">
+        <StaggerItem className="flex flex-col gap-3">
           <span className="font-marquee text-[18px] uppercase text-cream">Scope Screenings</span>
           <p className="max-w-[28ch] font-body text-[14px] leading-relaxed text-smoke">
             Seattle&rsquo;s underground film festival. We put the fun back in film fests.
           </p>
-        </div>
+        </StaggerItem>
         {COLUMNS.map((col) => (
-          <div key={col.head} className="flex flex-col gap-2.5">
+          <StaggerItem key={col.head} className="flex flex-col gap-2.5">
             <span className="font-body text-[12px] font-bold uppercase tracking-[0.16em] text-rust">
               {col.head}
             </span>
@@ -56,9 +58,9 @@ export function SiteFooter() {
                 {l}
               </a>
             ))}
-          </div>
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
 
       {/* Legal */}
       <div className="flex flex-col gap-2 pt-6 md:flex-row md:items-center md:justify-between">

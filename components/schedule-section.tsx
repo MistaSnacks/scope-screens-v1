@@ -1,5 +1,8 @@
 import { getLiveSchedule, type ScheduleRow } from "@/lib/wix-events";
 import { SCREENINGS, SEASON_PASS, VENUE, reserveUrl, ticketUrl } from "@/lib/festival";
+import { Reveal } from "@/components/motion/reveal";
+import { Stagger, StaggerItem } from "@/components/motion/stagger";
+import { KineticText } from "@/components/motion/kinetic-text";
 
 export async function ScheduleSection() {
   // Hybrid: the planned season is the skeleton; any month that already exists
@@ -30,7 +33,7 @@ export async function ScheduleSection() {
       <div className="mx-auto max-w-[1260px]">
         <div className="flex flex-col gap-14 lg:flex-row lg:gap-20">
         {/* Left: heading + season pass */}
-        <div className="flex flex-col items-start gap-6 lg:w-[360px] lg:shrink-0">
+        <Reveal className="flex flex-col items-start gap-6 lg:w-[360px] lg:shrink-0">
           {/* Popcorn logo — centered within the left column */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -44,9 +47,11 @@ export async function ScheduleSection() {
               The Season · 2026—27
             </span>
           </div>
-          <h2 className="pulp font-display text-[52px] uppercase leading-[0.92] md:text-[68px]">
-            Seven Nights
-          </h2>
+          <KineticText
+            as="h2"
+            className="pulp font-display text-[52px] uppercase leading-[0.92] md:text-[68px]"
+            text="Seven Nights"
+          />
           <p className="max-w-[34ch] font-body text-[16px] leading-relaxed text-fg/65">
             One screening a month, last Tuesday, {SCREENINGS[0].month} through{" "}
             {SCREENINGS[SCREENINGS.length - 1].month}. Doors {VENUE.doors}, program {VENUE.program}.
@@ -59,12 +64,13 @@ export async function ScheduleSection() {
           >
             Season Pass · {SEASON_PASS.gaPrice}
           </a>
-        </div>
+        </Reveal>
 
         {/* Right: the schedule list */}
-        <ul className="flex flex-1 flex-col">
+        <Stagger as="ul" className="flex flex-1 flex-col">
           {rows.map((s, i) => (
-            <li
+            <StaggerItem
+              as="li"
               key={`${s.month}-${s.day}-${i}`}
               className={`flex items-center gap-5 py-5 ${i > 0 ? "border-t border-cream/10" : ""}`}
             >
@@ -98,9 +104,9 @@ export async function ScheduleSection() {
                   </span>
                 )}
               </div>
-            </li>
+            </StaggerItem>
           ))}
-        </ul>
+        </Stagger>
         </div>
       </div>
     </section>

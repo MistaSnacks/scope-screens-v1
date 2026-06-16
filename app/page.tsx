@@ -13,6 +13,10 @@ import { ScheduleSection } from "@/components/schedule-section";
 import { SupportPress } from "@/components/support-press";
 import { SiteFooter } from "@/components/site-footer";
 import { FOUNDER } from "@/lib/festival";
+import { Reveal } from "@/components/motion/reveal";
+import { Stagger, StaggerItem } from "@/components/motion/stagger";
+import { Parallax } from "@/components/motion/parallax";
+import { KineticText } from "@/components/motion/kinetic-text";
 import { getPurchasableTargets } from "@/lib/wix-checkout";
 
 const FOUNDER_QUOTE =
@@ -57,9 +61,10 @@ export default async function Home() {
 
       {/* Chapter Two — Built For Access */}
       <section className="flex flex-col items-stretch gap-14 border-t border-cream/10 px-5 py-24 md:flex-row md:px-[90px]">
-        <div className="w-full md:w-[520px] md:shrink-0">
+        <Reveal className="w-full md:w-[520px] md:shrink-0">
           {/* The founder as a director's-monitor credential — gold frame, a REC
               header, and a film-still pulled from the Wix media library. */}
+          <Parallax distance={22}>
           <figure className="rounded-lg bg-ink p-3 ring-1 ring-rust/70 shadow-[0_0_0_1px_rgba(255,187,0,0.12),0_30px_60px_-22px_rgba(0,0,0,0.85)] md:p-4">
             <div className="flex items-center justify-between px-1 pb-2.5">
               <span className="font-display text-[18px] uppercase leading-none tracking-[0.1em] text-rust md:text-[21px]">
@@ -89,15 +94,16 @@ export default async function Home() {
               </figcaption>
             </div>
           </figure>
-        </div>
+          </Parallax>
+        </Reveal>
 
-        <div className="flex flex-col items-start justify-center gap-6">
+        <Reveal delay={0.1} className="flex flex-col items-start justify-center gap-6">
           <ChapterLabel n="Chapter Two" />
-          <h2 className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[66px]">
-            Built For
-            <br />
-            Access
-          </h2>
+          <KineticText
+            as="h2"
+            className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[66px]"
+            text={"Built For\nAccess"}
+          />
           <blockquote className="max-w-[22em] font-credits text-[26px] italic leading-snug text-fg/90 md:text-[28px]">
             &ldquo;{FOUNDER_QUOTE}&rdquo;
           </blockquote>
@@ -107,31 +113,31 @@ export default async function Home() {
               {FOUNDER.title} · {FOUNDER.credential}
             </span>
           </div>
-          <div className="flex flex-wrap gap-10 pt-2">
+          <Stagger className="flex flex-wrap gap-10 pt-2">
             {stat.map((s) => (
-              <div key={s.l} className="flex flex-col">
+              <StaggerItem key={s.l} className="flex flex-col">
                 <span className="font-marquee text-[40px] leading-none text-rust">{s.n}</span>
                 <span className="font-body text-[12px] font-semibold uppercase tracking-[0.12em] text-smoke">{s.l}</span>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
-        </div>
+          </Stagger>
+        </Reveal>
       </section>
 
       {/* Chapter Three — Scope Screenings Magic (moments from the floor) */}
       <section className="border-t border-cream/10 bg-bg px-5 py-24 md:px-[90px]">
-        <div className="flex flex-col items-center gap-4 text-center">
+        <Reveal className="flex flex-col items-center gap-4 text-center">
           <ChapterLabel n="Chapter Three" center />
-          <h2 className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[80px]">
-            Scope Screenings
-            <br />
-            Magic
-          </h2>
+          <KineticText
+            as="h2"
+            className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[80px]"
+            text={"Scope Screenings\nMagic"}
+          />
           <p className="max-w-[44ch] font-body text-[17px] leading-relaxed text-fg/70">
             Every last Tuesday the Central District turns into a cinema — ten films, ten directors,
             and the best room in the city.
           </p>
-        </div>
+        </Reveal>
 
         <MomentsReel />
 
@@ -166,14 +172,18 @@ export default async function Home() {
         id="films"
         className="scroll-mt-[120px] border-t border-hairline bg-bg-alt px-5 py-24 md:px-[90px]"
       >
-        <div className="flex flex-col items-center gap-4 text-center">
+        <Reveal className="flex flex-col items-center gap-4 text-center">
           <ChapterLabel n="Chapter Four" center />
-          <h2 className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[80px]">The Archives</h2>
+          <KineticText
+            as="h2"
+            className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[80px]"
+            text="The Archives"
+          />
           <p className="max-w-[44ch] font-body text-[17px] leading-relaxed text-fg/70">
             Shorts, music videos, docs, animation, experiments. Every film twenty minutes or
             less, every filmmaker in the room.
           </p>
-        </div>
+        </Reveal>
 
         <Filmstrip />
 

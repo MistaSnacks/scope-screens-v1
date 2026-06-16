@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { NAV_ITEMS } from "@/lib/festival";
 import { ThemeToggle } from "./theme-toggle";
+import { Hoverable } from "@/components/motion/hoverable";
 
 function hrefFor(item: string) {
   return item === "Watch" ? "#top" : `#${item.toLowerCase()}`;
@@ -43,18 +44,20 @@ export function SiteNav({ active = "Watch" }: { active?: string }) {
       <div className="flex items-center gap-3 md:gap-9">
         <ThemeToggle />
 
-        <a
-          href="#tickets"
-          className="group flex items-center gap-2 border border-rust px-3 py-2 transition-colors hover:bg-rust md:px-4 md:py-2.5"
-        >
-          <span
-            className="size-[6px] rounded-full bg-rust"
-            style={{ boxShadow: "0 0 8px var(--color-rust)" }}
-          />
-          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-rust group-hover:text-stage md:text-[11px]">
-            Get Tickets
-          </span>
-        </a>
+        <Hoverable magnetic strength={0.3} lift={0}>
+          <a
+            href="#tickets"
+            className="group flex items-center gap-2 border border-rust px-3 py-2 transition-colors hover:bg-rust md:px-4 md:py-2.5"
+          >
+            <span
+              className="size-[6px] rounded-full bg-rust"
+              style={{ boxShadow: "0 0 8px var(--color-rust)" }}
+            />
+            <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-rust group-hover:text-stage md:text-[11px]">
+              Get Tickets
+            </span>
+          </a>
+        </Hoverable>
 
         {/* Mobile hamburger */}
         <button
