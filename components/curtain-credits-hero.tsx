@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./curtain-credits-hero.module.css";
 import { getVelvetDataUrl } from "@/lib/velvet";
 import { useTheme } from "./theme-provider";
+import { PRIMARY_CREDITS, SECONDARY_CREDITS } from "@/lib/hero-nav";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -103,13 +104,6 @@ interface CurtainsLike {
   resize: () => void;
 }
 
-interface Credit {
-  role: string;
-  label: string;
-  href: string;
-  spot?: boolean;
-}
-
 // The 2025 sizzle reel "SS × AMC 2" (landscape, 0:55) from the Wix media library —
 // plays muted/looped on the cinema screen the curtains reveal. 1080p is only ~23MB
 // here. Poster is a real frame of the reel (Lex reacting with the popcorn box) so
@@ -118,16 +112,7 @@ const SIZZLE_REEL_MP4 =
   "https://video.wixstatic.com/video/c51492_990803f9c25b4ea491c4180a6eb9a435/1080p/mp4/file.mp4";
 const SIZZLE_REEL_POSTER =
   "https://static.wixstatic.com/media/c51492_990803f9c25b4ea491c4180a6eb9a435f003.jpg";
-
-// The navigation, rendered as an end-credits roll. Each line is a destination.
-const CREDITS: Credit[] = [
-  { role: "General · VIP · Season Pass", label: "Buy Tickets", href: "/#tickets", spot: true },
-  { role: "Open Call · FilmFreeway", label: "Submit a Film", href: "/submit" },
-  { role: "200+ Shorts · 150+ Filmmakers", label: "The Films", href: "/schedule" },
-  { role: "Sponsor · Donate · Shunpike", label: "Become a Funder", href: "/support" },
-  { role: "Press Kit · Coverage · Contact", label: "Press & Media", href: "/support" },
-  { role: "Founded by Lex Scope · Est. 2022", label: "About the Festival", href: "/about" },
-];
+const POPCORN_LOGO = "/popcorn-logo.png";
 
 export function CurtainCreditsHero() {
   const root = useRef<HTMLElement>(null);
@@ -135,6 +120,9 @@ export function CurtainCreditsHero() {
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const leftPlaneEl = useRef<HTMLDivElement>(null);
   const rightPlaneEl = useRef<HTMLDivElement>(null);
+  const logoOpeningRef = useRef<HTMLDivElement>(null);
+  const scrollCueRef = useRef<HTMLDivElement>(null);
+  const reelVideoRef = useRef<HTMLVideoElement>(null);
   const progressRef = useRef({ value: 0 });
   const openFactorRef = useRef(0.62); // how far the velvet parts (framed, not off)
   const curtainsRef = useRef<CurtainsLike | null>(null);
@@ -142,7 +130,18 @@ export function CurtainCreditsHero() {
   const { theme } = useTheme();
   const [velvetSrc, setVelvetSrc] = useState("");
   const [curtainsReady, setCurtainsReady] = useState(false);
+  const [reelMuted, setReelMuted] = useState(true);
   const screenVisibility = curtainsReady ? "visible" : "hidden";
+
+  // The reel autoplays muted (browsers require it). The toggle flips audio and
+  // re-plays so the unmute counts as a user gesture.
+  const toggleReelSound = useCallback(() => {
+    const v = reelVideoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    setReelMuted(v.muted);
+    void v.play().catch(() => {});
+  }, []);
 
   // The original procedural velvet remains the single visual source for the
   // valance, first-paint panels, and animated WebGL curtains.
@@ -281,12 +280,17 @@ export function CurtainCreditsHero() {
           };
           openFactorRef.current = mobile ? 0.76 : 0.62;
 
-          // Reduced motion: skip the scroll choreography, show the framed hero.
+          // Reduced motion: skip the scroll choreography, show the framed hero
+          // with the logo opening already cleared away.
           if (reduced) {
             progressRef.current.value = 1;
             gsap.set(spotRef.current, { opacity: 1 });
+            gsap.set(logoOpeningRef.current, { opacity: 0 });
             return;
           }
+
+          // Logo opening starts visible on the closed curtain.
+          gsap.set(logoOpeningRef.current, { opacity: 1, y: 0 });
 
           // Progress starts at 0 (closed); scroll scrubs it to 1 (framed), then
           // the pinned hero holds before it scrolls away.
@@ -303,6 +307,14 @@ export function CurtainCreditsHero() {
               },
             })
             .to(progressRef.current, { value: 1, ease: "none", duration: 1 }, 0)
+            // The scroll cue fades immediately; the logo lifts + fades over the
+            // first third of the open, before the curtains are fully parted.
+            .to(scrollCueRef.current, { opacity: 0, duration: 0.12 }, 0)
+            .to(
+              logoOpeningRef.current,
+              { opacity: 0, y: -48, duration: 0.4, ease: "power2.in" },
+              0
+            )
             .to({}, { duration: 0.6 });
         }
       );
@@ -351,77 +363,81 @@ export function CurtainCreditsHero() {
       className={`${styles.hero} ${curtainsReady ? "" : styles.awaitingCurtains}`}
       aria-label="Scope Screenings"
     >
-      {/* Preload the first-paint curtain image so it's hot before the standIn
-          lays out (hoisted to <head> by React; only on routes with the hero). */}
+      {/* Preload the first-paint curtain image so it's hot before layout. */}
       <link rel="preload" as="image" href="/curtain-closed.jpg" fetchPriority="high" />
 
-      {/* The sizzle reel on the screen (z-1) — curtains part to reveal it. */}
-      <video
-        className={styles.heroVideo}
-        style={{ visibility: screenVisibility }}
-        autoPlay
-        muted
-        loop
-        playsInline
-        poster={SIZZLE_REEL_POSTER}
-        aria-hidden
-      >
-        <source src={SIZZLE_REEL_MP4} type="video/mp4" />
-      </video>
-      <div
-        className={styles.heroScrim}
-        style={{ visibility: screenVisibility }}
-        aria-hidden
-      />
-
-      {/* Deep oxblood edge guards (z-5): below the curtains, above the screen
-          video. If the billow ever pulls the velvet inward at the far margins,
-          these read as the dark proscenium fold instead of exposing the screen. */}
-      <div
-        className={styles.edgeGuardL}
-        style={{ visibility: screenVisibility }}
-        aria-hidden
-      />
-      <div
-        className={styles.edgeGuardR}
-        style={{ visibility: screenVisibility }}
-        aria-hidden
-      />
-
-      {/* The screen the curtains reveal */}
+      {/* The revealed stage (z-10): framed silver screen + credits beneath.
+          Behind the curtains (z-20); hidden until the curtains have painted. */}
       <div className={styles.screen} style={{ visibility: screenVisibility }}>
-        <div className={styles.title}>
-          <span className={styles.eyebrow}>Feature Presentation</span>
-          <h1 className={styles.wordmark}>
-            Scope
-            <br />
-            Screenings
-          </h1>
-          <span className={styles.tagline}>Seattle&rsquo;s Underground Film Festival</span>
+        <div className={styles.topMarquee} aria-hidden>
+          — A LexScope Production · Scope Screenings —
         </div>
 
-        <div className={styles.creditsMask}>
-          <div className={styles.track}>
-            <span className={styles.rule} aria-hidden />
-            {CREDITS.map((c) => {
-              const external = c.href.startsWith("http");
-              return (
-                <a
-                  key={c.label}
-                  href={c.href}
-                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className={`${styles.credit} ${c.spot ? styles.creditSpot : ""}`}
-                >
-                  <span className={styles.creditRole}>{c.role}</span>
-                  <span className={styles.creditLabel}>{c.label}</span>
-                </a>
-              );
-            })}
+        {/* Framed silver screen — the sizzle reel plays here, muted by default. */}
+        <div className={styles.silverFrame}>
+          <video
+            ref={reelVideoRef}
+            className={styles.frameVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster={SIZZLE_REEL_POSTER}
+            aria-hidden
+          >
+            <source src={SIZZLE_REEL_MP4} type="video/mp4" />
+          </video>
+
+          <div className={styles.projectorGlow} aria-hidden />
+
+          <div className={styles.recTick} aria-hidden>
+            <span className={styles.recDot} />
+            REC
           </div>
+          <div className={styles.reelCounter} aria-hidden>
+            REEL 01 / 01
+          </div>
+
+          <button
+            type="button"
+            onClick={toggleReelSound}
+            aria-label={reelMuted ? "Turn the reel sound on" : "Mute the reel"}
+            className={styles.soundToggle}
+          >
+            <span className={styles.soundIcon} aria-hidden />
+            {reelMuted ? "Sound On" : "Mute"}
+          </button>
+        </div>
+
+        <div className={styles.subLabel} aria-hidden>
+          <span />
+          Now Showing
+          <span />
+        </div>
+
+        {/* Nav as credits — two primary actions + one secondary line. */}
+        <div className={styles.creditsUnder}>
+          <div className={styles.creditsPrimary}>
+            {PRIMARY_CREDITS.map((c, i) => (
+              <a
+                key={c.label}
+                href={c.href}
+                className={`${styles.creditPrimary} ${i === 0 ? styles.creditSpot : ""}`}
+              >
+                <span className={styles.creditRole}>{c.role}</span>
+                <span className={styles.creditLabel}>{c.label}</span>
+              </a>
+            ))}
+          </div>
+          {SECONDARY_CREDITS.map((c) => (
+            <a key={c.label} href={c.href} className={styles.creditSecondary}>
+              {c.label}
+            </a>
+          ))}
         </div>
       </div>
 
-      {/* Follow spotlight */}
+      {/* Follow spotlight across the revealed stage. */}
       <div
         ref={spotRef}
         aria-hidden
@@ -429,33 +445,28 @@ export function CurtainCreditsHero() {
         style={{ visibility: screenVisibility }}
       />
 
-      {/* First-paint curtain: a screenshot of the real shaded WebGL curtain
-          (/curtain-closed.jpg — see .shots/capture-curtain.mjs), so it is in the
-          SSR markup and covers the screen on frame one, then swaps atomically to
-          the live canvas with no visible change. */}
+      {/* Logo opening (z-30) — glows on the closed curtain, lifts away on scroll. */}
+      <div ref={logoOpeningRef} className={styles.logoOpening}>
+        <div className={styles.logoTonight}>— Tonight —</div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={POPCORN_LOGO} alt="Scope Screenings" className={styles.logoImg} />
+      </div>
+      <div ref={scrollCueRef} aria-hidden className={styles.scrollCue}>
+        ↓ Scroll to enter
+        <span className={styles.scrollCueLine} />
+      </div>
+
+      {/* First-paint curtain stand-in (SSR), swapped for the live canvas. */}
       <div aria-hidden className={styles.curtainStandIn} />
 
-      {/* WebGL velvet curtain planes. The <img> is the texture sampler only
-          (display:none); curtains.js renders the billowing velvet into the
-          z-22 canvas and slides the planes apart. The source divs stay put and
-          must never capture pointer input. */}
+      {/* WebGL velvet curtain planes. The <img> is the texture sampler only. */}
       <div ref={leftPlaneEl} aria-hidden className={`${styles.plane} ${styles.planeL}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={velvetSrc}
-          alt=""
-          data-sampler="velvetTexture"
-          style={{ display: "none" }}
-        />
+        <img src={velvetSrc} alt="" data-sampler="velvetTexture" style={{ display: "none" }} />
       </div>
       <div ref={rightPlaneEl} aria-hidden className={`${styles.plane} ${styles.planeR}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={velvetSrc}
-          alt=""
-          data-sampler="velvetTexture"
-          style={{ display: "none" }}
-        />
+        <img src={velvetSrc} alt="" data-sampler="velvetTexture" style={{ display: "none" }} />
       </div>
       <div ref={canvasContainerRef} aria-hidden className={styles.glCanvas} />
 
