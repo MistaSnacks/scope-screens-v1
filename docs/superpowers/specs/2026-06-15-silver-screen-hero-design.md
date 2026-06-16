@@ -21,7 +21,7 @@ written back to the Scope Screenings project.
 1. opens on the **closed velvet curtain** with the **popcorn logo glowing center-stage** ("the logo opening");
 2. parts the curtains **on scroll** (the mechanism we already have) to reveal a **framed silver screen**;
 3. plays the **sizzle reel** on that screen, **muted by default**, with a **sound on/off toggle**;
-4. presents **our nav** (Buy Tickets, Submit a Film, + four secondary) as **credits underneath the screen**, with Buy Tickets and Submit a Film as the clear primary actions.
+4. presents **our nav** (Buy Tickets, Submit a Film, + Support) as **credits underneath the screen**, with Buy Tickets and Submit a Film as the clear primary actions.
 
 **Non-goals (explicitly dropped from the Scope Screenings source):**
 - The **multi-reel navigator** (prev/next, reel dots 01–06) — removed. It is the "confusing information underneath" we are replacing.
@@ -86,33 +86,34 @@ Within the parted (framed) curtains, centered in the pinned viewport, top → bo
       GENERAL · VIP · SEASON          OPEN CALL · FILMFREEWAY
         BUY TICKETS                     SUBMIT A FILM           ← two primary credits (large)
    ───────────────────────────────────────────────────────
-     THE FILMS   ·   BECOME A FUNDER   ·   PRESS   ·   ABOUT   ← secondary row (small)
+                    BECOME A FUNDER                            ← secondary (small, single link)
 ```
 
 - **Primary credits** (Buy Tickets, Submit a Film): the big-credit treatment from
   the current hero — small role eyebrow + bold display label. Buy Tickets uses the
   gold/`rust` accent (its `spot` styling today); Submit a Film in cream. Side by
   side on desktop, stacked on mobile.
-- **Secondary row** (The Films, Become a Funder, Press & Media, About): a single
-  quiet row of small links (mono, smoke→cream on hover). Wraps to two lines on
-  mobile.
+- **Secondary** (Become a Funder → Support): a single quiet link beneath the two
+  primaries (mono, smoke→cream on hover). Centered; no wrapping needed.
 - Exact type treatment (eyebrow optional, sizes) is final-tuned during build; the
   liked look is the reference, not a contract.
 
-### 3.3 Nav content (decision: keep all 6 destinations, 2 emphasized)
+### 3.3 Nav content (decision: 3 items — 2 primary + 1 secondary)
 
-Reuse the existing `CREDITS` array (hrefs unchanged), re-grouped into primary/secondary:
+Trim the existing `CREDITS` array to three destinations (hrefs unchanged). The
+priority is unmistakably **Buy Tickets** and **Submit a Film**; everything else
+the festival offers stays reachable via the persistent `SiteNav` header and the
+footer.
 
 | Tier | Role (eyebrow) | Label | href |
 |---|---|---|---|
 | primary | General · VIP · Season Pass | Buy Tickets | `/#tickets` |
 | primary | Open Call · FilmFreeway | Submit a Film | `/submit` |
-| secondary | 200+ Shorts · 150+ Filmmakers | The Films | `/schedule` |
 | secondary | Sponsor · Donate · Shunpike | Become a Funder | `/support` |
-| secondary | Press Kit · Coverage · Contact | Press & Media | `/support` |
-| secondary | Founded by Lex Scope · Est. 2022 | About the Festival | `/about` |
 
-(Roles shown for primary; secondary may drop the eyebrow to stay quiet.)
+**Dropped from the hero** (still in header/footer nav): The Films (`/schedule`),
+Press & Media, About the Festival (`/about`). The secondary link may drop its
+eyebrow to stay quiet.
 
 ---
 
@@ -171,7 +172,7 @@ No changes to `app/page.tsx` import, `lib/festival.ts`, `SiteNav`, or routes.
 - Screen frame **4/3** (not 2.35:1) so the reel isn't a thin slit; verify on ~360px.
 - Logo opening: smaller logo, `openFactor` 0.76 (already mobile-tuned).
 - Primary credits **stack** (Buy Tickets above Submit a Film), full big treatment.
-- Secondary row **wraps** to ≤2 lines, tap targets ≥44px.
+- Secondary link (Become a Funder) centered beneath; tap target ≥44px.
 - Everything (screen + nav) must fit the pinned `100svh` without internal scroll
   on common phones; if tight, shrink screen `max-width`/credit sizes before
   allowing overflow. Validate at 360×640 and 390×844.
