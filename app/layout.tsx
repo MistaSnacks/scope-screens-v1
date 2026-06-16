@@ -7,6 +7,7 @@ import { PersistentValance } from "@/components/persistent-valance";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { SmoothScrollProvider } from "@/components/motion/smooth-scroll-provider";
+import { CursorField } from "@/components/motion/cursor-field";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-bg text-fg">
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <ThemeProvider>
+          <CursorField />
           <GrainOverlay />
           <PersistentValance />
           <SiteNav />

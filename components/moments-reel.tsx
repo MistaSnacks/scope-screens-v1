@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Parallax } from "@/components/motion/parallax";
 
 interface Moment {
   img: string;
@@ -95,7 +96,7 @@ export function MomentsReel() {
   }, []);
 
   return (
-    <div className="mx-auto mt-12 flex max-w-[1260px] flex-col gap-4">
+    <Parallax distance={26} className="mx-auto mt-12 flex max-w-[1260px] flex-col gap-4">
       {/* The reel */}
       <div
         ref={railRef}
@@ -150,6 +151,6 @@ export function MomentsReel() {
           </span>
         </div>
       </div>
-    </div>
+    </Parallax>
   );
 }

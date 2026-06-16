@@ -5,7 +5,12 @@ import type { ReactNode } from "react";
 import { useRef } from "react";
 import { prefersReducedMotion } from "@/lib/motion";
 
-/** Drifts children by `distance` px across their scroll-through. */
+/**
+ * Drifts children by `distance` px across their scroll-through.
+ * The outer div is the (untransformed) scroll-measurement anchor; the inner
+ * motion element carries the layout className AND the transform, so flex/grid
+ * layouts are preserved and there's no measurement feedback loop.
+ */
 export function Parallax({
   children,
   distance = 60,
@@ -21,8 +26,10 @@ export function Parallax({
 
   if (prefersReducedMotion()) return <div className={className}>{children}</div>;
   return (
-    <div ref={ref} className={className}>
-      <motion.div style={{ y }}>{children}</motion.div>
+    <div ref={ref}>
+      <motion.div className={className} style={{ y }}>
+        {children}
+      </motion.div>
     </div>
   );
 }
