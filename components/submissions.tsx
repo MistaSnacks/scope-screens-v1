@@ -5,6 +5,7 @@ import {
   SUBMIT_URL,
   nextSubmissionDeadline,
 } from "@/lib/festival";
+import { getSiteContent, sectionOf } from "@/lib/site-content";
 import { Reveal } from "@/components/motion/reveal";
 import { KineticText } from "@/components/motion/kinetic-text";
 
@@ -43,7 +44,12 @@ const CHIPS = [
   { label: "JUNE–DECEMBER", dot: "bg-rust" },
 ];
 
-export function Submissions() {
+export async function Submissions() {
+  const content = await getSiteContent();
+  const cms = sectionOf(content, "submissions");
+  const submitUrl = cms?.ctaUrl ?? SUBMIT_URL;
+  const ctaLabel = cms?.ctaLabel ?? "Open the Call ›";
+  const heading = cms?.title ?? "Submit Your Film";
   const next = nextSubmissionDeadline();
 
   return (
@@ -62,7 +68,7 @@ export function Submissions() {
         <Laurel />
         <div className="flex flex-col items-center gap-2">
           <span className="font-mono text-[13px] tracking-[0.34em] text-fg/60">OFFICIAL SELECTION</span>
-          <KineticText as="h2" className="pulp text-center font-display text-[52px] uppercase leading-[0.92] md:text-[60px]" text="Submit Your Film" />
+          <KineticText as="h2" className="pulp text-center font-display text-[52px] uppercase leading-[0.92] md:text-[60px]" text={heading} />
           <span className="font-mono text-[13px] tracking-[0.26em] text-curtain">SCOPE SCREENINGS · 2026</span>
         </div>
         <Laurel flip />
@@ -110,12 +116,12 @@ export function Submissions() {
 
       <div className="flex flex-wrap items-center justify-center gap-5">
         <a
-          href={SUBMIT_URL}
+          href={submitUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="rounded-md bg-curtain px-7 py-3.5 font-body text-[14px] font-extrabold uppercase tracking-[0.06em] text-cream transition-transform hover:scale-[1.03]"
         >
-          Open the Call ›
+          {ctaLabel}
         </a>
         <span className="font-body text-[15px] text-fg/55">
           submitted via <span className="text-fg/80">FilmFreeway</span>
