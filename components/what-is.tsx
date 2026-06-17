@@ -6,7 +6,7 @@
 
 import { Reveal } from "@/components/motion/reveal";
 import { KineticText } from "@/components/motion/kinetic-text";
-import { getSiteContent, sectionOf } from "@/lib/site-content";
+import { getSiteContent } from "@/lib/site-content";
 
 function Field({ k, v }: { k: string; v: string }) {
   return (
@@ -19,8 +19,8 @@ function Field({ k, v }: { k: string; v: string }) {
 
 export async function WhatIs() {
   const siteContent = await getSiteContent();
-  const cms = sectionOf(siteContent, "whatIs");
-  const { clapboard, settings } = siteContent;
+  const cms = siteContent.whatIs;
+  const { clapboard } = siteContent;
   const eyebrow = cms?.eyebrow ?? "SC. 01 · Roll 22 · Now Rolling";
   const heading = cms?.title ?? "What Is Scope Screenings?";
   const body = cms?.body ??
@@ -36,7 +36,7 @@ export async function WhatIs() {
           { label: "Est.", value: "June 2022" },
           { label: "Runs", value: "Last Tue · Monthly" },
         ];
-  const motto = settings?.motto ?? "We put the fun back in film fests.";
+  const motto = siteContent.whatIs?.motto ?? "We put the fun back in film fests.";
   return (
     <section className="flex flex-col items-start gap-14 overflow-hidden border-t border-hairline bg-bg-alt px-5 py-24 md:flex-row md:items-center md:justify-between md:gap-20 md:px-[90px]">
       {/* Left: editorial copy */}
