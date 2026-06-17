@@ -6,6 +6,7 @@
 
 import { Reveal } from "@/components/motion/reveal";
 import { KineticText } from "@/components/motion/kinetic-text";
+import { getSiteContent, sectionOf } from "@/lib/site-content";
 
 function Field({ k, v }: { k: string; v: string }) {
   return (
@@ -16,7 +17,12 @@ function Field({ k, v }: { k: string; v: string }) {
   );
 }
 
-export function WhatIs() {
+export async function WhatIs() {
+  const cms = sectionOf(await getSiteContent(), "whatIs");
+  const eyebrow = cms?.eyebrow ?? "SC. 01 · Roll 22 · Now Rolling";
+  const heading = cms?.title ?? "What Is Scope Screenings?";
+  const body = cms?.body ??
+    "Seattle's underground film festival. A live, monthly short-film showcase built to put filmmakers on a real screen in front of a real, packed house — uplifting Black, brown & tan creators across the PNW. Ten directors, one night, every month.";
   return (
     <section className="flex flex-col items-start gap-14 overflow-hidden border-t border-hairline bg-bg-alt px-5 py-24 md:flex-row md:items-center md:justify-between md:gap-20 md:px-[90px]">
       {/* Left: editorial copy */}
@@ -24,19 +30,16 @@ export function WhatIs() {
         <div className="flex items-center gap-3.5">
           <span className="h-0.5 w-[30px] shrink-0 bg-curtain" />
           <span className="font-mono text-[12px] uppercase tracking-[0.2em] text-curtain">
-            SC. 01 · Roll 22 · Now Rolling
+            {eyebrow}
           </span>
         </div>
         <KineticText
           as="h2"
           className="pulp font-display text-[34px] uppercase leading-[0.95] sm:text-[44px] md:text-[60px]"
-          text="What Is Scope Screenings?"
+          text={heading}
         />
         <p className="max-w-[36em] font-body text-[17px] font-medium leading-[27px] text-muted">
-          Seattle&rsquo;s underground film festival. A live, monthly short-film
-          showcase built to put filmmakers on a real screen in front of a real,
-          packed house — uplifting Black, brown &amp; tan creators across the PNW.
-          Ten directors, one night, every month.
+          {body}
         </p>
         <p className="font-body text-[18px] font-bold italic leading-[26px] text-curtain">
           &ldquo;We put the fun back in film fests.&rdquo;
