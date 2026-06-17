@@ -51,6 +51,11 @@ export async function Submissions() {
   const ctaLabel = cms?.ctaLabel ?? "Open the Call ›";
   const heading = cms?.title ?? "Submit Your Film";
   const next = nextSubmissionDeadline();
+  const eyebrow = cms?.eyebrow ?? `Open Call · ${SUBMISSION_SEASON} Submissions`;
+  const intro = cms?.body ?? `Narrative shorts, documentaries, animation, music videos, commercials, and experimental work — all under twenty minutes. Screened live on the big screen, June through December, and for the first time ${SUBMISSION_SEASON} brings judged awards.`;
+  const chips = content.chips && content.chips.length
+    ? content.chips.map((c) => ({ label: c.label ?? "", dot: c.accent === "rust" ? "bg-rust" : "bg-curtain" }))
+    : CHIPS;
 
   return (
     <section className="flex flex-col items-center gap-9 border-t border-hairline bg-bg-alt px-5 py-24 md:px-[90px]">
@@ -58,7 +63,7 @@ export async function Submissions() {
       <div className="flex items-center gap-3">
         <span className="h-px w-9 bg-curtain" />
         <span className="font-mono text-[12px] uppercase tracking-[0.28em] text-curtain">
-          Open Call · {SUBMISSION_SEASON} Submissions
+          {eyebrow}
         </span>
         <span className="h-px w-9 bg-curtain" />
       </div>
@@ -75,14 +80,12 @@ export async function Submissions() {
       </Reveal>
 
       <p className="max-w-[60ch] text-center font-body text-[17px] leading-relaxed text-fg/70">
-        Narrative shorts, documentaries, animation, music videos, commercials, and experimental
-        work &mdash; all under twenty minutes. Screened live on the big screen, June through
-        December, and for the first time {SUBMISSION_SEASON} brings judged awards.
+        {intro}
       </p>
 
       {/* Meta chips */}
       <div className="flex flex-wrap items-center justify-center gap-3">
-        {CHIPS.map((c) => (
+        {chips.map((c) => (
           <span key={c.label} className="flex items-center gap-2 rounded-full border border-hairline px-3.5 py-2 font-mono text-[12px] tracking-[0.1em] text-fg/80">
             <span className={`h-1.5 w-1.5 rounded-full ${c.dot}`} />
             {c.label}
