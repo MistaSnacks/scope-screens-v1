@@ -1,4 +1,6 @@
 import { Reveal } from "@/components/motion/reveal";
+import { getSiteContent } from "@/lib/site-content";
+import { wixImageUrl } from "@/lib/wix-media";
 
 interface Partner {
   name: string;
@@ -16,11 +18,26 @@ const PARTNERS: Partner[] = [
   { name: "ArtsFund", img: "artsfund", href: "https://www.artsfund.org" },
 ];
 
-export function PartnersMarquee() {
+const LOCAL_LOGO: Record<string, string> = {
+  "Shunpike": "shunpike", "SIFF": "siff", "Converge Media": "converge",
+  "FilmFreeway": "filmfreeway", "4Culture": "4culture", "ArtsFund": "artsfund",
+};
+
+export async function PartnersMarquee() {
+  const { partners } = await getSiteContent();
+  const list = (partners && partners.length
+    ? partners.map((p) => ({
+        name: p.name ?? "",
+        href: p.url ?? "#",
+        logo: wixImageUrl(p.logo) ?? (p.name && LOCAL_LOGO[p.name] ? `/partners/${LOCAL_LOGO[p.name]}.png` : null),
+      }))
+    : PARTNERS.map((p) => ({ name: p.name, href: p.href, logo: `/partners/${p.img}.png` }))
+  ).filter((p) => p.name);
+
   // 4 copies so half the track (the -50% animation period) always exceeds the
   // 1440px viewport — otherwise the row runs out of logos and goes blank near
   // the loop boundary (SIFF scrolling into empty space looked like clipping).
-  const loop = [...PARTNERS, ...PARTNERS, ...PARTNERS, ...PARTNERS];
+  const loop = [...list, ...list, ...list, ...list];
   return (
     <section className="border-t border-hairline bg-bg px-5 py-16 md:px-9">
       <Reveal className="mb-10 flex items-center justify-center gap-3">
@@ -47,10 +64,10 @@ export function PartnersMarquee() {
           {loop.map((p, i) => {
             // Only the first set is real to assistive tech; the repeated copies
             // exist purely to fill the track for a seamless scroll.
-            const isDuplicate = i >= PARTNERS.length;
+            const isDuplicate = i >= list.length;
             return (
             <a
-              key={`${p.img}-${i}`}
+              key={`${p.name}-${i}`}
               href={p.href}
               target="_blank"
               rel="noopener noreferrer"
@@ -60,15 +77,12 @@ export function PartnersMarquee() {
               title={p.name}
               className="mr-16 shrink-0 opacity-60 transition-opacity duration-300 hover:opacity-100"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`/partners/${p.img}.png`}
-                alt={p.name}
-                // Bound by BOTH height and width so wide wordmarks (shunpike,
-                // converge) get capped instead of dwarfing the compact marks.
-                // h-auto/w-auto keeps the aspect ratio while fitting the box.
-                className="partner-logo h-auto w-auto max-h-8 max-w-[104px] md:max-h-9 md:max-w-[120px]"
-              />
+              {p.logo ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={p.logo} alt={p.name} className="partner-logo h-auto w-auto max-h-8 max-w-[104px] md:max-h-9 md:max-w-[120px]" />
+              ) : (
+                <span className="font-display text-[20px] uppercase tracking-[0.04em] text-fg/70">{p.name}</span>
+              )}
             </a>
             );
           })}
