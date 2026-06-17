@@ -1,5 +1,5 @@
 // lib/site-content.test.ts
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { it, expect, vi, afterEach } from "vitest";
 
 vi.mock("./wix-cms", () => ({
   queryCollection: vi.fn(),
