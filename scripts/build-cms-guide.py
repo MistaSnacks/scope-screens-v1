@@ -15,7 +15,7 @@ def style_run(r, font="Libre Franklin", size=10.5, bold=False, color=INK):
     r.font.name = font; r.font.size = Pt(size); r.font.bold = bold; r.font.color.rgb = color
 
 def heading(doc, text):
-    p = doc.add_paragraph(); p.space_before = Pt(8)
+    p = doc.add_paragraph(); p.paragraph_format.space_before = Pt(8)
     style_run(p.add_run(text), font="Aachen Bold", size=13, color=RUST)
 
 def bullet(doc, text, label=None):

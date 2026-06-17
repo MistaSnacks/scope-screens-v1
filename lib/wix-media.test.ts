@@ -8,6 +8,7 @@ describe("wixImageUrl", () => {
   });
   it("passes through an http url", () => {
     expect(wixImageUrl("https://x/y.jpg")).toBe("https://x/y.jpg");
+    expect(wixImageUrl("http://x/y.jpg")).toBe("http://x/y.jpg");
   });
   it("returns null for empty/undefined/unparseable", () => {
     expect(wixImageUrl(undefined)).toBeNull();

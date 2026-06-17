@@ -2,8 +2,12 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { getVisitorToken } from "./wix-token";
 
 describe("getVisitorToken", () => {
-  beforeEach(() => { process.env.WIX_CLIENT_ID = "test-client"; });
-  afterEach(() => { vi.restoreAllMocks(); });
+  let prevClientId: string | undefined;
+  beforeEach(() => { prevClientId = process.env.WIX_CLIENT_ID; process.env.WIX_CLIENT_ID = "test-client"; });
+  afterEach(() => {
+    if (prevClientId === undefined) delete process.env.WIX_CLIENT_ID; else process.env.WIX_CLIENT_ID = prevClientId;
+    vi.restoreAllMocks();
+  });
 
   it("returns the access_token on success", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => ({
