@@ -19,6 +19,8 @@ import { Parallax } from "@/components/motion/parallax";
 import { KineticText } from "@/components/motion/kinetic-text";
 import { getPurchasableTargets } from "@/lib/wix-checkout";
 import { getSiteContent, sectionOf } from "@/lib/site-content";
+import { wixImageUrl } from "@/lib/wix-media";
+import { wixVideoUrl } from "@/lib/wix-video";
 
 const FOUNDER_QUOTE =
   "A lot of my peers never had the chance to see their work on a big screen. I built this for access, for collaboration, and to break down the barriers placed in front of Black, brown, and tan creatives.";
@@ -55,7 +57,13 @@ export default async function Home() {
       <PersistentValance />
       <SiteNav active="Watch" />
       <ScrollControl />
-      <CurtainCreditsHero eyebrow={hero?.eyebrow} tagline={hero?.body} />
+      <CurtainCreditsHero
+        eyebrow={hero?.eyebrow}
+        tagline={hero?.body}
+        title={hero?.title ?? undefined}
+        posterUrl={wixImageUrl(hero?.image) ?? undefined}
+        videoUrl={wixVideoUrl(hero?.video) ?? undefined}
+      />
       <Marquee />
 
       <div id="tickets" className="scroll-mt-[120px]">

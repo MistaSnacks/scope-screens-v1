@@ -129,7 +129,7 @@ const CREDITS: Credit[] = [
   { role: "Founded by Lex Scope · Est. 2022", label: "About the Festival", href: "#about" },
 ];
 
-export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline = "Seattle's Underground Film Festival" }: { eyebrow?: string; tagline?: string } = {}) {
+export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline = "Seattle's Underground Film Festival", title = "Scope\nScreenings", posterUrl, videoUrl }: { eyebrow?: string; tagline?: string; title?: string; posterUrl?: string; videoUrl?: string } = {}) {
   const root = useRef<HTMLElement>(null);
   const spotRef = useRef<HTMLDivElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
@@ -363,10 +363,10 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
         muted
         loop
         playsInline
-        poster={SIZZLE_REEL_POSTER}
+        poster={posterUrl ?? SIZZLE_REEL_POSTER}
         aria-hidden
       >
-        <source src={SIZZLE_REEL_MP4} type="video/mp4" />
+        <source src={videoUrl ?? SIZZLE_REEL_MP4} type="video/mp4" />
       </video>
       <div
         className={styles.heroScrim}
@@ -393,9 +393,9 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
         <div className={styles.title}>
           <span className={styles.eyebrow}>{eyebrow}</span>
           <h1 className={styles.wordmark}>
-            Scope
-            <br />
-            Screenings
+            {title.split("\n").map((line, i) => (
+              <span key={i}>{i > 0 && <br />}{line}</span>
+            ))}
           </h1>
           <span className={styles.tagline}>{tagline}</span>
         </div>
