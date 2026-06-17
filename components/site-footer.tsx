@@ -1,5 +1,5 @@
 import { CONTACT_EMAIL, SOCIALS, VENUE } from "@/lib/festival";
-import { getSiteContent } from "@/lib/site-content";
+import { getSiteContent, sectionOf } from "@/lib/site-content";
 import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { KineticText } from "@/components/motion/kinetic-text";
 
@@ -10,7 +10,9 @@ const COLUMNS = [
 ];
 
 export async function SiteFooter() {
-  const { settings, socials } = await getSiteContent();
+  const content = await getSiteContent();
+  const { settings, socials } = content;
+  const signoff = sectionOf(content, "footerSignoff")?.title ?? "See You At\nThe Movies";
   const tagline = settings?.footerTagline ??
     "Seattle's underground film festival. We put the fun back in film fests.";
   const newsletterHeading = settings?.newsletterHeading ?? "Get the lineup in your inbox";
@@ -28,7 +30,7 @@ export async function SiteFooter() {
         <KineticText
           as="h2"
           className="pulp font-display text-[48px] uppercase leading-[0.9] tracking-[-0.01em] md:text-[62px]"
-          text={"See You At\nThe Movies"}
+          text={signoff}
         />
         <div className="flex w-full max-w-[440px] flex-col gap-3">
           <span className="font-body text-[12px] font-semibold uppercase tracking-[0.1em] text-smoke">
