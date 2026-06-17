@@ -64,6 +64,31 @@ body {
   color: var(--color-fg);
 }
 
+/* ------------------------------------------------------------------ */
+/*  Uniform desktop scaling.                                           */
+/*  Above 1024px the whole design rides ONE fluid root font-size, so   */
+/*  it scales like a zoom (capped) instead of snapping. Reference      */
+/*  width 1440px → root 16px (scale 1.0). 1.1111vw = 100vw/1440×16.    */
+/*  Cap 19.2px is reached at 1728px → past that the design stops       */
+/*  growing and margins take over. Below 1024px the rule does not      */
+/*  apply, so the root stays 16px and mobile/tablet are unchanged.     */
+/* ------------------------------------------------------------------ */
+@media (min-width: 1024px) {
+  :root {
+    font-size: clamp(11.38px, 1.1111vw, 19.2px);
+  }
+}
+
+/* Section horizontal gutter that doubles as a content cap. Normally the
+   5.625rem desktop gutter; once the viewport grows past the 90rem content cap
+   (≈ the zoom cap, 1728px at the capped root), the gutter expands so content
+   stops widening and centers — "margins take over" beyond the cap. No change
+   at common widths (≤~1620px the max() resolves to the plain 5.625rem gutter).
+   Applied as `md:shell-x` so it only engages on desktop, like the old gutter. */
+@utility shell-x {
+  padding-inline: max(5.625rem, calc((100vw - 90rem) / 2));
+}
+
 /* Ease the lights-up / lights-down transition. */
 body,
 body * {
