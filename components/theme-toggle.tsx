@@ -24,14 +24,14 @@ export function ThemeToggle() {
       {movie ? (
         // ON — solid glowing dot
         <span
-          className="size-[6px] shrink-0 rounded-full bg-rust group-hover:bg-stage"
+          className="size-[0.375rem] shrink-0 rounded-full bg-rust group-hover:bg-stage"
           style={{ boxShadow: "0 0 8px var(--color-rust)" }}
         />
       ) : (
         // OFF — hollow ring
-        <span className="size-[7px] shrink-0 rounded-full border border-rust bg-transparent group-hover:border-stage" />
+        <span className="size-[0.4375rem] shrink-0 rounded-full border border-rust bg-transparent group-hover:border-stage" />
       )}
-      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-rust group-hover:text-stage md:text-[11px]">
+      <span className="font-mono text-[0.625rem] uppercase tracking-[0.16em] text-rust group-hover:text-stage md:text-[0.6875rem]">
         {label}
       </span>
     </button>

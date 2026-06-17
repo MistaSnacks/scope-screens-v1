@@ -42,7 +42,7 @@ export async function PartnersMarquee() {
     <section className="border-t border-hairline bg-bg px-5 py-16 md:px-9">
       <Reveal className="mb-10 flex items-center justify-center gap-3">
         <span className="h-px w-8 bg-curtain" />
-        <span className="font-body text-[12px] font-bold uppercase tracking-[0.28em] text-rust">
+        <span className="font-body text-[0.75rem] font-bold uppercase tracking-[0.28em] text-rust">
           In Good Company
         </span>
         <span className="h-px w-8 bg-curtain" />
@@ -79,9 +79,9 @@ export async function PartnersMarquee() {
             >
               {p.logo ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={p.logo} alt={p.name} className="partner-logo h-auto w-auto max-h-8 max-w-[104px] md:max-h-9 md:max-w-[120px]" />
+                <img src={p.logo} alt={p.name} className="partner-logo h-auto w-auto max-h-8 max-w-[6.5rem] md:max-h-9 md:max-w-[7.5rem]" />
               ) : (
-                <span className="font-display text-[20px] uppercase tracking-[0.04em] text-fg/70">{p.name}</span>
+                <span className="font-display text-[1.25rem] uppercase tracking-[0.04em] text-fg/70">{p.name}</span>
               )}
             </a>
             );

@@ -29,7 +29,7 @@ export async function Marquee() {
       >
         {doubled.map((item, i) => (
           <div key={i} className="flex items-center gap-7">
-            <span className="font-marquee text-[20px] uppercase tracking-[0.03em] text-brass">
+            <span className="font-marquee text-[1.25rem] uppercase tracking-[0.03em] text-brass">
               {item}
             </span>
             <span className="text-rust" aria-hidden>★</span>

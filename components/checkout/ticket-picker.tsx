@@ -21,8 +21,8 @@ export function TicketPicker({
             className="flex items-center justify-between gap-4 rounded-lg border border-faint bg-cream/5 px-4 py-3"
           >
             <div className="flex flex-col">
-              <span className="font-body text-[15px] font-bold text-fg">{tier.name}</span>
-              <span className="font-mono text-[12px] text-smoke">{tier.priceLabel}</span>
+              <span className="font-body text-[0.9375rem] font-bold text-fg">{tier.name}</span>
+              <span className="font-mono text-[0.75rem] text-smoke">{tier.priceLabel}</span>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -34,7 +34,7 @@ export function TicketPicker({
               >
                 −
               </button>
-              <span className="w-6 text-center font-body text-[16px] font-bold tabular-nums">{qty}</span>
+              <span className="w-6 text-center font-body text-[1rem] font-bold tabular-nums">{qty}</span>
               <button
                 type="button"
                 aria-label={`Increase ${tier.name}`}

@@ -75,7 +75,7 @@ export function CheckoutModal({ target, onClose }: { target: CheckoutTarget; onC
         role="dialog"
         aria-modal="true"
         aria-label={`Buy tickets for ${target.title}`}
-        className="relative flex max-h-[90vh] w-full max-w-[480px] flex-col gap-5 overflow-y-auto rounded-2xl border border-faint bg-stage p-7 text-fg"
+        className="relative flex max-h-[90vh] w-full max-w-[30rem] flex-col gap-5 overflow-y-auto rounded-2xl border border-faint bg-stage p-7 text-fg"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -88,7 +88,7 @@ export function CheckoutModal({ target, onClose }: { target: CheckoutTarget; onC
           ×
         </button>
 
-        <h2 className="font-display text-[28px] uppercase leading-none">{target.title}</h2>
+        <h2 className="font-display text-[1.75rem] uppercase leading-none">{target.title}</h2>
 
         {state.phase === "loading" && <p className="font-body text-smoke">Loading tickets…</p>}
 
@@ -99,7 +99,7 @@ export function CheckoutModal({ target, onClose }: { target: CheckoutTarget; onC
               href={fallbackUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="self-start rounded-lg bg-curtain px-5 py-3 font-body text-[13px] font-extrabold uppercase tracking-[0.04em] text-cream"
+              className="self-start rounded-lg bg-curtain px-5 py-3 font-body text-[0.8125rem] font-extrabold uppercase tracking-[0.04em] text-cream"
             >
               Buy on lexscopefilms ›
             </a>
@@ -117,19 +117,19 @@ export function CheckoutModal({ target, onClose }: { target: CheckoutTarget; onC
                 onChange={(id, q) => setQuantities((prev) => ({ ...prev, [id]: q }))}
               />
               <div className="flex items-center justify-between border-t border-faint pt-4">
-                <span className="font-mono text-[13px] uppercase tracking-[0.14em] text-smoke">Total</span>
-                <span className="font-marquee text-[28px] leading-none text-rust">${total.toFixed(2)}</span>
+                <span className="font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-smoke">Total</span>
+                <span className="font-marquee text-[1.75rem] leading-none text-rust">${total.toFixed(2)}</span>
               </div>
-              {submitError && <p className="font-body text-[13px] text-rust">{submitError}</p>}
+              {submitError && <p className="font-body text-[0.8125rem] text-rust">{submitError}</p>}
               <button
                 type="button"
                 disabled={!hasSelection || submitting}
                 onClick={handlePay}
-                className="rounded-lg bg-curtain py-3.5 font-body text-[14px] font-extrabold uppercase tracking-[0.06em] text-cream disabled:opacity-40"
+                className="rounded-lg bg-curtain py-3.5 font-body text-[0.875rem] font-extrabold uppercase tracking-[0.06em] text-cream disabled:opacity-40"
               >
                 {submitting ? "Starting checkout…" : "Reserve & Pay ›"}
               </button>
-              <p className="text-center font-mono text-[10px] tracking-[0.1em] text-smoke">
+              <p className="text-center font-mono text-[0.625rem] tracking-[0.1em] text-smoke">
                 Secure payment completed on Wix · seats held ~20 min
               </p>
             </>

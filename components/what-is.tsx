@@ -11,8 +11,8 @@ import { getSiteContent } from "@/lib/site-content";
 function Field({ k, v }: { k: string; v: string }) {
   return (
     <div className="flex flex-1 flex-col gap-1.5">
-      <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-smoke">{k}</span>
-      <span className="font-body text-[18px] font-bold leading-none text-cream">{v}</span>
+      <span className="font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-smoke">{k}</span>
+      <span className="font-body text-[1.125rem] font-bold leading-none text-cream">{v}</span>
     </div>
   );
 }
@@ -38,34 +38,34 @@ export async function WhatIs() {
         ];
   const motto = siteContent.whatIs?.motto ?? "We put the fun back in film fests.";
   return (
-    <section className="flex flex-col items-start gap-14 overflow-hidden border-t border-hairline bg-bg-alt px-5 py-24 md:flex-row md:items-center md:justify-between md:gap-20 md:px-[90px]">
+    <section className="flex flex-col items-start gap-14 overflow-hidden border-t border-hairline bg-bg-alt px-5 py-24 md:flex-row md:items-center md:justify-between md:gap-20 md:shell-x">
       {/* Left: editorial copy */}
-      <Reveal className="flex w-full flex-col gap-6 md:w-[560px] md:shrink-0">
+      <Reveal className="flex w-full flex-col gap-6 md:w-[35rem] md:shrink-0">
         <div className="flex items-center gap-3.5">
-          <span className="h-0.5 w-[30px] shrink-0 bg-curtain" />
-          <span className="font-mono text-[12px] uppercase tracking-[0.2em] text-curtain">
+          <span className="h-0.5 w-[1.875rem] shrink-0 bg-curtain" />
+          <span className="font-mono text-[0.75rem] uppercase tracking-[0.2em] text-curtain">
             {eyebrow}
           </span>
         </div>
         <KineticText
           as="h2"
-          className="pulp font-display text-[34px] uppercase leading-[0.95] sm:text-[44px] md:text-[60px]"
+          className="pulp font-display text-[2.125rem] uppercase leading-[0.95] sm:text-[2.75rem] md:text-[3.75rem]"
           text={heading}
         />
-        <p className="max-w-[36em] font-body text-[17px] font-medium leading-[27px] text-muted">
+        <p className="max-w-[36em] font-body text-[1.0625rem] font-medium leading-[1.6875rem] text-muted">
           {body}
         </p>
-        <p className="font-body text-[18px] font-bold italic leading-[26px] text-curtain">
+        <p className="font-body text-[1.125rem] font-bold italic leading-[1.625rem] text-curtain">
           &ldquo;{motto}&rdquo;
         </p>
       </Reveal>
 
       {/* Right: clapperboard */}
-      <Reveal delay={0.1} className="w-full max-w-[528px] shrink-0">
+      <Reveal delay={0.1} className="w-full max-w-[33rem] shrink-0">
       <div className="rotate-[1.5deg] [filter:drop-shadow(0_22px_45px_rgba(0,0,0,0.5))]">
         {/* Clapstick — straight bar of vertical stripes, rotated open (−9°) */}
         <div
-          className="mb-1.5 flex h-[52px] w-full -rotate-[9deg] overflow-clip rounded-[5px]"
+          className="mb-1.5 flex h-[3.25rem] w-full -rotate-[9deg] overflow-clip rounded-[0.3125rem]"
           style={{ background: "#0b0a09" }}
         >
           {Array.from({ length: 12 }).map((_, i) => (
@@ -79,7 +79,7 @@ export async function WhatIs() {
 
         {/* Slate */}
         <div
-          className="relative flex flex-col gap-5 rounded-[6px] border px-[26px] pb-[18px] pt-[22px]"
+          className="relative flex flex-col gap-5 rounded-[0.375rem] border px-[1.625rem] pb-[1.125rem] pt-[1.375rem]"
           style={{ background: "#141210", borderColor: "#2c2823" }}
         >
           {/* popcorn stamp, top corner */}
@@ -88,7 +88,7 @@ export async function WhatIs() {
             src="/popcorn-logo.png"
             alt=""
             aria-hidden
-            className="absolute right-6 top-5 h-[42px] w-auto opacity-90"
+            className="absolute right-6 top-5 h-[2.625rem] w-auto opacity-90"
           />
 
           {/* inner stripe rail */}
@@ -96,7 +96,7 @@ export async function WhatIs() {
             {Array.from({ length: 10 }).map((_, i) => (
               <div
                 key={i}
-                className="h-[10px] flex-1 rounded-[1px]"
+                className="h-[0.625rem] flex-1 rounded-[1px]"
                 style={{ background: i % 2 ? "#26221d" : "#3a342c" }}
               />
             ))}
@@ -104,10 +104,10 @@ export async function WhatIs() {
 
           {/* Production */}
           <div className="flex flex-col gap-1.5">
-            <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-rust">
+            <span className="font-mono text-[0.6875rem] uppercase tracking-[0.22em] text-rust">
               {productionLabel}
             </span>
-            <span className="font-display text-[30px] uppercase leading-none text-cream md:text-[34px]">
+            <span className="font-display text-[1.875rem] uppercase leading-none text-cream md:text-[2.125rem]">
               {productionValue}
             </span>
           </div>
@@ -125,11 +125,11 @@ export async function WhatIs() {
 
           {/* Footer row */}
           <div className="flex items-center justify-between">
-            <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-smoke">
+            <span className="font-mono text-[0.75rem] uppercase tracking-[0.16em] text-smoke">
               Roll 22 · Take 05
             </span>
-            <span className="flex items-center gap-2 font-mono text-[12px] uppercase tracking-[0.16em] text-curtain">
-              <span className="size-[7px] rounded-full bg-curtain" /> Sound Speed
+            <span className="flex items-center gap-2 font-mono text-[0.75rem] uppercase tracking-[0.16em] text-curtain">
+              <span className="size-[0.4375rem] rounded-full bg-curtain" /> Sound Speed
             </span>
           </div>
         </div>

@@ -30,7 +30,7 @@ export function PersistentValance() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-x-0 top-0 z-50">
       <div
-        className="flex h-[88px] w-full items-end justify-center"
+        className="flex h-[5.5rem] w-full items-end justify-center"
         style={{
           backgroundImage: velvetSrc
             ? `linear-gradient(180deg, ${topShade} 0%, rgba(0,0,0,0) 35%, ${botShade} 100%), url(${velvetSrc})`
@@ -41,7 +41,7 @@ export function PersistentValance() {
           visibility: velvetSrc ? "visible" : "hidden",
         }}
       >
-        <div className="flex h-[16px] w-full">
+        <div className="flex h-[1rem] w-full">
           {Array.from({ length: 12 }).map((_, i) => (
             <div
               key={i}

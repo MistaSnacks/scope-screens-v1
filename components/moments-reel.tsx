@@ -27,7 +27,7 @@ export const MOMENTS: Moment[] = [
 
 function badgeClass(tone: Moment["tone"]) {
   const base =
-    "absolute left-4 top-4 rounded-[4px] px-3.5 py-2 font-body text-[11px] font-extrabold uppercase leading-[13px] tracking-[0.14em]";
+    "absolute left-4 top-4 rounded-[0.25rem] px-3.5 py-2 font-body text-[0.6875rem] font-extrabold uppercase leading-[0.8125rem] tracking-[0.14em]";
   return tone === "gold" ? `${base} bg-rust text-ink` : `${base} bg-curtain text-cream`;
 }
 
@@ -40,7 +40,7 @@ function Perfs() {
   return (
     <div
       aria-hidden
-      className="h-[30px] shrink-0 bg-center bg-repeat-x"
+      className="h-[1.875rem] shrink-0 bg-center bg-repeat-x"
       style={{ backgroundImage: PERF_BG, backgroundSize: "40px 30px" }}
     />
   );
@@ -140,7 +140,7 @@ export function MomentsReel({ moments }: { moments?: CmsMomentInput[] } = {}) {
   }, []);
 
   return (
-    <Parallax distance={26} className="mx-auto mt-12 flex max-w-[1260px] flex-col gap-4">
+    <Parallax distance={26} className="mx-auto mt-12 flex max-w-[78.75rem] flex-col gap-4">
       {/* The reel */}
       <div
         ref={railRef}
@@ -150,23 +150,23 @@ export function MomentsReel({ moments }: { moments?: CmsMomentInput[] } = {}) {
         {items.map((item, i) => (
           <div
             key={i}
-            className="flex w-[90%] max-w-[1120px] shrink-0 snap-start flex-col border-r-[3px] border-[#161310] bg-ink"
+            className="flex w-[90%] max-w-[70rem] shrink-0 snap-start flex-col border-r-[3px] border-[#161310] bg-ink"
           >
             <Perfs />
             <div
-              className="relative h-[280px] w-full bg-cover sm:h-[400px] md:h-[480px]"
+              className="relative h-[17.5rem] w-full bg-cover sm:h-[25rem] md:h-[30rem]"
               style={{ backgroundImage: item.bg, backgroundPosition: item.pos }}
             >
               <span className={badgeClass(item.tone)}>{item.badge}</span>
-              <span className="absolute right-5 top-5 rounded-[3px] bg-[#0b0a09b3] px-[9px] py-[5px] font-mono text-[11px] font-semibold leading-[14px] tracking-[0.08em] text-cream">
+              <span className="absolute right-5 top-5 rounded-[0.1875rem] bg-[#0b0a09b3] px-[0.5625rem] py-[0.3125rem] font-mono text-[0.6875rem] font-semibold leading-[0.875rem] tracking-[0.08em] text-cream">
                 FR {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
               </span>
             </div>
             <div className="flex flex-col gap-1.5 px-6 pb-6 pt-5">
-              <span className="font-body text-[24px] font-bold leading-[1.1] text-cream sm:text-[28px] md:text-[30px]">
+              <span className="font-body text-[1.5rem] font-bold leading-[1.1] text-cream sm:text-[1.75rem] md:text-[1.875rem]">
                 {item.title}
               </span>
-              <span className="font-body text-[14px] font-medium leading-5 text-smoke sm:text-[15px]">
+              <span className="font-body text-[0.875rem] font-medium leading-5 text-smoke sm:text-[0.9375rem]">
                 {item.sub}
               </span>
             </div>
@@ -178,19 +178,19 @@ export function MomentsReel({ moments }: { moments?: CmsMomentInput[] } = {}) {
       {/* Reel bar — drag hint + progress + counter */}
       <div className="flex items-center justify-between gap-4 rounded-md border border-hairline bg-bg-alt px-5 py-3.5">
         <div className="flex items-center gap-2.5">
-          <span className="font-mono text-[11px] leading-[14px] text-curtain">&#9679;</span>
-          <span className="hidden font-mono text-[11px] uppercase leading-[14px] tracking-[0.18em] text-smoke sm:inline">
+          <span className="font-mono text-[0.6875rem] leading-[0.875rem] text-curtain">&#9679;</span>
+          <span className="hidden font-mono text-[0.6875rem] uppercase leading-[0.875rem] tracking-[0.18em] text-smoke sm:inline">
             Drag the reel · moments from the floor
           </span>
         </div>
         <div className="flex items-center gap-3.5">
-          <div className="relative h-1 w-[160px] overflow-hidden rounded-full bg-cream/15 sm:w-[220px]">
+          <div className="relative h-1 w-[10rem] overflow-hidden rounded-full bg-cream/15 sm:w-[13.75rem]">
             <div
               className="absolute left-0 top-0 h-full rounded-full bg-curtain transition-[width] duration-150 ease-out"
               style={{ width: `${Math.max(14, progress * 100)}%` }}
             />
           </div>
-          <span className="font-mono text-[12px] tracking-[0.14em] text-fg/70">
+          <span className="font-mono text-[0.75rem] tracking-[0.14em] text-fg/70">
             {String(index).padStart(2, "0")} / {String(total).padStart(2, "0")}
           </span>
         </div>
