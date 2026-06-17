@@ -18,11 +18,25 @@ function Field({ k, v }: { k: string; v: string }) {
 }
 
 export async function WhatIs() {
-  const cms = sectionOf(await getSiteContent(), "whatIs");
+  const siteContent = await getSiteContent();
+  const cms = sectionOf(siteContent, "whatIs");
+  const { clapboard, settings } = siteContent;
   const eyebrow = cms?.eyebrow ?? "SC. 01 · Roll 22 · Now Rolling";
   const heading = cms?.title ?? "What Is Scope Screenings?";
   const body = cms?.body ??
     "Seattle's underground film festival. A live, monthly short-film showcase built to put filmmakers on a real screen in front of a real, packed house — uplifting Black, brown & tan creators across the PNW. Ten directors, one night, every month.";
+  const productionLabel = clapboard?.[0]?.label ?? "Production";
+  const productionValue = clapboard?.[0]?.value ?? "Scope Screenings";
+  const lines =
+    clapboard && clapboard.length > 1
+      ? clapboard.slice(1)
+      : [
+          { label: "Director", value: "Lex Scope" },
+          { label: "Location", value: "Seattle, WA" },
+          { label: "Est.", value: "June 2022" },
+          { label: "Runs", value: "Last Tue · Monthly" },
+        ];
+  const motto = settings?.motto ?? "We put the fun back in film fests.";
   return (
     <section className="flex flex-col items-start gap-14 overflow-hidden border-t border-hairline bg-bg-alt px-5 py-24 md:flex-row md:items-center md:justify-between md:gap-20 md:px-[90px]">
       {/* Left: editorial copy */}
@@ -42,7 +56,7 @@ export async function WhatIs() {
           {body}
         </p>
         <p className="font-body text-[18px] font-bold italic leading-[26px] text-curtain">
-          &ldquo;We put the fun back in film fests.&rdquo;
+          &ldquo;{motto}&rdquo;
         </p>
       </Reveal>
 
@@ -91,29 +105,20 @@ export async function WhatIs() {
           {/* Production */}
           <div className="flex flex-col gap-1.5">
             <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-rust">
-              Production
+              {productionLabel}
             </span>
             <span className="font-display text-[30px] uppercase leading-none text-cream md:text-[34px]">
-              Scope Screenings
+              {productionValue}
             </span>
           </div>
 
           <div className="h-px w-full" style={{ background: "#2c2823" }} />
 
-          {/* Director / Location */}
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch sm:gap-6">
-            <Field k="Director" v="Lex Scope" />
-            <span className="hidden w-px shrink-0 sm:block" style={{ background: "#2c2823" }} />
-            <Field k="Location" v="Seattle, WA" />
-          </div>
-
-          <div className="h-px w-full" style={{ background: "#2c2823" }} />
-
-          {/* Est / Runs */}
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch sm:gap-6">
-            <Field k="Est." v="June 2022" />
-            <span className="hidden w-px shrink-0 sm:block" style={{ background: "#2c2823" }} />
-            <Field k="Runs" v="Last Tue · Monthly" />
+          {/* CMS-driven field lines */}
+          <div className="flex flex-wrap gap-x-6 gap-y-4">
+            {lines.map((l, i) => (
+              <Field key={i} k={l.label ?? ""} v={l.value ?? ""} />
+            ))}
           </div>
 
           <div className="h-px w-full" style={{ background: "#2c2823" }} />
