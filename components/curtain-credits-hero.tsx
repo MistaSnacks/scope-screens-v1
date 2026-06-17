@@ -464,7 +464,7 @@ export function CurtainCreditsHero() {
       {/* Logo opening (z-30) — glows centered on the closed curtain, with its
           scroll cue directly beneath; lifts away on scroll. */}
       <div ref={logoOpeningRef} className={styles.logoOpening}>
-        <div className={styles.logoTonight}>— Tonight —</div>
+        <div className={styles.logoTonight}>— Lexscope Presents —</div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={POPCORN_LOGO} alt="Scope Screenings" className={styles.logoImg} />
         <div aria-hidden className={styles.scrollCue}>
