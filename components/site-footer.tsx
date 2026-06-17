@@ -18,7 +18,7 @@ export async function SiteFooter() {
     `© 2026 Scope Screenings · A fiscally sponsored project of Shunpike · ${VENUE.city}`;
   const contactEmail = settings?.contactEmail ?? CONTACT_EMAIL;
   const socialLinks = (socials ?? SOCIALS.map((s) => ({ label: s.label, url: s.href })))
-    .map((s) => ({ label: s.label ?? "", href: ("href" in s ? s.href : s.url) ?? "" }))
+    .map((s) => ({ label: s.label ?? "", href: s.url ?? "" }))
     .filter((s): s is { label: string; href: string } => Boolean(s.label && s.href));
 
   return (
