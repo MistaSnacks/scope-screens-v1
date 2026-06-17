@@ -18,7 +18,7 @@ import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { Parallax } from "@/components/motion/parallax";
 import { KineticText } from "@/components/motion/kinetic-text";
 import { getPurchasableTargets } from "@/lib/wix-checkout";
-import { getSiteContent, sectionOf } from "@/lib/site-content";
+import { getSiteContent } from "@/lib/site-content";
 import { wixImageUrl } from "@/lib/wix-media";
 import { wixVideoUrl } from "@/lib/wix-video";
 
@@ -38,16 +38,15 @@ function ChapterLabel({ n, center = false }: { n: string; center?: boolean }) {
 export default async function Home() {
   const { nextShow, seasonPass } = await getPurchasableTargets();
   const content = await getSiteContent();
-  const hero = sectionOf(content, "hero");
-  const access = sectionOf(content, "builtForAccess");
-  const magic = sectionOf(content, "magicGallery");
-  const archives = sectionOf(content, "archives");
-  const FOUNDER_QUOTE_CMS = access?.body ?? FOUNDER_QUOTE;
-  const settings = content.settings;
-  const founderName = settings?.founderName ?? FOUNDER.name;
-  const founderTitle = settings?.founderTitle ?? FOUNDER.title;
-  const founderCredential = settings?.founderCredential ?? FOUNDER.credential;
-  const founderPhoto = wixImageUrl(access?.image) ?? "/founder-lex.jpg";
+  const hero = content.hero;
+  const access = content.builtForAccess;
+  const magic = content.magicGallery;
+  const archives = content.archives;
+  const FOUNDER_QUOTE_CMS = access?.quote ?? FOUNDER_QUOTE;
+  const founderName = access?.founderName ?? FOUNDER.name;
+  const founderTitle = access?.founderTitle ?? FOUNDER.title;
+  const founderCredential = access?.founderCredential ?? FOUNDER.credential;
+  const founderPhoto = wixImageUrl(access?.photo) ?? "/founder-lex.jpg";
   const stat = content.stats && content.stats.length
     ? content.stats.map((s) => ({ n: s.value ?? "", l: s.label ?? "" }))
     : [{ n: "200+", l: "Films" }, { n: "150+", l: "Filmmakers" }, { n: "20+", l: "Screenings" }, { n: "6+", l: "Theaters" }];
@@ -61,9 +60,9 @@ export default async function Home() {
       <ScrollControl />
       <CurtainCreditsHero
         eyebrow={hero?.eyebrow}
-        tagline={hero?.body}
+        tagline={hero?.tagline}
         title={hero?.title ?? undefined}
-        posterUrl={wixImageUrl(hero?.image) ?? undefined}
+        posterUrl={wixImageUrl(hero?.poster) ?? undefined}
         videoUrl={wixVideoUrl(hero?.video) ?? undefined}
       />
       <Marquee />
