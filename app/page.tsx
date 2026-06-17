@@ -43,12 +43,14 @@ export default async function Home() {
   const magic = sectionOf(content, "magicGallery");
   const archives = sectionOf(content, "archives");
   const FOUNDER_QUOTE_CMS = access?.body ?? FOUNDER_QUOTE;
-  const stat = [
-    { n: "200+", l: "Films" },
-    { n: "150+", l: "Filmmakers" },
-    { n: "20+", l: "Screenings" },
-    { n: "6+", l: "Theaters" },
-  ];
+  const settings = content.settings;
+  const founderName = settings?.founderName ?? FOUNDER.name;
+  const founderTitle = settings?.founderTitle ?? FOUNDER.title;
+  const founderCredential = settings?.founderCredential ?? FOUNDER.credential;
+  const founderPhoto = wixImageUrl(access?.image) ?? "/founder-lex.jpg";
+  const stat = content.stats && content.stats.length
+    ? content.stats.map((s) => ({ n: s.value ?? "", l: s.label ?? "" }))
+    : [{ n: "200+", l: "Films" }, { n: "150+", l: "Filmmakers" }, { n: "20+", l: "Screenings" }, { n: "6+", l: "Theaters" }];
 
   return (
     <main id="top" className="relative bg-bg">
@@ -94,17 +96,17 @@ export default async function Home() {
             <div className="relative mt-3 overflow-hidden rounded-[3px] ring-1 ring-rust/40">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/founder-lex.jpg"
+                src={founderPhoto}
                 alt="Lex Scope watching a film at a Scope Screenings night"
                 className="h-[460px] w-full object-cover object-[42%_center] md:h-[620px]"
               />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-ink via-ink/65 to-transparent" />
               <figcaption className="absolute inset-x-0 bottom-0 p-5">
                 <span className="block font-display text-[46px] uppercase leading-[0.88] text-cream md:text-[58px]">
-                  {FOUNDER.name}
+                  {founderName}
                 </span>
                 <span className="mt-2 block font-mono text-[11px] uppercase tracking-[0.2em] text-smoke md:text-[12px]">
-                  {FOUNDER.title} · {FOUNDER.credential}
+                  {founderTitle} · {founderCredential}
                 </span>
               </figcaption>
             </div>
@@ -123,9 +125,9 @@ export default async function Home() {
             &ldquo;{FOUNDER_QUOTE_CMS}&rdquo;
           </blockquote>
           <div className="flex flex-col gap-0.5">
-            <span className="font-body text-[16px] font-extrabold text-fg">{FOUNDER.name}</span>
+            <span className="font-body text-[16px] font-extrabold text-fg">{founderName}</span>
             <span className="font-body text-[14px] text-smoke">
-              {FOUNDER.title} · {FOUNDER.credential}
+              {founderTitle} · {founderCredential}
             </span>
           </div>
           <Stagger className="flex flex-wrap gap-10 pt-2">
