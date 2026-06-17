@@ -6,38 +6,34 @@ vi.mock("./wix-cms", () => ({
   getSingleton: vi.fn(),
 }));
 import { queryCollection, getSingleton } from "./wix-cms";
-import { getSiteContent, sectionOf } from "./site-content";
+import { getSiteContent } from "./site-content";
 
 afterEach(() => vi.restoreAllMocks());
 
-it("indexes sections by sectionKey and exposes lists", async () => {
+it("exposes lists from CMS collections", async () => {
   vi.mocked(queryCollection).mockImplementation(async (id: string) => {
-    if (id === "Sections") return [{ sectionKey: "submissions", ctaUrl: "https://ff/x", title: "Submit" }] as never;
     if (id === "Partners") return [{ name: "SIFF", url: "https://siff.net", order: 1 }] as never;
     if (id === "Marquee") return [{ phrase: "NOW SHOWING", order: 1 }] as never;
     if (id === "Socials") return [{ label: "Instagram", url: "https://ig", order: 1 }] as never;
     return null;
   });
   vi.mocked(getSingleton).mockImplementation(async (id: string) => {
-    if (id === "Settings") return { contactEmail: "hi@x.com" } as never;
+    if (id === "Footer") return { contactEmail: "hi@x.com" } as never;
     return null;
   });
 
   const c = await getSiteContent();
-  expect(sectionOf(c, "submissions")?.ctaUrl).toBe("https://ff/x");
   expect(c.partners?.[0].name).toBe("SIFF");
   expect(c.marquee?.[0].phrase).toBe("NOW SHOWING");
   expect(c.socials?.[0].label).toBe("Instagram");
-  expect(c.settings?.contactEmail).toBe("hi@x.com");
+  expect(c.footer?.contactEmail).toBe("hi@x.com");
 });
 
 it("tolerates all-null CMS (returns empty structures)", async () => {
   vi.mocked(queryCollection).mockResolvedValue(null);
   vi.mocked(getSingleton).mockResolvedValue(null);
   const c = await getSiteContent();
-  expect(sectionOf(c, "anything")).toBeUndefined();
   expect(c.partners).toBeNull();
-  expect(c.settings).toBeNull();
   // new lists must also be null
   expect(c.stats).toBeNull();
   expect(c.moments).toBeNull();
@@ -97,30 +93,6 @@ it("exposes and sorts the 6 new CMS collections", async () => {
   // pressKit
   expect(c.pressKit).toHaveLength(1);
   expect(c.pressKit?.[0].format).toBe("PNG");
-});
-
-it("exposes new CmsSettings fields", async () => {
-  vi.mocked(queryCollection).mockResolvedValue(null);
-  vi.mocked(getSingleton).mockImplementation(async (id: string) => {
-    if (id === "Settings") return {
-      contactEmail: "hi@x.com",
-      founderName: "Jane Doe",
-      founderTitle: "Director",
-      founderCredential: "Sundance alum",
-      motto: "Film for all",
-      supportUrl: "https://support.x.com",
-      pressEmail: "press@x.com",
-    } as never;
-    return null;
-  });
-
-  const c = await getSiteContent();
-  expect(c.settings?.founderName).toBe("Jane Doe");
-  expect(c.settings?.founderTitle).toBe("Director");
-  expect(c.settings?.founderCredential).toBe("Sundance alum");
-  expect(c.settings?.motto).toBe("Film for all");
-  expect(c.settings?.supportUrl).toBe("https://support.x.com");
-  expect(c.settings?.pressEmail).toBe("press@x.com");
 });
 
 it("exposes per-section singleton content readers", async () => {
