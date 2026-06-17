@@ -1,0 +1,77 @@
+<h2>Where should your credits-roll nav live?</h2>
+<p class="subtitle">Curtains part → framed silver screen plays the reel (with sound toggle). The question is where the 6 nav items (Buy Tickets / Submit / The Films / Become a Funder / Press / About) sit. Each mock shows the revealed end-state.</p>
+
+<div class="cards">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0807;padding:0;overflow:hidden">
+      <div style="height:220px;background:#0a0807;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:18px;background:linear-gradient(90deg,#3a0d0d,#1a0606)"></div>
+        <div style="position:absolute;right:0;top:0;bottom:0;width:18px;background:linear-gradient(270deg,#3a0d0d,#1a0606)"></div>
+        <div style="width:74%;aspect-ratio:2.35/1;border:1.5px solid rgba(250,247,237,.18);background:radial-gradient(ellipse at 50% 55%,rgba(248,228,165,.10),#141414);box-shadow:0 14px 40px -18px #000;display:flex;align-items:flex-end;justify-content:center;padding:6px;position:relative">
+          <div style="position:absolute;left:8px;top:5px;color:#c98;font:700 6px monospace;letter-spacing:1px">● REC</div>
+          <div style="position:absolute;right:8px;top:5px;color:#caa;font:700 6px monospace">REEL 01</div>
+          <div style="color:#e7e0d0;font:700 9px monospace;letter-spacing:2px;opacity:.5">▶ NEXT SCREENING — TUE JUL 28</div>
+          <div style="position:absolute;right:8px;bottom:6px;color:#eee;font:700 6px monospace;border:1px solid #555;padding:2px 4px">🔊 SOUND</div>
+        </div>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:3px;align-items:center;opacity:.9">
+          <div style="color:#E5533B;font:700 8px monospace;letter-spacing:1px">BUY TICKETS</div>
+          <div style="color:#cfc7b6;font:600 7px monospace;letter-spacing:1px">SUBMIT A FILM</div>
+          <div style="color:#cfc7b6;font:600 7px monospace;letter-spacing:1px">THE FILMS</div>
+          <div style="color:#8a8275;font:600 6px monospace;letter-spacing:1px">…rolling upward</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Credits roll ON the screen</h3>
+      <p>Nav rolls vertically over the reel (your current SS behavior), but inside the new silver-screen frame. Most cinematic; video sits behind a scrim.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0807;padding:0;overflow:hidden">
+      <div style="height:220px;background:#0a0807;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:18px;background:linear-gradient(90deg,#3a0d0d,#1a0606)"></div>
+        <div style="position:absolute;right:0;top:0;bottom:0;width:18px;background:linear-gradient(270deg,#3a0d0d,#1a0606)"></div>
+        <div style="width:74%;aspect-ratio:2.6/1;border:1.5px solid rgba(250,247,237,.18);background:radial-gradient(ellipse at 50% 55%,rgba(248,228,165,.10),#141414);box-shadow:0 14px 40px -18px #000;display:flex;align-items:center;justify-content:center;position:relative">
+          <div style="position:absolute;left:8px;top:5px;color:#c98;font:700 6px monospace">● REC</div>
+          <div style="position:absolute;right:8px;bottom:6px;color:#eee;font:700 6px monospace;border:1px solid #555;padding:2px 4px">🔊 SOUND</div>
+          <div style="color:#e7e0d0;font:700 11px monospace;letter-spacing:2px;opacity:.6">▶ THE REEL</div>
+        </div>
+        <div style="margin-top:9px;width:74%;display:grid;grid-template-columns:1fr 1fr;gap:2px 14px">
+          <div style="display:flex;justify-content:space-between;border-bottom:1px solid #2a2620;padding:2px 0"><span style="color:#caa;font:700 5px monospace">TICKETS</span><span style="color:#E5533B;font:700 6px monospace">BUY →</span></div>
+          <div style="display:flex;justify-content:space-between;border-bottom:1px solid #2a2620;padding:2px 0"><span style="color:#caa;font:700 5px monospace">OPEN CALL</span><span style="color:#eee;font:700 6px monospace">SUBMIT →</span></div>
+          <div style="display:flex;justify-content:space-between;border-bottom:1px solid #2a2620;padding:2px 0"><span style="color:#caa;font:700 5px monospace">PROGRAM</span><span style="color:#eee;font:700 6px monospace">THE FILMS →</span></div>
+          <div style="display:flex;justify-content:space-between;border-bottom:1px solid #2a2620;padding:2px 0"><span style="color:#caa;font:700 5px monospace">SUPPORT</span><span style="color:#eee;font:700 6px monospace">FUND →</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Clean credits ledger UNDER the screen</h3>
+      <p>Screen stays pure video. The 6 nav items sit beneath as a tidy 2-col "role · destination" ledger — replaces the confusing reel navigator in the same spot, but simplified.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0807;padding:0;overflow:hidden">
+      <div style="height:220px;background:#0a0807;display:flex;align-items:center;justify-content:center;position:relative;gap:10px;padding:0 18px">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:14px;background:linear-gradient(90deg,#3a0d0d,#1a0606)"></div>
+        <div style="position:absolute;right:0;top:0;bottom:0;width:14px;background:linear-gradient(270deg,#3a0d0d,#1a0606)"></div>
+        <div style="flex:1;aspect-ratio:1.4/1;border:1.5px solid rgba(250,247,237,.18);background:radial-gradient(ellipse at 50% 55%,rgba(248,228,165,.10),#141414);box-shadow:0 14px 40px -18px #000;display:flex;align-items:center;justify-content:center;position:relative">
+          <div style="position:absolute;right:6px;bottom:6px;color:#eee;font:700 5px monospace;border:1px solid #555;padding:1px 3px">🔊</div>
+          <div style="color:#e7e0d0;font:700 9px monospace;opacity:.6">▶ REEL</div>
+        </div>
+        <div style="width:34%;display:flex;flex-direction:column;gap:5px">
+          <div style="color:#E5533B;font:700 7px monospace;letter-spacing:1px;border-bottom:1px solid #2a2620;padding-bottom:3px">BUY TICKETS →</div>
+          <div style="color:#eee;font:700 7px monospace;border-bottom:1px solid #2a2620;padding-bottom:3px">SUBMIT A FILM →</div>
+          <div style="color:#eee;font:700 7px monospace;border-bottom:1px solid #2a2620;padding-bottom:3px">THE FILMS →</div>
+          <div style="color:#eee;font:700 7px monospace;border-bottom:1px solid #2a2620;padding-bottom:3px">BECOME A FUNDER →</div>
+          <div style="color:#eee;font:700 7px monospace;border-bottom:1px solid #2a2620;padding-bottom:3px">PRESS & MEDIA →</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Screen left, nav list right</h3>
+      <p>Marquee-poster layout: framed reel on the left, vertical nav list on the right. Reads like a theater bill. Stacks (screen over nav) on mobile.</p>
+    </div>
+  </div>
+</div>

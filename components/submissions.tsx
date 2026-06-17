@@ -85,8 +85,8 @@ export async function Submissions() {
 
       {/* Meta chips */}
       <div className="flex flex-wrap items-center justify-center gap-3">
-        {chips.map((c) => (
-          <span key={c.label} className="flex items-center gap-2 rounded-full border border-hairline px-3.5 py-2 font-mono text-[12px] tracking-[0.1em] text-fg/80">
+        {chips.map((c, i) => (
+          <span key={`${i}-${c.label}`} className="flex items-center gap-2 rounded-full border border-hairline px-3.5 py-2 font-mono text-[12px] tracking-[0.1em] text-fg/80">
             <span className={`h-1.5 w-1.5 rounded-full ${c.dot}`} />
             {c.label}
           </span>

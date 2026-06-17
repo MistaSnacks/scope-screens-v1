@@ -65,9 +65,9 @@ export async function SupportPress() {
               "A fiscally sponsored project of Shunpike, a 501(c)(3). Every dollar puts another underrepresented filmmaker on a big screen."}
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            {tiers.map((t) => (
+            {tiers.map((t, i) => (
               <span
-                key={t.label}
+                key={`${i}-${t.label}`}
                 className={`rounded-full px-4 py-2 font-body text-[13px] font-semibold ${
                   t.gold ? "bg-rust text-ink" : "border border-hairline text-fg/85"
                 }`}
@@ -100,8 +100,8 @@ export async function SupportPress() {
               "Logos, fact sheet, founder bio, photography and b-roll. Everything you need to cover the festival."}
           </p>
           <div className="mt-6 flex flex-col">
-            {pressRows.map((r) => (
-              <div key={r.label} className="flex items-center justify-between border-b border-hairline py-3">
+            {pressRows.map((r, i) => (
+              <div key={`${i}-${r.label}`} className="flex items-center justify-between border-b border-hairline py-3">
                 <span className="font-body text-[15px] font-bold text-fg">
                   {r.url ? (
                     <a href={r.url} target="_blank" rel="noopener noreferrer">

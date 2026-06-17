@@ -1,0 +1,61 @@
+<h2>How should the logo opening play?</h2>
+<p class="subtitle">You already have WebGL velvet curtains that part on scroll. The question is where the popcorn logo lives in the reveal. Each row is a 3-beat storyboard, left → right.</p>
+
+<div class="cards">
+  <div class="card" data-choice="on-curtain" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0c0a09;padding:12px">
+      <div style="display:flex;gap:8px;align-items:stretch">
+        <div style="flex:1;aspect-ratio:3/4;background:repeating-linear-gradient(90deg,#5a1118,#5a1118 5px,#430b11 5px,#430b11 10px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative">
+          <div style="color:#E8B23A;font:700 5px monospace;letter-spacing:2px;opacity:.85">— TONIGHT —</div>
+          <div style="width:44px;height:44px;border-radius:50%;background:radial-gradient(circle,#1a1410,#0a0807);box-shadow:0 0 22px 6px rgba(232,178,58,.5);display:flex;align-items:center;justify-content:center;color:#E8B23A;font:800 9px serif">🍿</div>
+          <div style="color:#cfc7b6;font:700 4px monospace;position:absolute;bottom:6px">↓ SCROLL TO ENTER</div>
+        </div>
+        <div style="flex:1;aspect-ratio:3/4;background:linear-gradient(90deg,#5a1118 0%,#430b11 22%,#141414 40%,#141414 60%,#430b11 78%,#5a1118 100%);display:flex;align-items:center;justify-content:center">
+          <div style="width:34px;height:34px;border-radius:50%;box-shadow:0 0 16px 4px rgba(232,178,58,.35);color:#E8B23A;font:800 8px serif;display:flex;align-items:center;justify-content:center;opacity:.6">🍿</div>
+        </div>
+        <div style="flex:1;aspect-ratio:3/4;background:#0a0807;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:8px;background:#5a1118"></div>
+          <div style="position:absolute;right:0;top:0;bottom:0;width:8px;background:#5a1118"></div>
+          <div style="width:70%;aspect-ratio:2.35/1;border:1px solid rgba(250,247,237,.2);background:radial-gradient(ellipse,#222,#111);color:#ddd;font:700 5px monospace;display:flex;align-items:center;justify-content:center">▶ REEL 🔊</div>
+          <div style="color:#E8B23A;font:800 6px serif">BUY TICKETS</div>
+          <div style="color:#eee;font:800 6px serif">SUBMIT A FILM</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Logo glows on the closed curtain (Scope Screenings way)</h3>
+      <p>Closed velvet + glowing popcorn logo + "TONIGHT" → scroll parts the curtains, logo lifts away → silver screen with reel + nav. The logo IS the entry moment.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="on-screen" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0c0a09;padding:12px">
+      <div style="display:flex;gap:8px;align-items:stretch">
+        <div style="flex:1;aspect-ratio:3/4;background:repeating-linear-gradient(90deg,#5a1118,#5a1118 5px,#430b11 5px,#430b11 10px);display:flex;align-items:center;justify-content:center;position:relative">
+          <div style="color:#cfc7b6;font:700 4px monospace;position:absolute;bottom:6px">↓ SCROLL TO ENTER</div>
+        </div>
+        <div style="flex:1;aspect-ratio:3/4;background:#0a0807;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:8px;background:#5a1118"></div>
+          <div style="position:absolute;right:0;top:0;bottom:0;width:8px;background:#5a1118"></div>
+          <div style="width:70%;aspect-ratio:2.35/1;border:1px solid rgba(250,247,237,.2);background:radial-gradient(ellipse,#222,#111);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px">
+            <div style="color:#E8B23A;font:800 6px serif">🍿</div>
+            <div style="color:#E5533B;font:800 7px serif">SCOPE SCREENINGS</div>
+            <div style="color:#caa;font:700 3px monospace">▶ NEXT REEL LOADING…</div>
+          </div>
+        </div>
+        <div style="flex:1;aspect-ratio:3/4;background:#0a0807;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;position:relative">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:8px;background:#5a1118"></div>
+          <div style="position:absolute;right:0;top:0;bottom:0;width:8px;background:#5a1118"></div>
+          <div style="width:70%;aspect-ratio:2.35/1;border:1px solid rgba(250,247,237,.2);background:radial-gradient(ellipse,#222,#111);color:#ddd;font:700 5px monospace;display:flex;align-items:center;justify-content:center">▶ REEL 🔊</div>
+          <div style="color:#E8B23A;font:800 6px serif">BUY TICKETS</div>
+          <div style="color:#eee;font:800 6px serif">SUBMIT A FILM</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Logo title-card ON the screen</h3>
+      <p>Closed velvet (no logo) → curtains part to a title card on the screen (logo + SCOPE SCREENINGS) → title card dissolves into the reel + nav. The logo lives on the screen, like a real projector intro.</p>
+    </div>
+  </div>
+</div>
+<p class="subtitle" style="margin-top:18px">There's also a <strong>hybrid</strong>: logo glows on the closed curtain (A) AND a brief title-card flashes on the screen before the reel (B). Say "hybrid" if that's what you want.</p>

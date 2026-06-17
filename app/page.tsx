@@ -97,7 +97,7 @@ export default async function Home() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={founderPhoto}
-                alt="Lex Scope watching a film at a Scope Screenings night"
+                alt={`${founderName} at a Scope Screenings night`}
                 className="h-[460px] w-full object-cover object-[42%_center] md:h-[620px]"
               />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-ink via-ink/65 to-transparent" />
@@ -131,8 +131,8 @@ export default async function Home() {
             </span>
           </div>
           <Stagger className="flex flex-wrap gap-10 pt-2">
-            {stat.map((s) => (
-              <StaggerItem key={s.l} className="flex flex-col">
+            {stat.map((s, i) => (
+              <StaggerItem key={`${i}-${s.l}`} className="flex flex-col">
                 <span className="font-marquee text-[40px] leading-none text-rust">{s.n}</span>
                 <span className="font-body text-[12px] font-semibold uppercase tracking-[0.12em] text-smoke">{s.l}</span>
               </StaggerItem>
