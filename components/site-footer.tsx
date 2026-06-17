@@ -1,5 +1,5 @@
 import { CONTACT_EMAIL, SOCIALS, VENUE } from "@/lib/festival";
-import { getSiteContent, sectionOf } from "@/lib/site-content";
+import { getSiteContent } from "@/lib/site-content";
 import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { KineticText } from "@/components/motion/kinetic-text";
 
@@ -11,14 +11,15 @@ const COLUMNS = [
 
 export async function SiteFooter() {
   const content = await getSiteContent();
-  const { settings, socials } = content;
-  const signoff = sectionOf(content, "footerSignoff")?.title ?? "See You At\nThe Movies";
-  const tagline = settings?.footerTagline ??
+  const { socials } = content;
+  const footer = content.footer;
+  const signoff = footer?.signoff ?? "See You At\nThe Movies";
+  const tagline = footer?.tagline ??
     "Seattle's underground film festival. We put the fun back in film fests.";
-  const newsletterHeading = settings?.newsletterHeading ?? "Get the lineup in your inbox";
-  const copyright = settings?.copyright ??
+  const newsletterHeading = footer?.newsletterHeading ?? "Get the lineup in your inbox";
+  const copyright = footer?.copyright ??
     `© 2026 Scope Screenings · A fiscally sponsored project of Shunpike · ${VENUE.city}`;
-  const contactEmail = settings?.contactEmail ?? CONTACT_EMAIL;
+  const contactEmail = footer?.contactEmail ?? CONTACT_EMAIL;
   const socialLinks = (socials ?? SOCIALS.map((s) => ({ label: s.label, url: s.href })))
     .map((s) => ({ label: s.label ?? "", href: s.url ?? "" }))
     .filter((s): s is { label: string; href: string } => Boolean(s.label && s.href));

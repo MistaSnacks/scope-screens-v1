@@ -7,7 +7,7 @@ export async function Marquee() {
   const [content, live] = await Promise.all([getSiteContent(), getLiveSchedule()]);
 
   // Live "now showing" line: prefer the next real Wix event, else festival.ts.
-  const venue = content.settings?.venueName ?? VENUE.short;
+  const venue = content.siteSettings?.venueName ?? VENUE.short;
   const next = live?.[0];
   const label = next ? `${next.month} ${next.day}` : nextScreening().label;
   const liveLine = `NOW SHOWING · ${label} · ${venue}`;
