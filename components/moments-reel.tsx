@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Parallax } from "@/components/motion/parallax";
+import { wixImageUrl } from "@/lib/wix-media";
 
 interface Moment {
   img: string;
@@ -45,11 +46,54 @@ function Perfs() {
   );
 }
 
-export function MomentsReel() {
+type CmsMomentInput = {
+  image?: string;
+  slug?: string;
+  badge?: string;
+  tone?: string;
+  title?: string;
+  subtitle?: string;
+};
+
+type NormalizedMoment = {
+  bg: string;
+  badge: string;
+  tone: Moment["tone"];
+  title: string;
+  sub: string;
+  pos: string;
+};
+
+function normalizeMoments(moments?: CmsMomentInput[]): NormalizedMoment[] {
+  if (moments && moments.length > 0) {
+    return moments.map((m) => {
+      const src = wixImageUrl(m.image) ?? `/moments/${m.slug ?? ""}.jpg`;
+      return {
+        bg: `url(${src})`,
+        badge: m.badge ?? "",
+        tone: m.tone === "gold" ? "gold" : "red",
+        title: m.title ?? "",
+        sub: m.subtitle ?? "",
+        pos: "50% 50%",
+      };
+    });
+  }
+  return MOMENTS.map((m) => ({
+    bg: `url(/moments/${m.img}.jpg)`,
+    badge: m.badge,
+    tone: m.tone,
+    title: m.title,
+    sub: m.sub,
+    pos: m.pos,
+  }));
+}
+
+export function MomentsReel({ moments }: { moments?: CmsMomentInput[] } = {}) {
   const railRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [index, setIndex] = useState(1);
-  const total = MOMENTS.length;
+  const items = normalizeMoments(moments);
+  const total = items.length;
 
   const onScroll = useCallback(() => {
     const el = railRef.current;
@@ -103,27 +147,27 @@ export function MomentsReel() {
         onScroll={onScroll}
         className="flex snap-x snap-mandatory cursor-grab touch-pan-x select-none scroll-smooth overflow-x-auto overflow-y-hidden rounded-md bg-ink ring-1 ring-cream/10 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {MOMENTS.map((m, i) => (
+        {items.map((item, i) => (
           <div
-            key={m.img}
+            key={i}
             className="flex w-[90%] max-w-[1120px] shrink-0 snap-start flex-col border-r-[3px] border-[#161310] bg-ink"
           >
             <Perfs />
             <div
               className="relative h-[280px] w-full bg-cover sm:h-[400px] md:h-[480px]"
-              style={{ backgroundImage: `url(/moments/${m.img}.jpg)`, backgroundPosition: m.pos }}
+              style={{ backgroundImage: item.bg, backgroundPosition: item.pos }}
             >
-              <span className={badgeClass(m.tone)}>{m.badge}</span>
+              <span className={badgeClass(item.tone)}>{item.badge}</span>
               <span className="absolute right-5 top-5 rounded-[3px] bg-[#0b0a09b3] px-[9px] py-[5px] font-mono text-[11px] font-semibold leading-[14px] tracking-[0.08em] text-cream">
                 FR {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
               </span>
             </div>
             <div className="flex flex-col gap-1.5 px-6 pb-6 pt-5">
               <span className="font-body text-[24px] font-bold leading-[1.1] text-cream sm:text-[28px] md:text-[30px]">
-                {m.title}
+                {item.title}
               </span>
               <span className="font-body text-[14px] font-medium leading-5 text-smoke sm:text-[15px]">
-                {m.sub}
+                {item.sub}
               </span>
             </div>
             <Perfs />

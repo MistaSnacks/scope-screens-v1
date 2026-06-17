@@ -155,7 +155,7 @@ export default async function Home() {
           </p>
         </Reveal>
 
-        <MomentsReel />
+        <MomentsReel moments={content.moments ?? undefined} />
 
         <div className="mt-14 flex justify-center">
           <a
