@@ -1,4 +1,5 @@
 import { CONTACT_EMAIL, SOCIALS, VENUE } from "@/lib/festival";
+import { getSiteContent } from "@/lib/site-content";
 import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { KineticText } from "@/components/motion/kinetic-text";
 
@@ -8,7 +9,18 @@ const COLUMNS = [
   { head: "Get Involved", links: ["Submit a Film", "Become a Funder", "Press & Media", "Volunteer"] },
 ];
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const { settings, socials } = await getSiteContent();
+  const tagline = settings?.footerTagline ??
+    "Seattle's underground film festival. We put the fun back in film fests.";
+  const newsletterHeading = settings?.newsletterHeading ?? "Get the lineup in your inbox";
+  const copyright = settings?.copyright ??
+    `© 2026 Scope Screenings · A fiscally sponsored project of Shunpike · ${VENUE.city}`;
+  const contactEmail = settings?.contactEmail ?? CONTACT_EMAIL;
+  const socialLinks = (socials ?? SOCIALS.map((s) => ({ label: s.label, url: s.href })))
+    .map((s) => ({ label: s.label ?? "", href: ("href" in s ? s.href : s.url) ?? "" }))
+    .filter((s): s is { label: string; href: string } => Boolean(s.label && s.href));
+
   return (
     <footer className="bg-stage-deep px-5 pb-9 pt-16 md:px-[90px]">
       {/* Sign-off + newsletter */}
@@ -20,7 +32,7 @@ export function SiteFooter() {
         />
         <div className="flex w-full max-w-[440px] flex-col gap-3">
           <span className="font-body text-[12px] font-semibold uppercase tracking-[0.1em] text-smoke">
-            Get the lineup in your inbox
+            {newsletterHeading}
           </span>
           <form className="flex h-[52px] overflow-hidden rounded-md border border-cream/25 focus-within:border-rust">
             <input
@@ -45,7 +57,7 @@ export function SiteFooter() {
         <StaggerItem className="flex flex-col gap-3">
           <span className="font-marquee text-[18px] uppercase text-cream">Scope Screenings</span>
           <p className="max-w-[28ch] font-body text-[14px] leading-relaxed text-smoke">
-            Seattle&rsquo;s underground film festival. We put the fun back in film fests.
+            {tagline}
           </p>
         </StaggerItem>
         {COLUMNS.map((col) => (
@@ -65,10 +77,10 @@ export function SiteFooter() {
       {/* Legal */}
       <div className="flex flex-col gap-2 pt-6 md:flex-row md:items-center md:justify-between">
         <span className="font-body text-[12px] text-smoke">
-          © 2026 Scope Screenings · A fiscally sponsored project of Shunpike · {VENUE.city}
+          {copyright}
         </span>
         <div className="flex items-center gap-5">
-          {SOCIALS.map((s) => (
+          {socialLinks.map((s) => (
             <a
               key={s.label}
               href={s.href}
@@ -79,8 +91,8 @@ export function SiteFooter() {
               {s.label}
             </a>
           ))}
-          <a href={`mailto:${CONTACT_EMAIL}`} className="font-body text-[12px] text-smoke transition-colors hover:text-rust">
-            {CONTACT_EMAIL}
+          <a href={`mailto:${contactEmail}`} className="font-body text-[12px] text-smoke transition-colors hover:text-rust">
+            {contactEmail}
           </a>
         </div>
       </div>
