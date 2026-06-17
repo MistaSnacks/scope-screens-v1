@@ -28,6 +28,12 @@ describe("queryCollection", () => {
     expect(await queryCollection("X")).toBeNull();
   });
 
+  it("returns null when fetch throws", async () => {
+    vi.mocked(getVisitorToken).mockResolvedValue("tok");
+    vi.stubGlobal("fetch", vi.fn(async () => { throw new Error("net"); }) as unknown as typeof fetch);
+    expect(await queryCollection("X")).toBeNull();
+  });
+
   it("getSingleton returns first item or null", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => ({ ok: true, json: async () => ({ dataItems: [{ data: { a: 9 } }] }) })) as unknown as typeof fetch);
     expect(await getSingleton("X")).toEqual({ a: 9 });
