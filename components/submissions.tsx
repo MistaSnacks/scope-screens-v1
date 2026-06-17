@@ -5,7 +5,7 @@ import {
   SUBMIT_URL,
   nextSubmissionDeadline,
 } from "@/lib/festival";
-import { getSiteContent, sectionOf } from "@/lib/site-content";
+import { getSiteContent } from "@/lib/site-content";
 import { Reveal } from "@/components/motion/reveal";
 import { KineticText } from "@/components/motion/kinetic-text";
 
@@ -46,13 +46,13 @@ const CHIPS = [
 
 export async function Submissions() {
   const content = await getSiteContent();
-  const cms = sectionOf(content, "submissions");
+  const cms = content.submissions;
   const submitUrl = cms?.ctaUrl ?? SUBMIT_URL;
   const ctaLabel = cms?.ctaLabel ?? "Open the Call ›";
   const heading = cms?.title ?? "Submit Your Film";
   const next = nextSubmissionDeadline();
   const eyebrow = cms?.eyebrow ?? `Open Call · ${SUBMISSION_SEASON} Submissions`;
-  const intro = cms?.body ?? `Narrative shorts, documentaries, animation, music videos, commercials, and experimental work — all under twenty minutes. Screened live on the big screen, June through December, and for the first time ${SUBMISSION_SEASON} brings judged awards.`;
+  const intro = cms?.intro ?? `Narrative shorts, documentaries, animation, music videos, commercials, and experimental work — all under twenty minutes. Screened live on the big screen, June through December, and for the first time ${SUBMISSION_SEASON} brings judged awards.`;
   const chips = content.chips && content.chips.length
     ? content.chips.map((c) => ({ label: c.label ?? "", dot: c.accent === "rust" ? "bg-rust" : "bg-curtain" }))
     : CHIPS;
