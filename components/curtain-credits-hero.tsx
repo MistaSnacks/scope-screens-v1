@@ -121,7 +121,6 @@ export function CurtainCreditsHero() {
   const leftPlaneEl = useRef<HTMLDivElement>(null);
   const rightPlaneEl = useRef<HTMLDivElement>(null);
   const logoOpeningRef = useRef<HTMLDivElement>(null);
-  const scrollCueRef = useRef<HTMLDivElement>(null);
   const reelVideoRef = useRef<HTMLVideoElement>(null);
   const progressRef = useRef({ value: 0 });
   const openFactorRef = useRef(0.86); // how far the velvet parts; overwritten in useGSAP (0.86 desktop / 0.92 mobile)
@@ -309,9 +308,8 @@ export function CurtainCreditsHero() {
               },
             })
             .to(progressRef.current, { value: 1, ease: "none", duration: 1 }, 0)
-            // The scroll cue fades immediately; the logo lifts + fades over the
-            // first third of the open, before the curtains are fully parted.
-            .to(scrollCueRef.current, { opacity: 0, duration: 0.12 }, 0)
+            // The logo opening (with its scroll cue) lifts + fades over the first
+            // third of the open, before the curtains are fully parted.
             .to(
               logoOpeningRef.current,
               { opacity: 0, y: -48, duration: 0.4, ease: "power2.in" },
@@ -463,15 +461,16 @@ export function CurtainCreditsHero() {
         style={{ visibility: screenVisibility }}
       />
 
-      {/* Logo opening (z-30) — glows on the closed curtain, lifts away on scroll. */}
+      {/* Logo opening (z-30) — glows centered on the closed curtain, with its
+          scroll cue directly beneath; lifts away on scroll. */}
       <div ref={logoOpeningRef} className={styles.logoOpening}>
         <div className={styles.logoTonight}>— Tonight —</div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={POPCORN_LOGO} alt="Scope Screenings" className={styles.logoImg} />
-      </div>
-      <div ref={scrollCueRef} aria-hidden className={styles.scrollCue}>
-        ↓ Scroll to enter
-        <span className={styles.scrollCueLine} />
+        <div aria-hidden className={styles.scrollCue}>
+          Scroll to enter
+          <span className={styles.scrollCueLine} />
+        </div>
       </div>
 
       {/* First-paint curtain stand-in (SSR), swapped for the live canvas. */}

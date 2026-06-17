@@ -299,13 +299,13 @@
 .logoOpening {
   position: absolute;
   left: 50%;
-  top: 46%;
+  top: 50%;
   transform: translate(-50%, -50%);
   z-index: 30;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   pointer-events: none;
 }
 .logoTonight {
@@ -318,12 +318,12 @@
 }
 .logoImg {
   width: auto;
-  height: 300px;
+  height: 360px;
   filter: drop-shadow(0 0 60px rgba(255, 187, 0, 0.4)) drop-shadow(0 10px 28px rgba(0, 0, 0, 0.65));
 }
 @media (max-width: 767px) {
   .logoImg {
-    height: 200px;
+    height: 248px;
   }
 }
 
@@ -392,12 +392,9 @@
   z-index: 40;
 }
 
+/* Scroll cue — sits in-flow directly beneath the popcorn logo. */
 .scrollCue {
-  position: absolute;
-  left: 50%;
-  bottom: 22px;
-  transform: translateX(-50%);
-  z-index: 42;
+  margin-top: 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -406,13 +403,14 @@
   font-size: 10px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #8c857a;
+  color: var(--color-brass, #f3e0a2);
+  opacity: 0.75;
 }
 .scrollCueLine {
   width: 1px;
   height: 26px;
-  background: #8c857a;
-  opacity: 0.6;
+  background: var(--color-brass, #f3e0a2);
+  opacity: 0.5;
 }
 
 /* Short viewports: shrink the frame + credits so the whole hero fits one
