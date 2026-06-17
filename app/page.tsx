@@ -18,6 +18,7 @@ import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { Parallax } from "@/components/motion/parallax";
 import { KineticText } from "@/components/motion/kinetic-text";
 import { getPurchasableTargets } from "@/lib/wix-checkout";
+import { getSiteContent, sectionOf } from "@/lib/site-content";
 
 const FOUNDER_QUOTE =
   "A lot of my peers never had the chance to see their work on a big screen. I built this for access, for collaboration, and to break down the barriers placed in front of Black, brown, and tan creatives.";
@@ -34,6 +35,12 @@ function ChapterLabel({ n, center = false }: { n: string; center?: boolean }) {
 
 export default async function Home() {
   const { nextShow, seasonPass } = await getPurchasableTargets();
+  const content = await getSiteContent();
+  const hero = sectionOf(content, "hero");
+  const access = sectionOf(content, "builtForAccess");
+  const magic = sectionOf(content, "magicGallery");
+  const archives = sectionOf(content, "archives");
+  const FOUNDER_QUOTE_CMS = access?.body ?? FOUNDER_QUOTE;
   const stat = [
     { n: "200+", l: "Films" },
     { n: "150+", l: "Filmmakers" },
@@ -48,7 +55,7 @@ export default async function Home() {
       <PersistentValance />
       <SiteNav active="Watch" />
       <ScrollControl />
-      <CurtainCreditsHero />
+      <CurtainCreditsHero eyebrow={hero?.eyebrow} tagline={hero?.body} />
       <Marquee />
 
       <div id="tickets" className="scroll-mt-[120px]">
@@ -98,14 +105,14 @@ export default async function Home() {
         </Reveal>
 
         <Reveal delay={0.1} className="flex flex-col items-start justify-center gap-6">
-          <ChapterLabel n="Chapter Two" />
+          <ChapterLabel n={access?.eyebrow ?? "Chapter Two"} />
           <KineticText
             as="h2"
             className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[66px]"
-            text={"Built For\nAccess"}
+            text={access?.title ?? "Built For\nAccess"}
           />
           <blockquote className="max-w-[22em] font-credits text-[26px] italic leading-snug text-fg/90 md:text-[28px]">
-            &ldquo;{FOUNDER_QUOTE}&rdquo;
+            &ldquo;{FOUNDER_QUOTE_CMS}&rdquo;
           </blockquote>
           <div className="flex flex-col gap-0.5">
             <span className="font-body text-[16px] font-extrabold text-fg">{FOUNDER.name}</span>
@@ -127,15 +134,14 @@ export default async function Home() {
       {/* Chapter Three — Scope Screenings Magic (moments from the floor) */}
       <section className="border-t border-cream/10 bg-bg px-5 py-24 md:px-[90px]">
         <Reveal className="flex flex-col items-center gap-4 text-center">
-          <ChapterLabel n="Chapter Three" center />
+          <ChapterLabel n={magic?.eyebrow ?? "Chapter Three"} center />
           <KineticText
             as="h2"
             className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[80px]"
-            text={"Scope Screenings\nMagic"}
+            text={magic?.title ?? "Scope Screenings\nMagic"}
           />
           <p className="max-w-[44ch] font-body text-[17px] leading-relaxed text-fg/70">
-            Every last Tuesday the Central District turns into a cinema — ten films, ten directors,
-            and the best room in the city.
+            {magic?.body ?? "Every last Tuesday the Central District turns into a cinema — ten films, ten directors, and the best room in the city."}
           </p>
         </Reveal>
 
@@ -143,12 +149,12 @@ export default async function Home() {
 
         <div className="mt-14 flex justify-center">
           <a
-            href="https://instagram.com/scopescreenings"
+            href={magic?.ctaUrl ?? "https://instagram.com/scopescreenings"}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 border-b-2 border-rust pb-1.5 font-body text-[13px] font-extrabold uppercase tracking-[0.14em] text-fg transition-colors hover:text-rust"
           >
-            See more from the floor <span className="text-rust">›</span>
+            {magic?.ctaLabel ?? "See more from the floor"} <span className="text-rust">›</span>
           </a>
         </div>
       </section>
@@ -173,15 +179,14 @@ export default async function Home() {
         className="scroll-mt-[120px] border-t border-hairline bg-bg-alt px-5 py-24 md:px-[90px]"
       >
         <Reveal className="flex flex-col items-center gap-4 text-center">
-          <ChapterLabel n="Chapter Four" center />
+          <ChapterLabel n={archives?.eyebrow ?? "Chapter Four"} center />
           <KineticText
             as="h2"
             className="pulp font-display text-[56px] uppercase leading-[0.94] md:text-[80px]"
-            text="The Archives"
+            text={archives?.title ?? "The Archives"}
           />
           <p className="max-w-[44ch] font-body text-[17px] leading-relaxed text-fg/70">
-            Shorts, music videos, docs, animation, experiments. Every film twenty minutes or
-            less, every filmmaker in the room.
+            {archives?.body ?? "Shorts, music videos, docs, animation, experiments. Every film twenty minutes or less, every filmmaker in the room."}
           </p>
         </Reveal>
 
@@ -189,10 +194,10 @@ export default async function Home() {
 
         <div className="mt-14 flex justify-center">
           <a
-            href="/schedule"
+            href={archives?.ctaUrl ?? "/schedule"}
             className="flex items-center gap-2 border-b-2 border-rust pb-1.5 font-body text-[13px] font-extrabold uppercase tracking-[0.14em] text-fg transition-colors hover:text-rust"
           >
-            Browse all 200+ films <span className="text-rust">›</span>
+            {archives?.ctaLabel ?? "Browse all 200+ films"} <span className="text-rust">›</span>
           </a>
         </div>
       </section>

@@ -129,7 +129,7 @@ const CREDITS: Credit[] = [
   { role: "Founded by Lex Scope · Est. 2022", label: "About the Festival", href: "#about" },
 ];
 
-export function CurtainCreditsHero() {
+export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline = "Seattle's Underground Film Festival" }: { eyebrow?: string; tagline?: string } = {}) {
   const root = useRef<HTMLElement>(null);
   const spotRef = useRef<HTMLDivElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
@@ -391,13 +391,13 @@ export function CurtainCreditsHero() {
       {/* The screen the curtains reveal */}
       <div className={styles.screen} style={{ visibility: screenVisibility }}>
         <div className={styles.title}>
-          <span className={styles.eyebrow}>Feature Presentation</span>
+          <span className={styles.eyebrow}>{eyebrow}</span>
           <h1 className={styles.wordmark}>
             Scope
             <br />
             Screenings
           </h1>
-          <span className={styles.tagline}>Seattle&rsquo;s Underground Film Festival</span>
+          <span className={styles.tagline}>{tagline}</span>
         </div>
 
         <div className={styles.creditsMask}>
