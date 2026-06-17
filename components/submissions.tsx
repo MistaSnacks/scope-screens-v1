@@ -47,11 +47,11 @@ export function Submissions() {
   const next = nextSubmissionDeadline();
 
   return (
-    <section className="band-up flex flex-col items-center gap-9 bg-bg px-5 py-24 md:px-[90px]">
+    <section className="band-up flex flex-col items-center gap-9 bg-bg px-5 py-24 md:shell-x">
       {/* Eyebrow */}
       <div className="flex items-center gap-3">
         <span className="h-px w-9 bg-curtain" />
-        <span className="font-mono text-[12px] uppercase tracking-[0.28em] text-curtain">
+        <span className="font-mono text-[0.75rem] uppercase tracking-[0.28em] text-curtain">
           Open Call · {SUBMISSION_SEASON} Submissions
         </span>
         <span className="h-px w-9 bg-curtain" />
@@ -61,14 +61,14 @@ export function Submissions() {
       <Reveal className="flex items-center justify-center gap-4">
         <Laurel />
         <div className="flex flex-col items-center gap-2">
-          <span className="font-mono text-[13px] tracking-[0.34em] text-fg/60">OFFICIAL SELECTION</span>
-          <KineticText as="h2" className="pulp text-center font-display text-[52px] uppercase leading-[0.92] md:text-[60px]" text="Submit Your Film" />
-          <span className="font-mono text-[13px] tracking-[0.26em] text-curtain">SCOPE SCREENINGS · 2026</span>
+          <span className="font-mono text-[0.8125rem] tracking-[0.34em] text-fg/60">OFFICIAL SELECTION</span>
+          <KineticText as="h2" className="pulp text-center font-display text-[3.25rem] uppercase leading-[0.92] md:text-[3.75rem]" text="Submit Your Film" />
+          <span className="font-mono text-[0.8125rem] tracking-[0.26em] text-curtain">SCOPE SCREENINGS · 2026</span>
         </div>
         <Laurel flip />
       </Reveal>
 
-      <p className="max-w-[60ch] text-center font-body text-[17px] leading-relaxed text-fg/70">
+      <p className="max-w-[60ch] text-center font-body text-[1.0625rem] leading-relaxed text-fg/70">
         Narrative shorts, documentaries, animation, music videos, commercials, and experimental
         work &mdash; all under twenty minutes. Screened live on the big screen, June through
         December, and for the first time {SUBMISSION_SEASON} brings judged awards.
@@ -77,7 +77,7 @@ export function Submissions() {
       {/* Meta chips */}
       <div className="flex flex-wrap items-center justify-center gap-3">
         {CHIPS.map((c) => (
-          <span key={c.label} className="flex items-center gap-2 rounded-full border border-hairline px-3.5 py-2 font-mono text-[12px] tracking-[0.1em] text-fg/80">
+          <span key={c.label} className="flex items-center gap-2 rounded-full border border-hairline px-3.5 py-2 font-mono text-[0.75rem] tracking-[0.1em] text-fg/80">
             <span className={`h-1.5 w-1.5 rounded-full ${c.dot}`} />
             {c.label}
           </span>
@@ -86,7 +86,7 @@ export function Submissions() {
 
       {/* Real FilmFreeway deadline ladder — next one highlighted */}
       <div className="flex flex-col items-center gap-3">
-        <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-fg/45">Submission Deadlines</span>
+        <span className="font-mono text-[0.6875rem] uppercase tracking-[0.24em] text-fg/45">Submission Deadlines</span>
         <div className="flex flex-wrap items-center justify-center gap-2.5">
           {SUBMISSION_DEADLINES.map((d) => {
             const isNext = d.iso === next.iso;
@@ -95,17 +95,17 @@ export function Submissions() {
                 key={d.name}
                 className={
                   isNext
-                    ? "flex items-center gap-2 rounded-md bg-curtain px-3.5 py-2 font-mono text-[12px] uppercase tracking-[0.1em] text-cream"
-                    : "flex items-center gap-2 rounded-md border border-hairline px-3.5 py-2 font-mono text-[12px] uppercase tracking-[0.1em] text-fg/55"
+                    ? "flex items-center gap-2 rounded-md bg-curtain px-3.5 py-2 font-mono text-[0.75rem] uppercase tracking-[0.1em] text-cream"
+                    : "flex items-center gap-2 rounded-md border border-hairline px-3.5 py-2 font-mono text-[0.75rem] uppercase tracking-[0.1em] text-fg/55"
                 }
               >
-                {isNext ? <span className="rounded-sm bg-cream/25 px-1.5 py-0.5 text-[9px] tracking-[0.12em]">NEXT</span> : null}
+                {isNext ? <span className="rounded-sm bg-cream/25 px-1.5 py-0.5 text-[0.5625rem] tracking-[0.12em]">NEXT</span> : null}
                 {d.name} · {d.date}
               </span>
             );
           })}
         </div>
-        <span className="font-mono text-[11px] tracking-[0.14em] text-fg/40">Notifications {SUBMISSION_NOTIFICATION}</span>
+        <span className="font-mono text-[0.6875rem] tracking-[0.14em] text-fg/40">Notifications {SUBMISSION_NOTIFICATION}</span>
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-5">
@@ -113,11 +113,11 @@ export function Submissions() {
           href={SUBMIT_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-md bg-curtain px-7 py-3.5 font-body text-[14px] font-extrabold uppercase tracking-[0.06em] text-cream transition-transform hover:scale-[1.03]"
+          className="rounded-md bg-curtain px-7 py-3.5 font-body text-[0.875rem] font-extrabold uppercase tracking-[0.06em] text-cream transition-transform hover:scale-[1.03]"
         >
           Open the Call ›
         </a>
-        <span className="font-body text-[15px] text-fg/55">
+        <span className="font-body text-[0.9375rem] text-fg/55">
           submitted via <span className="text-fg/80">FilmFreeway</span>
         </span>
       </div>
