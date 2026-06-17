@@ -1,15 +1,26 @@
-import { nextScreening } from "@/lib/festival";
+import { nextScreening, VENUE } from "@/lib/festival";
+import { getLiveSchedule } from "@/lib/wix-events";
+import { getSiteContent } from "@/lib/site-content";
+import { buildMarqueeItems } from "@/lib/marquee";
 
-export function Marquee() {
-  const next = nextScreening();
-  const ITEMS = [
+export async function Marquee() {
+  const [content, live] = await Promise.all([getSiteContent(), getLiveSchedule()]);
+
+  // Live "now showing" line: prefer the next real Wix event, else festival.ts.
+  const venue = content.settings?.venueName ?? VENUE.short;
+  const next = live?.[0];
+  const label = next ? `${next.month} ${next.day}` : nextScreening().label;
+  const liveLine = `NOW SHOWING · ${label} · ${venue}`;
+
+  const phrases = content.marquee?.map((m) => m.phrase ?? "").filter(Boolean) ?? [
     "NOW SHOWING",
-    `${next.label} · LANGSTON HUGHES INSTITUTE`,
     "DOORS 6:30 / SCREEN 7:30",
     "10 DIRECTORS, ONE NIGHT",
     "TROPICAL WAVY ENERGY",
   ];
+  const ITEMS = buildMarqueeItems(phrases, liveLine);
   const doubled = [...ITEMS, ...ITEMS];
+
   return (
     <div className="relative overflow-hidden border-y-2 border-rust bg-curtain">
       <div
@@ -21,9 +32,7 @@ export function Marquee() {
             <span className="font-marquee text-[20px] uppercase tracking-[0.03em] text-brass">
               {item}
             </span>
-            <span className="text-rust" aria-hidden>
-              ★
-            </span>
+            <span className="text-rust" aria-hidden>★</span>
           </div>
         ))}
       </div>
