@@ -18,7 +18,10 @@ it("indexes sections by sectionKey and exposes lists", async () => {
     if (id === "Socials") return [{ label: "Instagram", url: "https://ig", order: 1 }] as never;
     return null;
   });
-  vi.mocked(getSingleton).mockResolvedValue({ contactEmail: "hi@x.com" } as never);
+  vi.mocked(getSingleton).mockImplementation(async (id: string) => {
+    if (id === "Settings") return { contactEmail: "hi@x.com" } as never;
+    return null;
+  });
 
   const c = await getSiteContent();
   expect(sectionOf(c, "submissions")?.ctaUrl).toBe("https://ff/x");
@@ -42,6 +45,16 @@ it("tolerates all-null CMS (returns empty structures)", async () => {
   expect(c.chips).toBeNull();
   expect(c.givingTiers).toBeNull();
   expect(c.pressKit).toBeNull();
+  // new per-section singletons must also be null
+  expect(c.hero).toBeNull();
+  expect(c.whatIs).toBeNull();
+  expect(c.builtForAccess).toBeNull();
+  expect(c.magicGallery).toBeNull();
+  expect(c.submissions).toBeNull();
+  expect(c.archives).toBeNull();
+  expect(c.support).toBeNull();
+  expect(c.footer).toBeNull();
+  expect(c.siteSettings).toBeNull();
 });
 
 it("exposes and sorts the 6 new CMS collections", async () => {
@@ -88,15 +101,18 @@ it("exposes and sorts the 6 new CMS collections", async () => {
 
 it("exposes new CmsSettings fields", async () => {
   vi.mocked(queryCollection).mockResolvedValue(null);
-  vi.mocked(getSingleton).mockResolvedValue({
-    contactEmail: "hi@x.com",
-    founderName: "Jane Doe",
-    founderTitle: "Director",
-    founderCredential: "Sundance alum",
-    motto: "Film for all",
-    supportUrl: "https://support.x.com",
-    pressEmail: "press@x.com",
-  } as never);
+  vi.mocked(getSingleton).mockImplementation(async (id: string) => {
+    if (id === "Settings") return {
+      contactEmail: "hi@x.com",
+      founderName: "Jane Doe",
+      founderTitle: "Director",
+      founderCredential: "Sundance alum",
+      motto: "Film for all",
+      supportUrl: "https://support.x.com",
+      pressEmail: "press@x.com",
+    } as never;
+    return null;
+  });
 
   const c = await getSiteContent();
   expect(c.settings?.founderName).toBe("Jane Doe");
@@ -105,4 +121,36 @@ it("exposes new CmsSettings fields", async () => {
   expect(c.settings?.motto).toBe("Film for all");
   expect(c.settings?.supportUrl).toBe("https://support.x.com");
   expect(c.settings?.pressEmail).toBe("press@x.com");
+});
+
+it("exposes per-section singleton content readers", async () => {
+  vi.mocked(queryCollection).mockResolvedValue(null);
+  vi.mocked(getSingleton).mockImplementation(async (id: string) => {
+    if (id === "Hero") return { eyebrow: "Welcome", title: "Scope Screenings", tagline: "Film for all", poster: "/poster.jpg", video: "/trailer.mp4" } as never;
+    if (id === "WhatIs") return { eyebrow: "About", title: "What Is This?", body: "A festival.", motto: "Film for all" } as never;
+    if (id === "BuiltForAccess") return { eyebrow: "Access", title: "Built For Access", quote: "Everyone in.", founderName: "Jane Doe", founderTitle: "Director", founderCredential: "Sundance alum", photo: "/jane.jpg" } as never;
+    if (id === "MagicGallery") return { eyebrow: "Gallery", title: "The Magic", body: "See films.", ctaLabel: "Browse", ctaUrl: "/gallery" } as never;
+    if (id === "Submissions") return { eyebrow: "Submit", title: "Submit Your Film", intro: "Open now.", ctaLabel: "Apply", ctaUrl: "/apply" } as never;
+    if (id === "Archives") return { eyebrow: "Past", title: "Archives", body: "Years of films.", ctaLabel: "Explore", ctaUrl: "/archives" } as never;
+    if (id === "Support") return { eyebrow: "Give", title: "Support Us", funderTitle: "Funders", funderBody: "Thank you.", donateLabel: "Donate", donateUrl: "/donate", pressTitle: "Press", pressBody: "For media.", pressKitLabel: "Press Kit", pressEmail: "press@x.com" } as never;
+    if (id === "Footer") return { signoff: "See you at the movies.", tagline: "Film for all", newsletterHeading: "Stay in touch", copyright: "© 2026", contactEmail: "hi@x.com" } as never;
+    if (id === "SiteSettings") return { venueName: "The Grand", venueAddress: "123 Main St", venueCity: "Seattle" } as never;
+    return null;
+  });
+
+  const c = await getSiteContent();
+  expect(c.hero?.title).toBe("Scope Screenings");
+  expect(c.hero?.video).toBe("/trailer.mp4");
+  expect(c.whatIs?.motto).toBe("Film for all");
+  expect(c.builtForAccess?.founderName).toBe("Jane Doe");
+  expect(c.builtForAccess?.quote).toBe("Everyone in.");
+  expect(c.magicGallery?.ctaUrl).toBe("/gallery");
+  expect(c.submissions?.ctaLabel).toBe("Apply");
+  expect(c.archives?.body).toBe("Years of films.");
+  expect(c.support?.donateUrl).toBe("/donate");
+  expect(c.support?.pressEmail).toBe("press@x.com");
+  expect(c.footer?.signoff).toBe("See you at the movies.");
+  expect(c.footer?.contactEmail).toBe("hi@x.com");
+  expect(c.siteSettings?.venueName).toBe("The Grand");
+  expect(c.siteSettings?.venueCity).toBe("Seattle");
 });
