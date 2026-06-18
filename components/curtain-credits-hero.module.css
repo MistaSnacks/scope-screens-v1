@@ -192,6 +192,11 @@
   opacity: 0.9;
   border-color: var(--color-rust, #ffbb00);
 }
+/* Hide Text shares the sound button's chrome but sits in the opposite corner. */
+.hideToggle {
+  right: auto;
+  left: 7%;
+}
 .soundIcon {
   width: 0;
   height: 0;

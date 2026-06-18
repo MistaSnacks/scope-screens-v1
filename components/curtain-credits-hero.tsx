@@ -158,6 +158,10 @@ export function CurtainCreditsHero() {
   const [velvetSrc, setVelvetSrc] = useState("");
   const [curtainsReady, setCurtainsReady] = useState(false);
   const [reelMuted, setReelMuted] = useState(true);
+  const [textHidden, setTextHidden] = useState(false);
+  // The reveal onUpdate re-drives the title/credits opacity every tick, so the
+  // "Hide text" toggle flips this ref to make it stand down while hidden.
+  const textHiddenRef = useRef(false);
   const screenVisibility = curtainsReady ? "visible" : "hidden";
 
   // The reel autoplays muted (browsers require it). The toggle flips audio and
@@ -169,6 +173,24 @@ export function CurtainCreditsHero() {
     setReelMuted(v.muted);
     void v.play().catch(() => {});
   }, []);
+
+  const toggleText = useCallback(() => setTextHidden((t) => !t), []);
+
+  // "Hide text" toggle: fade the title + credits out (and back) so the reel
+  // plays clean, and flip the ref the reveal checks so it stops re-driving them.
+  useEffect(() => {
+    textHiddenRef.current = textHidden;
+    const targets = [titleRef.current, creditsRef.current].filter(Boolean);
+    if (!targets.length) return;
+    gsap.to(targets, {
+      opacity: textHidden ? 0 : 1,
+      y: 0,
+      pointerEvents: textHidden ? "none" : "auto",
+      duration: 0.4,
+      ease: "power2.out",
+      overwrite: true,
+    });
+  }, [textHidden]);
 
   // The original procedural velvet remains the single visual source for the
   // valance, first-paint panels, and animated WebGL curtains.
@@ -372,15 +394,19 @@ export function CurtainCreditsHero() {
                 // with them. The title begins as the popcorn logo finishes
                 // lifting away (~0.25) and resolves across the rest of the open
                 // (~0.9); the credits follow a beat later.
-                const titleO = titleEase(Math.min(1, Math.max(0, (p - 0.25) / 0.65)));
-                const ctaO = ctaEase(Math.min(1, Math.max(0, (p - 0.45) / 0.5)));
-                gsap.set(titleRef.current, { opacity: titleO, y: 16 * (1 - titleO) });
-                gsap.set(creditsRef.current, {
-                  opacity: ctaO,
-                  y: 12 * (1 - ctaO),
-                  // Clickable only while essentially fully revealed.
-                  pointerEvents: ctaO > 0.95 ? "auto" : "none",
-                });
+                // While "Hide text" is on, leave the title + credits faded out
+                // where the toggle parked them instead of re-driving them here.
+                if (!textHiddenRef.current) {
+                  const titleO = titleEase(Math.min(1, Math.max(0, (p - 0.25) / 0.65)));
+                  const ctaO = ctaEase(Math.min(1, Math.max(0, (p - 0.45) / 0.5)));
+                  gsap.set(titleRef.current, { opacity: titleO, y: 16 * (1 - titleO) });
+                  gsap.set(creditsRef.current, {
+                    opacity: ctaO,
+                    y: 12 * (1 - ctaO),
+                    // Clickable only while essentially fully revealed.
+                    pointerEvents: ctaO > 0.95 ? "auto" : "none",
+                  });
+                }
 
                 // Roll the sizzle reel the instant the curtains hit full open,
                 // so the reveal lands on a moving picture rather than a frozen
@@ -501,6 +527,19 @@ export function CurtainCreditsHero() {
             REEL 01 / 01
           </div>
 
+          {/* Hide Text (left) drops the marquee title + credits so the reel
+              plays clean; Sound (right) unmutes it. */}
+          <button
+            type="button"
+            onClick={toggleText}
+            aria-pressed={textHidden}
+            aria-label={textHidden ? "Show the hero text" : "Hide the hero text to watch the reel"}
+            className={`${styles.soundToggle} ${styles.hideToggle}`}
+          >
+            <EyeIcon off={textHidden} />
+            {textHidden ? "Show Text" : "Hide Text"}
+          </button>
+
           <button
             type="button"
             onClick={toggleReelSound}
@@ -580,5 +619,36 @@ export function CurtainCreditsHero() {
 
       <div aria-hidden className={styles.letterboxBottom} />
     </section>
+  );
+}
+
+// Eye / eye-off glyph for the "Hide text" control, sized to sit beside the
+// button's mono label like the sound button's play triangle.
+function EyeIcon({ off }: { off: boolean }) {
+  return (
+    <svg
+      width="13"
+      height="13"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      {off ? (
+        <>
+          <path d="M9.9 4.24A9.1 9.1 0 0 1 12 4c6.5 0 10 7 10 7a13.2 13.2 0 0 1-2.16 3.19m-3.36 2.32A9.5 9.5 0 0 1 12 18c-6.5 0-10-7-10-7a13.2 13.2 0 0 1 4-4.51" />
+          <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" />
+          <path d="m2 2 20 20" />
+        </>
+      ) : (
+        <>
+          <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" />
+          <circle cx="12" cy="12" r="3" />
+        </>
+      )}
+    </svg>
   );
 }
