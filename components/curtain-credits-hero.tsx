@@ -35,17 +35,22 @@ void main() {
   // Pin top & bottom edges so the billow swells in/out, never fans up.
   float vEnv = smoothstep(0.0, 0.2, v) * smoothstep(1.0, 0.8, v);
 
-  // Pin the OUTER margin (u -> 1) flat against the screen edge so the billow
-  // never recedes there and exposes the screen behind the curtain. The sway is
-  // free in the interior and at the inner seam; it just tapers to 0 at the edge.
-  float uEnv = smoothstep(1.0, 0.7, u);
+  // Pin BOTH the inner seam (u -> 0, the visible parting/lit edge) AND the outer
+  // margin (u -> 1, against the frame) so the billow only breathes in the BODY
+  // of the drape. Previously only the outer edge was pinned and the inner seam
+  // swung free: that swept the visible leading edge through z, and perspective
+  // peeled it into an unnatural convex bulge right at the lit fold (and let the
+  // closed seam bow past its partner). Pinning the seam — as the proven
+  // persistent-curtains build does — keeps the lit edge flat and lets only the
+  // interior swell in and out, which reads as fabric rather than a dome.
+  float uEnv = smoothstep(0.0, 0.18, u) * smoothstep(1.0, 0.7, u);
 
   // Low-frequency sway of the whole folded sheet (a soft draft, not a ripple).
   float fold1 = sin(u * 3.0 - uTime * 1.0);
   float fold2 = sin(u * 5.5 - uTime * 1.6);
   float billow = fold1 * 0.6 + fold2 * 0.4;
 
-  float ripple = billow * 0.06 * vEnv * uEnv;
+  float ripple = billow * 0.045 * vEnv * uEnv; // gentle depth, matching the reference drape
   pos.z += ripple;
 
   vTextureCoord = aTextureCoord;
