@@ -14,7 +14,7 @@ interface Moment {
   pos: string;
 }
 
-// "Moments from the floor" — festival photos pulled from the Paper concept
+// "Moments from the floor" - festival photos pulled from the Paper concept
 // (Concept A · Watch Movies Meet People Have Fun). Badges alternate red/gold.
 export const MOMENTS: Moment[] = [
   { img: "01-egyptian", badge: "Marquee", tone: "red", title: "Live at the Egyptian", sub: "Seattle's underground film festival · Capitol Hill", pos: "50% 42%" },
@@ -31,7 +31,7 @@ function badgeClass(tone: Moment["tone"]) {
   return tone === "gold" ? `${base} bg-rust text-ink` : `${base} bg-curtain text-cream`;
 }
 
-// 35mm sprocket perforations — unexposed-leader colour, top + bottom of each
+// 35mm sprocket perforations - unexposed-leader colour, top + bottom of each
 // frame. Tiled as a 40px-pitch SVG so holes stay evenly spaced at any card width.
 const PERF_BG =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='30'%3E%3Crect x='9' y='9' width='22' height='12' rx='2' fill='%23e7e0cf'/%3E%3C/svg%3E\")";
@@ -175,7 +175,7 @@ export function MomentsReel({ moments }: { moments?: CmsMomentInput[] } = {}) {
         ))}
       </div>
 
-      {/* Reel bar — drag hint + progress + counter */}
+      {/* Reel bar - drag hint + progress + counter */}
       <div className="flex items-center justify-between gap-4 rounded-md border border-hairline bg-bg-alt px-5 py-3.5">
         <div className="flex items-center gap-2.5">
           <span className="font-mono text-[0.6875rem] leading-[0.875rem] text-curtain">&#9679;</span>

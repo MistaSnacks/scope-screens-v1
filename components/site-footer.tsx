@@ -4,10 +4,26 @@ import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { KineticText } from "@/components/motion/kinetic-text";
 
 const COLUMNS = [
-  { head: "Festival", links: ["About", "The Films", "Schedule", "Venues"] },
-  { head: "Attend", links: ["Buy Tickets", "Season Pass", "FAQ", "Accessibility"] },
+  { head: "Festival", links: ["About", "The Films", "Schedule"] },
+  { head: "Attend", links: ["Buy Tickets", "Season Pass", "Accessibility"] },
   { head: "Get Involved", links: ["Submit a Film", "Become a Funder", "Press & Media", "Volunteer"] },
 ];
+
+// SPA targets: in-page anchors for sections, mailto for contact-driven items.
+// Press & Media lands on #support - the SupportPress section carries both the
+// funder and press/media content. (FAQ + Venues removed: no section to anchor.)
+const FOOTER_HREFS: Record<string, string> = {
+  About: "#about",
+  "The Films": "#films",
+  Schedule: "#schedule",
+  "Buy Tickets": "#tickets",
+  "Season Pass": "#tickets",
+  Accessibility: `mailto:${CONTACT_EMAIL}?subject=Scope%20Screenings%20Accessibility`,
+  "Submit a Film": "#submit",
+  "Become a Funder": "#support",
+  "Press & Media": "#support",
+  Volunteer: `mailto:${CONTACT_EMAIL}?subject=Scope%20Screenings%20Volunteer`,
+};
 
 export async function SiteFooter() {
   const content = await getSiteContent();
@@ -17,6 +33,9 @@ export async function SiteFooter() {
   const tagline = footer?.tagline ??
     "Seattle's underground film festival. We put the fun back in film fests.";
   const newsletterHeading = footer?.newsletterHeading ?? "Get the lineup in your inbox";
+  // Footer sign-off + newsletter band visibility — "Hide newsletter band" toggle
+  // in CMS Site Settings. Checked (true) = whole band hidden; blank/unset = shown.
+  const showNewsletter = content.siteSettings?.newsletterHidden !== true;
   const copyright = footer?.copyright ??
     `© 2026 Scope Screenings · A fiscally sponsored project of Shunpike · ${VENUE.city}`;
   const contactEmail = footer?.contactEmail ?? CONTACT_EMAIL;
@@ -26,7 +45,9 @@ export async function SiteFooter() {
 
   return (
     <footer className="bg-stage-deep px-5 pb-9 pt-16 md:shell-x">
-      {/* Sign-off + newsletter */}
+      {/* Sign-off + newsletter band — the whole band hides together via the
+          "Hide newsletter band" toggle (sign-off heading + email signup). */}
+      {showNewsletter && (
       <div className="flex flex-col gap-10 border-b border-cream/10 pb-12 md:flex-row md:items-end md:justify-between">
         <KineticText
           as="h2"
@@ -54,6 +75,7 @@ export async function SiteFooter() {
           </form>
         </div>
       </div>
+      )}
 
       {/* Columns */}
       <Stagger className="grid grid-cols-2 gap-10 border-b border-cream/10 py-11 md:grid-cols-4">
@@ -69,7 +91,7 @@ export async function SiteFooter() {
               {col.head}
             </span>
             {col.links.map((l) => (
-              <a key={l} href="#" className="font-body text-[0.875rem] text-cream/80 transition-colors hover:text-rust">
+              <a key={l} href={FOOTER_HREFS[l] ?? "#"} className="font-body text-[0.875rem] text-cream/80 transition-colors hover:text-rust">
                 {l}
               </a>
             ))}

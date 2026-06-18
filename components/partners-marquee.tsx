@@ -35,7 +35,7 @@ export async function PartnersMarquee() {
   ).filter((p) => p.name);
 
   // 4 copies so half the track (the -50% animation period) always exceeds the
-  // 1440px viewport — otherwise the row runs out of logos and goes blank near
+  // 1440px viewport - otherwise the row runs out of logos and goes blank near
   // the loop boundary (SIFF scrolling into empty space looked like clipping).
   const loop = [...list, ...list, ...list, ...list];
   return (

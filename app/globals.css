@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/*  Scope Screenings — design tokens, sampled from the popcorn logo.   */
+/*  Scope Screenings - design tokens, sampled from the popcorn logo.   */
 /*  Mood: matinee / concession-stand. One brand, defined here fresh.   */
 /* ------------------------------------------------------------------ */
 @theme {
@@ -27,8 +27,8 @@
   --color-muted: #8c857a; /* secondary text */
   --color-hairline: rgba(247, 243, 230, 0.1); /* dividers / borders */
   --color-label: #ffbb00; /* eyebrow / micro-label accent (gold in dark) */
-  --color-heading: #ffbb00; /* "Pulp Fiction" title fill — gold on dark */
-  --color-heading-edge: #7d120d; /* hard extrude behind the title — oxblood */
+  --color-heading: #ffbb00; /* "Pulp Fiction" title fill - gold on dark */
+  --color-heading-edge: #7d120d; /* hard extrude behind the title - oxblood */
 
   --font-display: var(--font-aachen), "Cooper Black", "Rockwell", Georgia, serif;
   /* Sub-fonts adopted from the web/ system: Fraunces (editorial serif) for the
@@ -41,7 +41,7 @@
   --font-marquee: var(--font-anton), "Anton", Impact, sans-serif;
 }
 
-/* House Lights (light mode) — flips the semantic tokens only. Higher
+/* House Lights (light mode) - flips the semantic tokens only. Higher
    specificity than :root so it overrides the @theme defaults. Brand tokens
    (ink/cream/curtain/rust/brass) are intentionally untouched. */
 :root[data-theme="house"] {
@@ -54,8 +54,8 @@
   --color-muted: #6b6358; /* warm gray */
   --color-hairline: rgba(11, 10, 9, 0.12);
   --color-label: #e6180f; /* gold reads weak on light → red */
-  --color-heading: #e6180f; /* "Pulp Fiction" title fill — concession red on cream */
-  --color-heading-edge: #0b0a09; /* hard ink extrude — the LEXSCOPE red-on-black look */
+  --color-heading: #e6180f; /* "Pulp Fiction" title fill - concession red on cream */
+  --color-heading-edge: #0b0a09; /* hard ink extrude - the LEXSCOPE red-on-black look */
 }
 
 html,
@@ -82,7 +82,7 @@ body {
 /* Section horizontal gutter that doubles as a content cap. Normally the
    5.625rem desktop gutter; once the viewport grows past the 90rem content cap
    (≈ the zoom cap, 1728px at the capped root), the gutter expands so content
-   stops widening and centers — "margins take over" beyond the cap. No change
+   stops widening and centers - "margins take over" beyond the cap. No change
    at common widths (≤~1620px the max() resolves to the plain 5.625rem gutter).
    Applied as `md:shell-x` so it only engages on desktop, like the old gutter. */
 @utility shell-x {
@@ -107,7 +107,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* "Pulp Fiction" title-card heading — Aachen display, gold fill, hard offset
+/* "Pulp Fiction" title-card heading - Aachen display, gold fill, hard offset
    extrude (em-based so it scales with the heading). Gold on dark / red on light. */
 .pulp {
   color: var(--color-heading);
@@ -152,7 +152,7 @@ body {
   }
 }
 
-/* Season Pass credential: idle pendulum on its strap — keeps swaying on hover. */
+/* Season Pass credential: idle pendulum on its strap - keeps swaying on hover. */
 .lanyard {
   transform-origin: top center;
   animation: lanyard-sway 5s ease-in-out infinite;
@@ -172,7 +172,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Floating scroll cue — bobbing chevron, in its pointing direction. */
+/* Floating scroll cue - bobbing chevron, in its pointing direction. */
 @keyframes cue-bob-down {
   0%,
   100% {

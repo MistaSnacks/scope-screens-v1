@@ -39,7 +39,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.setItem("scope-theme", t);
     } catch {
-      /* private mode / blocked storage — non-fatal */
+      /* private mode / blocked storage - non-fatal */
     }
     setThemeState(t);
   }, []);

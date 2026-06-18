@@ -34,7 +34,7 @@ export async function ScheduleSection() {
         <div className="flex flex-col gap-14 lg:flex-row lg:gap-20">
         {/* Left: heading + season pass */}
         <Reveal className="flex flex-col items-start gap-6 lg:w-[22.5rem] lg:shrink-0">
-          {/* Popcorn logo — centered within the left column */}
+          {/* Popcorn logo - centered within the left column */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/popcorn-logo.png"
@@ -44,7 +44,7 @@ export async function ScheduleSection() {
           <div className="flex items-center gap-3">
             <span className="h-px w-10 bg-curtain" />
             <span className="font-body text-[0.75rem] font-bold uppercase tracking-[0.28em] text-label">
-              The Season · 2026—27
+              The Season · 2026-27
             </span>
           </div>
           <KineticText

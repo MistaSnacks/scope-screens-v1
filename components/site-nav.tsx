@@ -9,7 +9,7 @@ function hrefFor(item: string) {
   return item === "Watch" ? "#top" : `#${item.toLowerCase()}`;
 }
 
-// Persistent header — fixed, rides the whole page. Desktop shows the inline
+// Persistent header - fixed, rides the whole page. Desktop shows the inline
 // anchor nav; below `lg` it collapses to a hamburger that opens a dropdown so
 // the section nav still works on mobile.
 export function SiteNav({ active = "Watch" }: { active?: string }) {
@@ -17,7 +17,7 @@ export function SiteNav({ active = "Watch" }: { active?: string }) {
 
   return (
     <nav className="fixed left-5 right-5 top-2 z-[60] flex items-center justify-between md:left-[6.25rem] md:right-[6.25rem] lg:grid lg:grid-cols-[1fr_auto_1fr]">
-      <a href="/" aria-label="Scope Screenings — home" className="flex items-center">
+      <a href="/" aria-label="Scope Screenings - home" className="flex items-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/popcorn-logo.png"
@@ -26,7 +26,7 @@ export function SiteNav({ active = "Watch" }: { active?: string }) {
         />
       </a>
 
-      {/* Desktop inline nav — center column of the bar grid (truly centered,
+      {/* Desktop inline nav - center column of the bar grid (truly centered,
           and physically can't overlap the controls the way absolute did) */}
       <div className="hidden items-center justify-center gap-9 lg:flex">
         {NAV_ITEMS.map((item) => (

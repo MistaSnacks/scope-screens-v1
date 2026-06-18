@@ -52,7 +52,7 @@ export async function Submissions() {
   const heading = cms?.title ?? "Submit Your Film";
   const next = nextSubmissionDeadline();
   const eyebrow = cms?.eyebrow ?? `Open Call · ${SUBMISSION_SEASON} Submissions`;
-  const intro = cms?.intro ?? `Narrative shorts, documentaries, animation, music videos, commercials, and experimental work — all under twenty minutes. Screened live on the big screen, June through December, and for the first time ${SUBMISSION_SEASON} brings judged awards.`;
+  const intro = cms?.intro ?? `Narrative shorts, documentaries, animation, music videos, commercials, and experimental work - all under twenty minutes. Screened live on the big screen, June through December, and for the first time ${SUBMISSION_SEASON} brings judged awards.`;
   const chips = content.chips && content.chips.length
     ? content.chips.map((c) => ({ label: c.label ?? "", dot: c.accent === "rust" ? "bg-rust" : "bg-curtain" }))
     : CHIPS;
@@ -93,7 +93,7 @@ export async function Submissions() {
         ))}
       </div>
 
-      {/* Real FilmFreeway deadline ladder — next one highlighted */}
+      {/* Real FilmFreeway deadline ladder - next one highlighted */}
       <div className="flex flex-col items-center gap-3">
         <span className="font-mono text-[0.6875rem] uppercase tracking-[0.24em] text-fg/45">Submission Deadlines</span>
         <div className="flex flex-wrap items-center justify-center gap-2.5">

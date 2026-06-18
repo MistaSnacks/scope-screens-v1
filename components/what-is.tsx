@@ -1,6 +1,6 @@
-// "What Is Scope Screenings" — the dark film-slate section from the Concept A
+// "What Is Scope Screenings" - the dark film-slate section from the Concept A
 // board (node 374-0): editorial copy + a tilted clapperboard of production
-// credits, on the dark stage ground. Rebuilt in the LIVE type system —
+// credits, on the dark stage ground. Rebuilt in the LIVE type system -
 // Aachen (font-display) headings, Libre (font-body) copy, JetBrains Mono
 // (font-mono) for the slate codes/labels.
 
@@ -24,7 +24,7 @@ export async function WhatIs() {
   const eyebrow = cms?.eyebrow ?? "SC. 01 · Roll 22 · Now Rolling";
   const heading = cms?.title ?? "What Is Scope Screenings?";
   const body = cms?.body ??
-    "Seattle's underground film festival. A live, monthly short-film showcase built to put filmmakers on a real screen in front of a real, packed house — uplifting Black, brown & tan creators across the PNW. Ten directors, one night, every month.";
+    "Seattle's underground film festival. A live, monthly short-film showcase built to put filmmakers on a real screen in front of a real, packed house - uplifting Black, brown & tan creators across the PNW. Ten directors, one night, every month.";
   const productionLabel = clapboard?.[0]?.label ?? "Production";
   const productionValue = clapboard?.[0]?.value ?? "Scope Screenings";
   const lines =
@@ -63,7 +63,7 @@ export async function WhatIs() {
       {/* Right: clapperboard */}
       <Reveal delay={0.1} className="w-full max-w-[33rem] shrink-0">
       <div className="rotate-[1.5deg] [filter:drop-shadow(0_22px_45px_rgba(0,0,0,0.5))]">
-        {/* Clapstick — straight bar of vertical stripes, rotated open (−9°) */}
+        {/* Clapstick - straight bar of vertical stripes, rotated open (−9°) */}
         <div
           className="mb-1.5 flex h-[3.25rem] w-full -rotate-[9deg] overflow-clip rounded-[0.3125rem]"
           style={{ background: "#0b0a09" }}

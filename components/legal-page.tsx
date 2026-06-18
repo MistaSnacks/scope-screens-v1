@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Reveal } from "@/components/motion/reveal";
 import { KineticText } from "@/components/motion/kinetic-text";
 
-/** Shared shell for static legal pages (Privacy, Terms) — matches the
+/** Shared shell for static legal pages (Privacy, Terms) - matches the
  *  About/Support hero + prose rhythm so it reads as part of the site. */
 export function LegalPage({
   eyebrow,

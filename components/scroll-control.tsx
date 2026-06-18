@@ -22,7 +22,7 @@ function prefersReducedMotion() {
 /**
  * Floating "Return to top" cue. Hidden in the hero (the logo opening carries its
  * own "Scroll to enter" prompt, so we don't duplicate it here); once the visitor
- * has scrolled past the hero — or jumped via the nav — it appears and scrolls
+ * has scrolled past the hero - or jumped via the nav - it appears and scrolls
  * back to the hero with the curtain open.
  */
 export function ScrollControl() {
@@ -51,7 +51,7 @@ export function ScrollControl() {
 
   return (
     // Always mounted (toggling mount/unmount next to the GSAP-pinned hero
-    // corrupts React's DOM bookkeeping). In the hero it's hidden — the logo
+    // corrupts React's DOM bookkeeping). In the hero it's hidden - the logo
     // opening's own "Scroll to enter" cue stands in, so there's no duplicate
     // prompt; past the hero it fades in as "Return to top".
     <button

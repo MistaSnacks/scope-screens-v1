@@ -3,7 +3,7 @@ import { LegalPage, LegalSection } from "@/components/legal-page";
 import { CONTACT_EMAIL } from "@/lib/festival";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Scope Screenings",
+  title: "Terms of Service - Scope Screenings",
   description:
     "The terms that govern tickets, submissions, and use of the Scope Screenings site.",
 };

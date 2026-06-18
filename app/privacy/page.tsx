@@ -3,7 +3,7 @@ import { LegalPage, LegalSection } from "@/components/legal-page";
 import { CONTACT_EMAIL } from "@/lib/festival";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Scope Screenings",
+  title: "Privacy Policy - Scope Screenings",
   description:
     "How Scope Screenings collects, uses, and protects your information.",
 };
@@ -14,7 +14,7 @@ export default function PrivacyPage() {
       eyebrow="The fine print"
       title="Privacy Policy"
       updated="June 18, 2026"
-      intro="Scope Screenings is a fiscally sponsored project of Shunpike. We keep the data we collect to the minimum it takes to sell a ticket, read a submission, and send the lineup to your inbox — and we never sell it. This page explains what we gather, why, and the choices you have."
+      intro="Scope Screenings is a fiscally sponsored project of Shunpike. We keep the data we collect to the minimum it takes to sell a ticket, read a submission, and send the lineup to your inbox - and we never sell it. This page explains what we gather, why, and the choices you have."
     >
       <LegalSection heading="Information We Collect">
         <p>
@@ -58,7 +58,7 @@ export default function PrivacyPage() {
         <p>
           Every newsletter includes a one-click unsubscribe. You can ask us to
           access, correct, or delete the personal information we hold about you
-          at any time — just email{" "}
+          at any time - just email{" "}
           <a
             href={`mailto:${CONTACT_EMAIL}?subject=Privacy%20Request`}
             className="text-curtain underline-offset-2 hover:text-rust hover:underline"

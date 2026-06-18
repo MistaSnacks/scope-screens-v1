@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const metadata = { title: "Thank You — Scope Screenings" };
+export const metadata = { title: "Thank You - Scope Screenings" };
 
 export default function ThankYou() {
   return (
@@ -8,7 +8,7 @@ export default function ThankYou() {
       <span className="font-mono text-[0.75rem] uppercase tracking-[0.3em] text-label">Admit One</span>
       <h1 className="pulp font-display text-[3.5rem] uppercase leading-[0.94] md:text-[5rem]">You're In</h1>
       <p className="max-w-[44ch] font-body text-[1.0625rem] leading-relaxed text-fg/70">
-        Your tickets are confirmed — check your email for the details and your digital ticket.
+        Your tickets are confirmed - check your email for the details and your digital ticket.
         Doors 7:00, lights down at 7:30. See you at the show.
       </p>
       <Link

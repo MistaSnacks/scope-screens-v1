@@ -1,6 +1,6 @@
 // scripts/px-to-rem.mjs
 // Converts Tailwind arbitrary `[<n>px]` utilities to `[<n/16>rem]`.
-// Pure string transform — no filesystem access (so it is unit-testable).
+// Pure string transform - no filesystem access (so it is unit-testable).
 //
 // Matches ONLY the simple form `<prefix>[<number>px]`, identical to the audit
 // grep `\[[0-9]+px\]`. Compound values (`shadow-[0_20px_…]`, `[calc(…px)]`)

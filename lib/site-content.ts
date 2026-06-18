@@ -22,7 +22,7 @@ export interface SubmissionsContent { eyebrow?: string; title?: string; intro?: 
 export interface ArchivesContent { eyebrow?: string; title?: string; body?: string; ctaLabel?: string; ctaUrl?: string }
 export interface SupportContent { eyebrow?: string; title?: string; funderTitle?: string; funderBody?: string; donateLabel?: string; donateUrl?: string; pressTitle?: string; pressBody?: string; pressKitLabel?: string; pressEmail?: string }
 export interface FooterContent { signoff?: string; tagline?: string; newsletterHeading?: string; copyright?: string; contactEmail?: string }
-export interface SiteSettingsContent { venueName?: string; venueAddress?: string; venueCity?: string }
+export interface SiteSettingsContent { venueName?: string; venueAddress?: string; venueCity?: string; archivesHidden?: boolean; newsletterHidden?: boolean }
 
 export interface SiteContent {
   partners: CmsPartner[] | null;

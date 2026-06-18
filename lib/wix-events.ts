@@ -1,7 +1,7 @@
 // Live schedule from Wix Events (the CMS the client already manages).
 // Uses a Wix Headless visitor token (OAuth client ID, no secret) to read
 // published events. Falls back to null on any miss so the caller can use the
-// static festival.ts data — the site never breaks if Wix is unreachable or
+// static festival.ts data - the site never breaks if Wix is unreachable or
 // the season's events haven't been created yet.
 
 const CLIENT_ID = process.env.WIX_CLIENT_ID;

@@ -14,7 +14,6 @@ import { SupportPress } from "@/components/support-press";
 import { SiteFooter } from "@/components/site-footer";
 import { FOUNDER } from "@/lib/festival";
 import { Reveal } from "@/components/motion/reveal";
-import { Stagger, StaggerItem } from "@/components/motion/stagger";
 import { Parallax } from "@/components/motion/parallax";
 import { KineticText } from "@/components/motion/kinetic-text";
 import { getPurchasableTargets } from "@/lib/wix-checkout";
@@ -42,18 +41,18 @@ export default async function Home() {
   const access = content.builtForAccess;
   const magic = content.magicGallery;
   const archives = content.archives;
+  // Section visibility — "Hide Archives section" toggle in CMS Site Settings.
+  // Checked (true) = hidden; blank/unset = shown.
+  const showArchives = content.siteSettings?.archivesHidden !== true;
   const FOUNDER_QUOTE_CMS = access?.quote ?? FOUNDER_QUOTE;
   const founderName = access?.founderName ?? FOUNDER.name;
   const founderTitle = access?.founderTitle ?? FOUNDER.title;
   const founderCredential = access?.founderCredential ?? FOUNDER.credential;
   const founderPhoto = wixImageUrl(access?.photo) ?? "/founder-lex.jpg";
-  const stat = content.stats && content.stats.length
-    ? content.stats.map((s) => ({ n: s.value ?? "", l: s.label ?? "" }))
-    : [{ n: "200+", l: "Films" }, { n: "150+", l: "Filmmakers" }, { n: "20+", l: "Screenings" }, { n: "6+", l: "Theaters" }];
 
   return (
     <main id="top" className="relative bg-bg">
-      {/* Persistent top chrome — the velvet valance + nav ride the whole page
+      {/* Persistent top chrome - the velvet valance + nav ride the whole page
           together, outside the pinned hero. Valance z-50, nav z-60 on top. */}
       <PersistentValance />
       <SiteNav active="Watch" />
@@ -67,7 +66,10 @@ export default async function Home() {
       />
       <Marquee />
 
-      <div id="tickets" className="scroll-mt-[7.5rem]">
+      {/* scroll-mt = nav clearance (7.5rem) minus the section's own py-24 (6rem)
+          top pad, so jumping to #tickets lands the "Chapter One" eyebrow just
+          below the nav instead of 6rem of dead padding. */}
+      <div id="tickets" className="scroll-mt-[1.5rem]">
         <BuyTickets nextShow={nextShow} seasonPass={seasonPass} />
       </div>
 
@@ -75,16 +77,16 @@ export default async function Home() {
         <WhatIs />
       </div>
 
-      {/* Chapter Two — Built For Access */}
+      {/* Chapter Two - Built For Access */}
       <section className="flex flex-col items-stretch gap-14 border-t border-cream/10 px-5 py-24 md:flex-row md:shell-x">
         <Reveal className="w-full md:w-[32.5rem] md:shrink-0">
-          {/* The founder as a director's-monitor credential — gold frame, a REC
+          {/* The founder as a director's-monitor credential - gold frame, a REC
               header, and a film-still pulled from the Wix media library. */}
           <Parallax distance={22}>
           <figure className="rounded-lg bg-ink p-3 ring-1 ring-rust/70 shadow-[0_0_0_1px_rgba(255,187,0,0.12),0_30px_60px_-22px_rgba(0,0,0,0.85)] md:p-4">
             <div className="flex items-center justify-between px-1 pb-2.5">
               <span className="font-display text-[1.125rem] uppercase leading-none tracking-[0.1em] text-rust md:text-[1.3125rem]">
-                Scope <span className="text-rust/55">—</span> Founder
+                Scope <span className="text-rust/55">-</span> Founder
               </span>
               <span className="flex items-center gap-2 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.4em] text-smoke md:text-[0.75rem]">
                 Rec
@@ -129,18 +131,10 @@ export default async function Home() {
               {founderTitle} · {founderCredential}
             </span>
           </div>
-          <Stagger className="flex flex-wrap gap-10 pt-2">
-            {stat.map((s, i) => (
-              <StaggerItem key={`${i}-${s.l}`} className="flex flex-col">
-                <span className="font-marquee text-[2.5rem] leading-none text-rust">{s.n}</span>
-                <span className="font-body text-[0.75rem] font-semibold uppercase tracking-[0.12em] text-smoke">{s.l}</span>
-              </StaggerItem>
-            ))}
-          </Stagger>
         </Reveal>
       </section>
 
-      {/* Chapter Three — Scope Screenings Magic (moments from the floor) */}
+      {/* Chapter Three - Scope Screenings Magic (moments from the floor) */}
       <section className="border-t border-cream/10 bg-bg px-5 py-24 md:shell-x">
         <Reveal className="flex flex-col items-center gap-4 text-center">
           <ChapterLabel n={magic?.eyebrow ?? "Chapter Three"} center />
@@ -150,7 +144,7 @@ export default async function Home() {
             text={magic?.title ?? "Scope Screenings\nMagic"}
           />
           <p className="max-w-[44ch] font-body text-[1.0625rem] leading-relaxed text-fg/70">
-            {magic?.body ?? "Every last Tuesday the Central District turns into a cinema — ten films, ten directors, and the best room in the city."}
+            {magic?.body ?? "Every last Tuesday the Central District turns into a cinema - ten films, ten directors, and the best room in the city."}
           </p>
         </Reveal>
 
@@ -182,7 +176,8 @@ export default async function Home() {
         <SupportPress />
       </div>
 
-      {/* Chapter Four — The Archives */}
+      {/* Chapter Four - The Archives — hidden when CMS archivesVisible === false */}
+      {showArchives && (
       <section
         id="films"
         className="scroll-mt-[7.5rem] border-t border-hairline bg-bg-alt px-5 py-24 md:shell-x"
@@ -210,6 +205,7 @@ export default async function Home() {
           </a>
         </div>
       </section>
+      )}
 
       <SiteFooter />
     </main>

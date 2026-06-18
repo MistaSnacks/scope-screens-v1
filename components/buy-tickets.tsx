@@ -110,7 +110,7 @@ function SeasonPassLanyard({ target }: { target: CheckoutTarget | null }) {
     "lanyard relative flex w-[15.5rem] shrink-0 flex-col items-center [filter:drop-shadow(0_24px_42px_rgba(0,0,0,0.5))]";
   const body = (
     <>
-      {/* Strap V + clip — woven black with the repeating wordmark */}
+      {/* Strap V + clip - woven black with the repeating wordmark */}
       <div className="relative h-[3.75rem] w-[13.125rem]">
         <span className="absolute bottom-0.5 left-[4.875rem] h-24 w-[1.625rem] origin-bottom rotate-[20deg] overflow-hidden rounded-[0.1875rem] border border-cream/10 bg-ink">
           <span className="absolute inset-0 flex items-start justify-center pt-2">
@@ -131,7 +131,7 @@ function SeasonPassLanyard({ target }: { target: CheckoutTarget | null }) {
         </span>
       </div>
 
-      {/* Credential — B&W documentary collage face */}
+      {/* Credential - B&W documentary collage face */}
       <div
         className="relative flex w-[15.5rem] flex-col overflow-hidden rounded-2xl border border-[#5a5550] bg-ink px-6 pb-5 pt-5"
         style={{
@@ -184,7 +184,7 @@ function SeasonPassLanyard({ target }: { target: CheckoutTarget | null }) {
     <button
       type="button"
       onClick={() => openCheckout(target)}
-      aria-label="Buy a Season Pass — all seven nights"
+      aria-label="Buy a Season Pass - all seven nights"
       className={`${lanyardClassName} cursor-pointer border-0 bg-transparent p-0 text-left`}
     >
       {body}
@@ -195,7 +195,7 @@ function SeasonPassLanyard({ target }: { target: CheckoutTarget | null }) {
       target="_blank"
       rel="noopener noreferrer"
       className={lanyardClassName}
-      aria-label="Buy a Season Pass — all seven nights"
+      aria-label="Buy a Season Pass - all seven nights"
     >
       {body}
     </a>
@@ -211,7 +211,7 @@ export function BuyTickets({
 }) {
   return (
     <section className="flex flex-col items-center gap-14 overflow-hidden border-t border-cream/10 px-5 py-24 md:shell-x">
-      {/* Heading on top — like the Program section */}
+      {/* Heading on top - like the Program section */}
       <Reveal className="flex max-w-[40rem] flex-col items-center gap-4 text-center">
         <div className="flex items-center gap-3">
           <span className="h-px w-10 bg-curtain" />
@@ -221,12 +221,12 @@ export function BuyTickets({
         <KineticText as="h2" className="pulp font-display text-[3.5rem] uppercase leading-[0.94] md:text-[5rem]" text="The Next Show" />
         <p className="font-body text-[1.0625rem] leading-relaxed text-fg/70">
           Last Tuesday of the month, June through December. Ten directors, ten films, one packed
-          house in the Central District — doors at 7:00, lights down at 7:30. Go for the night, or go
+          house in the Central District - doors at 7:00, lights down at 7:30. Go for the night, or go
           all season.
         </p>
       </Reveal>
 
-      {/* Ticket + lanyard underneath — scaled so neither overpowers the other */}
+      {/* Ticket + lanyard underneath - scaled so neither overpowers the other */}
       <Stagger className="flex w-full flex-col items-center justify-center gap-6 md:flex-row md:items-center md:gap-14">
         <StaggerItem>
           <div className="origin-center scale-[0.58] sm:scale-75 md:scale-[0.9]">

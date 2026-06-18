@@ -3,13 +3,13 @@
 // fill. Returns "" on the server (no document).
 //
 // Two palettes, same red family:
-//   movie  — lights-down oxblood, near-black fold shadows (the cinema dark).
-//   house  — lights-UP: brighter base, softer/lighter shadow stops, less grain,
+//   movie  - lights-down oxblood, near-black fold shadows (the cinema dark).
+//   house  - lights-UP: brighter base, softer/lighter shadow stops, less grain,
 //            lower contrast, so the drape doesn't read as a black gash on cream.
 const VELVET_SIZE = 256;
 
 // Seeded PRNG (mulberry32). The velvet used to be drawn with Math.random(), so
-// every page load produced a DIFFERENT drape — which meant a captured/static
+// every page load produced a DIFFERENT drape - which meant a captured/static
 // fallback could never match the live render. Seeding makes the texture byte-for-
 // byte identical on every load, so the SSR fallback image and the WebGL curtain
 // share the exact same velvet and the hand-off is invisible. Change SEED to
@@ -63,7 +63,7 @@ const PALETTES: Record<VelvetTheme, VelvetPalette> = {
 export function generateVelvetDataUrl(theme: VelvetTheme = "movie"): string {
   if (typeof document === "undefined") return "";
 
-  // Curtains stay the normal (lights-down) velvet in BOTH modes — the light
+  // Curtains stay the normal (lights-down) velvet in BOTH modes - the light
   // mode instead balances the curtain EDGE against the cream canvas (see the
   // hero's :root[data-theme="house"] .screen vignette). `theme` is accepted for
   // call-site compatibility but no longer changes the drape colour.

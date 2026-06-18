@@ -29,7 +29,7 @@ function badgeClass(tone: Film["tone"]) {
   return `${base} border border-rust text-rust`;
 }
 
-// Sprocket perforations — four holes, evenly spread, the colour of unexposed leader.
+// Sprocket perforations - four holes, evenly spread, the colour of unexposed leader.
 function Perfs() {
   return (
     <div className="flex h-6 shrink-0 items-center justify-evenly px-2.5">
@@ -130,7 +130,7 @@ export function Filmstrip() {
           </a>
         ))}
 
-        {/* End-of-reel leader — scan-the-reel QR end cap */}
+        {/* End-of-reel leader - scan-the-reel QR end cap */}
         <div className="flex w-[16.25rem] shrink-0 flex-col bg-ink sm:w-[18.75rem]">
           <Perfs />
           <div className="relative flex h-[12.25rem] flex-col items-center justify-center gap-3">
@@ -148,7 +148,7 @@ export function Filmstrip() {
         </div>
       </div>
 
-      {/* Reel bar — drag hint + progress + counter */}
+      {/* Reel bar - drag hint + progress + counter */}
       <div className="flex items-center justify-between gap-4 px-1">
         <div className="flex items-center gap-2.5">
           <span className="h-2 w-2 rounded-full bg-curtain" />

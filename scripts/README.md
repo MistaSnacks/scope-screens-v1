@@ -6,7 +6,7 @@
 non-technical editors, with an **annotated screenshot per section** (numbered
 pins on the real page elements) plus a field legend.
 
-It's generated in two steps — re-run both whenever the site design or the CMS
+It's generated in two steps - re-run both whenever the site design or the CMS
 fields change, so the screenshots and field lists stay current:
 
 ```bash
@@ -21,13 +21,13 @@ python3 -m pip install --quiet python-docx       # first time only
 python3 scripts/build-cms-guide.py               # writes docs/Scope-Screenings-CMS-Guide.docx
 ```
 
-- **Capture script:** `.shots/capture-cms-guide.mjs` — drives Playwright, finds
+- **Capture script:** `.shots/capture-cms-guide.mjs` - drives Playwright, finds
   each editable element (by CSS-module class or distinctive text), drops the
   numbered pins, and screenshots each section. The hero is captured with
   reduced-motion so the curtains are open and the wordmark is visible. If you
   rename a field's seeded text or restructure a section, update that section's
   `text`/`css` locators there.
-- **Doc generator:** `scripts/build-cms-guide.py` — embeds `.shots/guide/<Section>.png`
+- **Doc generator:** `scripts/build-cms-guide.py` - embeds `.shots/guide/<Section>.png`
   and the numbered legend for each section. Edit the `SECTIONS` list there to
   change wording, legends, or which fields are described. Brand fonts are Aachen
   Bold (headings) + Libre Franklin (body); the header logo is `public/popcorn-logo.png`.
