@@ -79,9 +79,17 @@ export async function SiteFooter() {
 
       {/* Legal */}
       <div className="flex flex-col gap-2 pt-6 md:flex-row md:items-center md:justify-between">
-        <span className="font-body text-[0.75rem] text-smoke">
-          {copyright}
-        </span>
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-x-5 md:gap-y-2">
+          <span className="font-body text-[0.75rem] text-smoke">
+            {copyright}
+          </span>
+          <a href="/privacy" className="font-body text-[0.75rem] text-smoke transition-colors hover:text-rust">
+            Privacy Policy
+          </a>
+          <a href="/terms" className="font-body text-[0.75rem] text-smoke transition-colors hover:text-rust">
+            Terms of Service
+          </a>
+        </div>
         <div className="flex items-center gap-5">
           {socialLinks.map((s) => (
             <a
