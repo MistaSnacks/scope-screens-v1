@@ -88,7 +88,7 @@ export function CheckoutModal({ target, onClose }: { target: CheckoutTarget; onC
           ×
         </button>
 
-        <h2 className="font-display text-[1.75rem] uppercase leading-none">{target.title}</h2>
+        <h2 className="pulp font-display text-[1.75rem] uppercase leading-none">{target.title}</h2>
 
         {state.phase === "loading" && <p className="font-body text-smoke">Loading tickets…</p>}
 
