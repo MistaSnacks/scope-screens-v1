@@ -9,7 +9,17 @@ import { SiteFooter } from "@/components/site-footer";
 import { CursorField } from "@/components/motion/cursor-field";
 import "./globals.css";
 
+// Absolute base for OG/Twitter image URLs so link scrapers (iMessage, etc.)
+// resolve /opengraph-image.jpg. Prefers the same canonical URL the checkout
+// flow uses, then Vercel's production domain at build time, then localhost.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "http://localhost:3007");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Scope Screenings — Seattle's Underground Film Festival",
   description:
     "We put the fun back in film fests. A live, monthly short-film festival uplifting Black, brown, and tan creators in Seattle.",
