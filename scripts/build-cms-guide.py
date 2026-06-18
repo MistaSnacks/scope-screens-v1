@@ -52,6 +52,23 @@ def legend_line(doc, n, name, desc):
     style_run(p.add_run(" - " + desc))
 
 
+def optional_image(doc, filename, caption=None, missing_note=None):
+    """Embed .shots/guide/<filename> if present; otherwise leave a labelled
+    placeholder so the slot is obvious until the screenshot is dropped in."""
+    img = os.path.join(SHOTS, filename)
+    if os.path.exists(img):
+        doc.add_picture(img, width=Inches(6.5))
+        doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
+        doc.paragraphs[-1].paragraph_format.space_after = Pt(3)
+        if caption:
+            c = doc.add_paragraph(); c.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            c.paragraph_format.space_after = Pt(6)
+            style_run(c.add_run(caption), size=9, color=GREY)
+    elif missing_note:
+        n = doc.add_paragraph(); n.paragraph_format.space_after = Pt(6)
+        style_run(n.add_run(missing_note), size=9, color=GREY)
+
+
 # (key, heading, collections-note, [ (n, name, desc) ... ], also-note)
 SECTIONS = [
     ("Hero", "Hero", "Form: Hero", [
@@ -135,6 +152,22 @@ def main():
     para(doc, "Open the CMS in your Wix dashboard → pick the collection for the part of the page you want to "
               "change → edit the fields → click Publish. Your live site updates within the hour.")
 
+    heading(doc, "Opening the CMS")
+    bullet(doc, "Sign in at wix.com and open this site's Dashboard.", label="1")
+    bullet(doc, "In the left-hand menu choose CMS. (On some plans it sits under “Dev Mode” or "
+                "“Developer Tools”, and it was previously called “Content Manager”.)", label="2")
+    bullet(doc, "You'll land on the list of collections - one folder per part of the page. Click any "
+                "collection to open it.", label="3")
+    bullet(doc, "Edit the fields, then click Publish (top-right) to push it live.", label="4")
+    optional_image(doc, "cms-nav.png",
+                   caption="Where to find CMS in the Wix dashboard menu.",
+                   missing_note="[ Screenshot to add → save as .shots/guide/cms-nav.png: the Wix dashboard "
+                                "left menu with “CMS” highlighted. ]")
+    optional_image(doc, "cms-collections.png",
+                   caption="The collection list - one folder per section of the page.",
+                   missing_note="[ Screenshot to add → save as .shots/guide/cms-collections.png: the CMS "
+                                "collections list. ]")
+
     heading(doc, "How it's organized")
     para(doc, "Every part of the page is its own collection, named after the section. Almost everything for a section "
               "now lives in one editable card (its “form”) - including the short repeating bits like the clapperboard "
@@ -142,6 +175,23 @@ def main():
               "(Clap 1–5, Chip 1–4, and so on). Only the things that genuinely grow over time stay as their own lists: "
               "Partners, the Magic Gallery moments, the Support press kit, and the Marquee. On each screenshot below, "
               "the numbered pins show exactly what each field controls.")
+
+    heading(doc, "Your collections at a glance")
+    para(doc, "Each item below is one collection (a “folder”) in the CMS. Most are a single editable card; "
+              "the few marked “list” hold multiple rows.")
+    bullet(doc, "the opening curtain - eyebrow, title, tagline, poster image, background video.", label="Hero")
+    bullet(doc, "the “What Is Scope” section, including the clapperboard slate lines.", label="WhatIs")
+    bullet(doc, "the founder section - quote, name, title, photo.", label="BuiltForAccess")
+    bullet(doc, "the gallery heading and copy. The photos live in the “MagicGallery — Moments” list.", label="MagicGallery")
+    bullet(doc, "the open-call section - intro, chips, Submit button.", label="Submissions")
+    bullet(doc, "the films/archives section - heading, body, button.", label="Archives")
+    bullet(doc, "the funder + press section. Press resources live in the “Support — Press Kit” list.", label="Support")
+    bullet(doc, "the sign-off, newsletter heading, socials, copyright.", label="Footer")
+    bullet(doc, "the partner logos (list - one row per logo).", label="Partners")
+    bullet(doc, "the scrolling marquee phrases (list - one row per phrase).", label="Marquee")
+    bullet(doc, "venue details, plus the Hide Archives and Hide newsletter band toggles.", label="Site Settings")
+    para(doc, "“Subscribers” is created automatically by Wix to collect newsletter emails - you don't edit it by hand.",
+         color=GREY, size=9.5)
 
     for key, title, collections, items, also in SECTIONS:
         doc.add_page_break()

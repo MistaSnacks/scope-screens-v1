@@ -1,12 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useState, type MouseEvent as ReactMouseEvent } from "react";
 import { NAV_ITEMS } from "@/lib/festival";
 import { ThemeToggle } from "./theme-toggle";
 import { Hoverable } from "@/components/motion/hoverable";
 
 function hrefFor(item: string) {
   return item === "Watch" ? "#top" : `#${item.toLowerCase()}`;
+}
+
+// The curtain hero is GSAP-pinned, so a native hash jump scrolls *through* the
+// pin range, the layout reflows mid-flight, and the anchor lands far off (e.g.
+// #tickets ~2600px past target). Hop instantly past the pin to settle the
+// layout, then smooth-scroll to the now-stable target so sections land true.
+function scrollToHash(href: string) {
+  const id = href.replace(/^#/, "");
+  const go = (behavior: ScrollBehavior) => {
+    if (id === "top") return window.scrollTo({ top: 0, behavior });
+    document.getElementById(id)?.scrollIntoView({ behavior, block: "start" });
+  };
+  if (id !== "top" && !document.getElementById(id)) return;
+  go("instant");
+  requestAnimationFrame(() => requestAnimationFrame(() => go("smooth")));
+}
+
+function handleHashNav(e: ReactMouseEvent<HTMLAnchorElement>, href: string) {
+  if (!href.startsWith("#")) return;
+  e.preventDefault();
+  scrollToHash(href);
+  history.replaceState(null, "", href);
 }
 
 // Persistent header - fixed, rides the whole page. Desktop shows the inline
@@ -17,14 +40,14 @@ export function SiteNav({ active = "Watch" }: { active?: string }) {
 
   return (
     <nav className="fixed left-5 right-5 top-2 z-[60] flex items-center justify-between md:left-[6.25rem] md:right-[6.25rem] lg:grid lg:grid-cols-[1fr_auto_1fr]">
-      <a href="/" aria-label="Scope Screenings - home" className="flex items-center">
+      <Link href="/" aria-label="Scope Screenings - home" className="flex items-center">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/popcorn-logo.png"
           alt="Scope Screenings"
           className="h-[3.5rem] w-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.55)] md:h-[5.5rem]"
         />
-      </a>
+      </Link>
 
       {/* Desktop inline nav - center column of the bar grid (truly centered,
           and physically can't overlap the controls the way absolute did) */}
@@ -33,6 +56,7 @@ export function SiteNav({ active = "Watch" }: { active?: string }) {
           <a
             key={item}
             href={hrefFor(item)}
+            onClick={(e) => handleHashNav(e, hrefFor(item))}
             className={`font-mono text-[0.75rem] uppercase tracking-[0.14em] transition-colors hover:text-rust ${
               item === active ? "text-rust" : "text-cream"
             }`}
@@ -48,6 +72,7 @@ export function SiteNav({ active = "Watch" }: { active?: string }) {
         <Hoverable magnetic strength={0.3} lift={0}>
           <a
             href="#tickets"
+            onClick={(e) => handleHashNav(e, "#tickets")}
             className="group flex items-center gap-2 border border-rust px-3 py-2 transition-colors hover:bg-rust md:px-4 md:py-2.5"
           >
             <span
@@ -92,7 +117,7 @@ export function SiteNav({ active = "Watch" }: { active?: string }) {
             <a
               key={item}
               href={hrefFor(item)}
-              onClick={() => setOpen(false)}
+              onClick={(e) => { setOpen(false); handleHashNav(e, hrefFor(item)); }}
               className={`border-b border-cream/10 px-5 py-3.5 font-mono text-[0.8125rem] uppercase tracking-[0.14em] transition-colors last:border-b-0 hover:bg-curtain/10 hover:text-rust ${
                 item === active ? "text-rust" : "text-cream"
               }`}

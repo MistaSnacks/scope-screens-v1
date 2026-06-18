@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 export type Theme = "movie" | "house";
 
@@ -20,6 +20,12 @@ export function useTheme() {
   return useContext(ThemeCtx);
 }
 
+function initialTheme(): Theme {
+  if (typeof document === "undefined") return "movie";
+  const fromDom = document.documentElement.dataset.theme;
+  return fromDom === "house" || fromDom === "movie" ? fromDom : "movie";
+}
+
 /**
  * Holds the active theme. The real initial value is set pre-paint by the inline
  * script in layout.tsx (reads localStorage, writes html[data-theme]); this
@@ -27,12 +33,7 @@ export function useTheme() {
  * toggle. Default is Movie Mode (dark).
  */
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("movie");
-
-  useEffect(() => {
-    const fromDom = document.documentElement.dataset.theme as Theme | undefined;
-    if (fromDom === "house" || fromDom === "movie") setThemeState(fromDom);
-  }, []);
+  const [theme, setThemeState] = useState<Theme>(initialTheme);
 
   const setTheme = useCallback((t: Theme) => {
     document.documentElement.dataset.theme = t;

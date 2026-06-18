@@ -124,6 +124,9 @@ interface PlaneLike {
 interface CurtainsLike {
   dispose: () => void;
   resize: () => void;
+  renderer?: {
+    gl?: unknown;
+  };
 }
 
 interface Credit {
@@ -147,11 +150,12 @@ const POPCORN_LOGO = "/popcorn-logo.png";
 const CREDITS: Credit[] = [
   { role: "General · VIP · Season Pass", label: "Buy Tickets", href: "#tickets", spot: true },
   { role: "Open Call · FilmFreeway", label: "Submit a Film", href: "#submit" },
-  { role: "200+ Shorts · 150+ Filmmakers", label: "The Films", href: "#films" },
   { role: "Sponsor · Donate · Shunpike", label: "Become a Funder", href: "#support" },
   { role: "Press Kit · Coverage · Contact", label: "Press & Media", href: "#support" },
   { role: "Founded by Lex Scope · Est. 2022", label: "About the Festival", href: "#about" },
 ];
+
+const CREDIT_CLICKABLE_OPACITY = 0.15;
 
 export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline = "Seattle's Underground Film Festival", title = "Scope\nScreenings", posterUrl, videoUrl }: { eyebrow?: string; tagline?: string; title?: string; posterUrl?: string; videoUrl?: string } = {}) {
   const root = useRef<HTMLElement>(null);
@@ -185,7 +189,8 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
   // The original procedural velvet remains the single visual source for the
   // valance, first-paint panels, and animated WebGL curtains.
   useEffect(() => {
-    setVelvetSrc(getVelvetDataUrl());
+    const frame = window.requestAnimationFrame(() => setVelvetSrc(getVelvetDataUrl()));
+    return () => window.cancelAnimationFrame(frame);
   }, [theme]);
 
   // "Sound" toggle. The reel autoplays muted; flipping audio from a user
@@ -224,6 +229,9 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
     if (!velvetSrc) return;
     let cancelled = false;
     let revealFrame: number | null = null;
+    const readyFallback = window.setTimeout(() => {
+      if (!cancelled) setCurtainsReady(true);
+    }, 1200);
 
     (async () => {
       try {
@@ -258,6 +266,12 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
           watchScroll: false,
         });
         curtainsRef.current = curtains;
+        if (!curtains.renderer?.gl) {
+          setCurtainsReady(true);
+          curtains.dispose();
+          curtainsRef.current = null;
+          return;
+        }
 
         const commonParams = {
           widthSegments: 24,
@@ -306,7 +320,10 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
             // onRender runs immediately before Curtains.js draws. Reveal on the
             // next browser frame so the real curtain pixels have been composited.
             revealFrame = window.requestAnimationFrame(() => {
-              if (!cancelled) setCurtainsReady(true);
+              if (!cancelled) {
+                window.clearTimeout(readyFallback);
+                setCurtainsReady(true);
+              }
             });
           }
         });
@@ -322,6 +339,7 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
 
     return () => {
       cancelled = true;
+      window.clearTimeout(readyFallback);
       if (revealFrame !== null) window.cancelAnimationFrame(revealFrame);
       curtainsRef.current?.dispose();
       curtainsRef.current = null;
@@ -417,8 +435,11 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
                   gsap.set(creditsRef.current, {
                     opacity: ctaO,
                     y: 12 * (1 - ctaO),
-                    // Clickable once revealed, and stays clickable thereafter.
-                    pointerEvents: ctaO > 0.95 ? "auto" : "none",
+                    // The credits are readable before they are fully opaque, so
+                    // make them clickable once they visibly read as links. This
+                    // avoids refresh/resize and hide/show states where visible
+                    // hero nav items are inert.
+                    pointerEvents: ctaO > CREDIT_CLICKABLE_OPACITY ? "auto" : "none",
                   });
                 }
 

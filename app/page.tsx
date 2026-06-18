@@ -103,7 +103,7 @@ export default async function Home() {
               />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-ink via-ink/65 to-transparent" />
               <figcaption className="absolute inset-x-0 bottom-0 p-5">
-                <span className="block font-display text-[2.875rem] uppercase leading-[0.88] text-cream md:text-[3.625rem]">
+                <span className="pulp block font-display text-[2.875rem] uppercase leading-[0.88] text-cream md:text-[3.625rem]">
                   {founderName}
                 </span>
                 <span className="mt-2 block font-mono text-[0.6875rem] uppercase tracking-[0.2em] text-smoke md:text-[0.75rem]">
