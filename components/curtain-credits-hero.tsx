@@ -78,8 +78,26 @@ void main() {
   float rippleLight = clamp(1.0 + vRipple * 1.9, 0.35, 1.6);
   base.rgb *= rippleLight;
 
-  float seamShadow = smoothstep(0.0, 0.16, u);
-  base.rgb *= mix(0.32, 1.0, seamShadow);
+  // Inner-edge shading — a lit vertical gather at the leading edge: a bright
+  // crest catching the stage spot with a shadow valley tucked just behind it,
+  // so the edge reads as a rounded velvet fold against the dark screen. Closed,
+  // the center is a soft overlap shadow (the two drapes meeting); as they PART
+  // it rolls into the lit fold. That reveal ramps with uProgress (as in the
+  // first iteration) but caps at EDGE_MAX, so the fully-open look settles at the
+  // dialed-back reference brightness instead of the old too-hot full crest.
+  float EDGE_MAX = 0.7;                              // open-edge brightness (1.0 was too hot)
+  float edgeReveal = EDGE_MAX * smoothstep(0.05, 0.35, uProgress);
+
+  float seamShadow = smoothstep(0.0, 0.16, u);     // soft drape-overlap base shadow
+  float closedShade = mix(0.32, 1.0, seamShadow);
+
+  float lip = smoothstep(0.014, 0.0, u);           // thin shadow terminator at the very edge
+  float crest = smoothstep(0.05, 0.014, u) * smoothstep(0.0, 0.014, u); // lit roll just inboard of the lip
+  float valley = smoothstep(0.0, 0.07, u) * smoothstep(0.22, 0.09, u);
+  float openShade = mix(1.0, 0.34, valley) * mix(1.0, 0.55, lip);       // valley + edge shadow
+
+  base.rgb *= mix(closedShade, openShade, edgeReveal);
+  base.rgb += vec3(0.30, 0.10, 0.045) * crest * edgeReveal; // warm crest catch, dialed to the reference
 
   base.rgb *= mix(0.7, 1.0, smoothstep(0.0, 0.18, uv.y));
   base.rgb *= mix(0.88, 1.0, smoothstep(0.95, 0.6, uv.y));
@@ -118,6 +136,7 @@ const SIZZLE_REEL_MP4 =
   "https://video.wixstatic.com/video/c51492_990803f9c25b4ea491c4180a6eb9a435/1080p/mp4/file.mp4";
 const SIZZLE_REEL_POSTER =
   "https://static.wixstatic.com/media/c51492_990803f9c25b4ea491c4180a6eb9a435f003.jpg";
+const POPCORN_LOGO = "/popcorn-logo.png";
 
 // The navigation, rendered as an end-credits roll. Each line is a destination.
 const CREDITS: Credit[] = [
@@ -135,6 +154,10 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const leftPlaneEl = useRef<HTMLDivElement>(null);
   const rightPlaneEl = useRef<HTMLDivElement>(null);
+  const logoOpeningRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const creditsRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const progressRef = useRef({ value: 0 });
   const openFactorRef = useRef(0.62); // how far the velvet parts (framed, not off)
   const curtainsRef = useRef<CurtainsLike | null>(null);
@@ -281,12 +304,35 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
           };
           openFactorRef.current = mobile ? 0.76 : 0.62;
 
-          // Reduced motion: skip the scroll choreography, show the framed hero.
+          // Reduced motion: skip the scroll choreography, show the framed hero
+          // with the logo opening already cleared away.
           if (reduced) {
             progressRef.current.value = 1;
             gsap.set(spotRef.current, { opacity: 1 });
+            gsap.set(logoOpeningRef.current, { opacity: 0 });
+            gsap.set(titleRef.current, { opacity: 1, y: 0 });
+            gsap.set(creditsRef.current, { opacity: 1, y: 0, pointerEvents: "auto" });
+            videoRef.current?.play().catch(() => {});
             return;
           }
+
+          // Logo opening starts visible on the closed curtain.
+          gsap.set(logoOpeningRef.current, { opacity: 1, y: 0 });
+
+          // Title + CTAs fade in as a monotonic LATCH driven by the curtain
+          // progress below — once in, they never fade back out, so the user can
+          // keep playing with the (reversible) curtains + logo while the hero
+          // stays assembled and clickable. Resets only on a real remount
+          // (refresh / hard refresh). The title's fade is keyed to begin as the
+          // popcorn logo lifts away, then resolves slowly as the curtains finish
+          // opening — a deliberate, picture-esque handoff, not a quick pop.
+          gsap.set(titleRef.current, { opacity: 0, y: 16 });
+          gsap.set(creditsRef.current, { opacity: 0, y: 12, pointerEvents: "none" });
+
+          const titleEase = gsap.parseEase("sine.inOut");
+          const ctaEase = gsap.parseEase("power2.out");
+          let revealMax = 0; // highest curtain progress seen — never decreases
+          let videoStarted = false;
 
           // Progress starts at 0 (closed); scroll scrubs it to 1 (framed), then
           // the pinned hero holds before it scrolls away.
@@ -301,9 +347,48 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
                 anticipatePin: 1,
                 invalidateOnRefresh: true,
               },
+              // Drives the latching hero reveal + the one-shot video start. Runs
+              // every tick (incl. the scrub settle) so the fade tracks the
+              // curtains smoothly and full-open is caught even after scroll stops.
+              onUpdate: () => {
+                const p = progressRef.current.value;
+                revealMax = Math.max(revealMax, p);
+
+                // The title's fade begins as the popcorn logo finishes lifting
+                // away (~0.25) and resolves slowly across the rest of the open
+                // (~0.9) — a slow, filmic handoff. The CTAs follow a beat later.
+                // Eased + latched (driven by revealMax, not p), so a scrub back
+                // toward closed never fades them out again.
+                const titleO = titleEase(Math.min(1, Math.max(0, (revealMax - 0.25) / 0.65)));
+                const ctaO = ctaEase(Math.min(1, Math.max(0, (revealMax - 0.45) / 0.5)));
+                gsap.set(titleRef.current, { opacity: titleO, y: 16 * (1 - titleO) });
+                gsap.set(creditsRef.current, {
+                  opacity: ctaO,
+                  y: 12 * (1 - ctaO),
+                  // Clickable once revealed, and stays clickable thereafter.
+                  pointerEvents: ctaO > 0.95 ? "auto" : "none",
+                });
+
+                // Roll the sizzle reel the instant the curtains hit full open.
+                // Once started it keeps playing even if the curtains scrub shut.
+                const v = videoRef.current;
+                if (v && !videoStarted && p >= 0.999) {
+                  videoStarted = true;
+                  v.play().catch(() => {});
+                }
+              },
             })
             .to(progressRef.current, { value: 1, ease: "none", duration: 1 }, 0)
-            .to({}, { duration: 0.6 });
+            // The popcorn logo + its "Scroll to enter" cue lifts + fades over the
+            // first third of the open, before the curtains are fully parted.
+            .to(
+              logoOpeningRef.current,
+              { opacity: 0, y: -48, duration: 0.4, ease: "power2.in" },
+              0
+            )
+            // Hold the fully framed hero a beat before it scrolls away (the
+            // curtains + logo remain fully reversible playthings).
+            .to({}, { duration: 0.6 }, 1);
         }
       );
     },
@@ -355,14 +440,18 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
           lays out (hoisted to <head> by React; only on routes with the hero). */}
       <link rel="preload" as="image" href="/curtain-closed.jpg" fetchPriority="high" />
 
-      {/* The sizzle reel on the screen (z-1) — curtains part to reveal it. */}
+      {/* The sizzle reel on the screen (z-1) — curtains part to reveal it. It
+          holds on its poster frame and only starts playing once the curtains
+          reach full open (see the timeline's onUpdate), so the reveal lands on
+          the first frame rather than mid-shot. */}
       <video
+        ref={videoRef}
         className={styles.heroVideo}
         style={{ visibility: screenVisibility }}
-        autoPlay
         muted
         loop
         playsInline
+        preload="auto"
         poster={posterUrl ?? SIZZLE_REEL_POSTER}
         aria-hidden
       >
@@ -390,7 +479,7 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
 
       {/* The screen the curtains reveal */}
       <div className={styles.screen} style={{ visibility: screenVisibility }}>
-        <div className={styles.title}>
+        <div ref={titleRef} className={styles.title}>
           <span className={styles.eyebrow}>{eyebrow}</span>
           <h1 className={styles.wordmark}>
             {title.split("\n").map((line, i) => (
@@ -401,7 +490,7 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
         </div>
 
         <div className={styles.creditsMask}>
-          <div className={styles.track}>
+          <div ref={creditsRef} className={styles.track}>
             <span className={styles.rule} aria-hidden />
             {CREDITS.map((c) => {
               const external = c.href.startsWith("http");
@@ -429,6 +518,18 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
         style={{ visibility: screenVisibility }}
       />
 
+      {/* Popcorn logo (z-30) — glows centered on the closed curtain, with its
+          "Scroll to enter" cue directly beneath; lifts + fades away on scroll. */}
+      <div ref={logoOpeningRef} className={styles.logoOpening}>
+        <div className={styles.logoTonight}>— Lexscope Presents —</div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={POPCORN_LOGO} alt="Scope Screenings" className={styles.logoImg} />
+        <div aria-hidden className={styles.scrollCue}>
+          Scroll to enter
+          <span className={styles.scrollCueLine} />
+        </div>
+      </div>
+
       {/* First-paint curtain: a screenshot of the real shaded WebGL curtain
           (/curtain-closed.jpg — see .shots/capture-curtain.mjs), so it is in the
           SSR markup and covers the screen on frame one, then swaps atomically to
@@ -442,7 +543,7 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
       <div ref={leftPlaneEl} aria-hidden className={`${styles.plane} ${styles.planeL}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={velvetSrc}
+          src={velvetSrc || undefined}
           alt=""
           data-sampler="velvetTexture"
           style={{ display: "none" }}
@@ -451,7 +552,7 @@ export function CurtainCreditsHero({ eyebrow = "Feature Presentation", tagline =
       <div ref={rightPlaneEl} aria-hidden className={`${styles.plane} ${styles.planeR}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={velvetSrc}
+          src={velvetSrc || undefined}
           alt=""
           data-sampler="velvetTexture"
           style={{ display: "none" }}

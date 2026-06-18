@@ -20,11 +20,10 @@ function prefersReducedMotion() {
 }
 
 /**
- * Floating cue at the bottom of the viewport.
- *  - In the hero: an animated "Scroll to open" prompt (click nudges the curtain
- *    open).
- *  - Past the hero (scrolled or jumped via the nav): flips to "Return to top",
- *    which scrolls back to the hero with the curtain open.
+ * Floating "Return to top" cue. Hidden in the hero (the logo opening carries its
+ * own "Scroll to enter" prompt, so we don't duplicate it here); once the visitor
+ * has scrolled past the hero — or jumped via the nav — it appears and scrolls
+ * back to the hero with the curtain open.
  */
 export function ScrollControl() {
   const [past, setPast] = useState(false);
@@ -51,27 +50,24 @@ export function ScrollControl() {
     });
 
   return (
+    // Always mounted (toggling mount/unmount next to the GSAP-pinned hero
+    // corrupts React's DOM bookkeeping). In the hero it's hidden — the logo
+    // opening's own "Scroll to enter" cue stands in, so there's no duplicate
+    // prompt; past the hero it fades in as "Return to top".
     <button
       type="button"
       onClick={go}
-      aria-label={past ? "Return to the top" : "Scroll to open the curtains"}
-      className="fixed bottom-6 left-1/2 z-[55] flex -translate-x-1/2 items-center gap-2.5 rounded-full border border-rust/35 bg-ink/70 py-2.5 pl-5 pr-4 backdrop-blur-sm transition-colors hover:border-rust hover:bg-ink/90"
+      aria-label="Return to the top"
+      aria-hidden={!past}
+      tabIndex={past ? 0 : -1}
+      className={`fixed bottom-6 left-1/2 z-[55] flex -translate-x-1/2 items-center gap-2.5 rounded-full border border-rust/35 bg-ink/70 py-2.5 pl-5 pr-4 backdrop-blur-sm transition-all duration-300 hover:border-rust hover:bg-ink/90 ${
+        past ? "opacity-100" : "pointer-events-none translate-y-3 opacity-0"
+      }`}
     >
-      {past ? (
-        <>
-          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-rust">
-            Return to top
-          </span>
-          <Chevron dir="up" />
-        </>
-      ) : (
-        <>
-          <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-rust">
-            Scroll to open
-          </span>
-          <Chevron dir="down" />
-        </>
-      )}
+      <span className="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.22em] text-rust">
+        Return to top
+      </span>
+      <Chevron dir="up" />
     </button>
   );
 }

@@ -269,12 +269,38 @@
   z-index: 40;
 }
 
-.scrollCue {
+/* ---- Popcorn logo opening — glows on the closed curtain, lifts away on
+   scroll. Its "Scroll to enter" cue sits in-flow directly beneath it. ---- */
+.logoOpening {
   position: absolute;
   left: 50%;
-  bottom: 22px;
-  transform: translateX(-50%);
-  z-index: 42;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  pointer-events: none;
+}
+.logoTonight {
+  font-family: var(--font-libre), monospace;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--color-brass, #f3e0a2);
+  opacity: 0.85;
+}
+.logoImg {
+  width: auto;
+  height: 360px;
+  filter: drop-shadow(0 0 60px rgba(255, 187, 0, 0.4))
+    drop-shadow(0 10px 28px rgba(0, 0, 0, 0.65));
+}
+
+/* Scroll cue — sits in-flow directly beneath the popcorn logo. */
+.scrollCue {
+  margin-top: 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -283,13 +309,14 @@
   font-size: 10px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #8c857a;
+  color: var(--color-brass, #f3e0a2);
+  opacity: 0.75;
 }
 .scrollCueLine {
   width: 1px;
   height: 26px;
-  background: #8c857a;
-  opacity: 0.6;
+  background: var(--color-brass, #f3e0a2);
+  opacity: 0.5;
 }
 
 @media (max-width: 640px) {
@@ -301,6 +328,9 @@
   }
   .creditsMask {
     height: 380px;
+  }
+  .logoImg {
+    height: 248px;
   }
 }
 
