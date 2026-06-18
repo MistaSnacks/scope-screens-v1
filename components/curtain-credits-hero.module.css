@@ -320,6 +320,11 @@
   text-transform: uppercase;
   color: var(--color-brass, #f3e0a2);
   opacity: 0.85;
+  /* Keep it on one line — wrapping is what threw the centering off. The
+     negative right margin cancels the trailing letter-spacing so the text
+     sits optically centered under the logo. */
+  white-space: nowrap;
+  margin-right: -0.4em;
 }
 .logoImg {
   width: auto;
