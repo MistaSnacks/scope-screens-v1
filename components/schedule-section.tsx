@@ -69,7 +69,7 @@ export async function ScheduleSection({ headless = false }: { headless?: boolean
                 </span>
                 <span className="font-display text-[2.125rem] leading-[0.85] text-fg">{s.day}</span>
               </div>
-              <div className="flex flex-1 flex-col">
+              <div className="flex min-w-0 flex-1 flex-col">
                 <span className="font-display text-[1.375rem] uppercase leading-none text-fg">
                   {s.title}
                 </span>
