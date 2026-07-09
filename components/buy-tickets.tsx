@@ -249,15 +249,22 @@ export function BuyTickets({
           reads as clickable without a separate CTA cluttering the section. */}
       <Stagger className="flex w-full flex-col items-center justify-center gap-10 lg:flex-row lg:items-start lg:gap-14">
         <StaggerItem className="flex w-full flex-col items-center lg:w-auto">
-          {/* zoom, not transform scale: it shrinks the layout box too, so the
-              stacked mobile layout has no dead space around the artwork. */}
-          <div className="[zoom:0.58] sm:[zoom:0.75] md:[zoom:0.9]">
-            <NightTicket target={nextShow} />
+          {/* transform scale (via .prop-scale), NOT `zoom`: iOS Safari drops
+              `zoom` on elements with transformed children, which painted the
+              rotated ticket full-size on real iPhones. --pw/--ph are the
+              intrinsic 548×358 box; --ps is the responsive scale. */}
+          <div className="prop-scale [--pw:34.25rem] [--ph:22.375rem] [--ps:0.58] sm:[--ps:0.75] md:[--ps:0.9]">
+            <div className="prop-scale-inner">
+              <NightTicket target={nextShow} />
+            </div>
           </div>
         </StaggerItem>
         <StaggerItem className="flex w-full flex-col items-center lg:w-auto">
-          <div className="lg:[zoom:1.12]">
-            <SeasonPassLanyard target={seasonPass} />
+          {/* Lanyard intrinsic box 248×478; natural size on mobile, +12% on lg. */}
+          <div className="prop-scale [--pw:15.5rem] [--ph:29.875rem] [--ps:1] lg:[--ps:1.12]">
+            <div className="prop-scale-inner">
+              <SeasonPassLanyard target={seasonPass} />
+            </div>
           </div>
         </StaggerItem>
       </Stagger>

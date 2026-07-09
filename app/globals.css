@@ -260,6 +260,28 @@ body {
   will-change: transform;
 }
 
+/* Robust prop scaling. We used to shrink the ticket/lanyard on mobile with the
+   CSS `zoom` property, but iOS Safari SILENTLY DROPS `zoom` when the zoomed
+   element contains a descendant with its own `transform` — and both props are
+   rotated (ticket) / swaying (lanyard). Chrome (incl. its device emulator)
+   tolerates it, so the bug only showed on real iPhones, where the ticket
+   painted at full size and spilled off both edges.
+
+   Transform scaling has no such quirk and nests cleanly with the props' own
+   rotate/sway transforms. `--ps` is the (responsive) scale, `--pw`/`--ph` the
+   intrinsic layout box; the outer element reserves the SCALED box so the
+   stacked mobile layout keeps no dead space, while the inner lays out at full
+   intrinsic size and is scaled down from its top-left corner. */
+.prop-scale {
+  width: calc(var(--pw) * var(--ps, 1));
+  height: calc(var(--ph) * var(--ps, 1));
+}
+.prop-scale-inner {
+  width: var(--pw);
+  transform: scale(var(--ps, 1));
+  transform-origin: top left;
+}
+
 /* Perforated ticket: stub lifts + tears slightly on hover. */
 .ticket-stub {
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
